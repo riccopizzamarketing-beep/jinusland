@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>jinushi</title>
+  <meta property="og:title" content="jinushi" />
+  <meta property="og:description" content="jinushi — design & projects" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://jinushi.vercel.app/" />
+  <meta property="og:image" content="https://jinushi.vercel.app/og-preview-v2.jpg" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1024" />
+  <meta property="og:image:height" content="536" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="jinushi" />
+  <meta name="twitter:image" content="https://jinushi.vercel.app/og-preview-v2.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --rx: 0deg;
+      --ry: 0deg;
+      --tx: 0px;
+      --ty: 0px;
+      --lx: 50%;
+      --ly: 50%;
+      --sx: 0px;
+      --sy: 0px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: #000000;
+    }
+
+    body {
+      width: 100%;
+      min-height: 100dvh;
+      background-color: #000000;
+      color: #ffffff;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* 2-second snappy funny transparent sticker intro ("привіт") */
+    .face-intro {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: transparent;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .face-intro-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transform-origin: center center;
+      animation: facePopWild 2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .face-intro-canvas {
+      width: min(74vw, 350px);
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 14px 32px rgba(0, 0, 0, 0.75));
+    }
+
+    .face-intro-text {
+      margin-top: 0.55rem;
+      font-size: clamp(1.35rem, 5vw, 2.1rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #ffffff;
+      background: rgba(24, 10, 18, 0.88);
+      border: 1.5px solid rgba(255, 179, 217, 0.65);
+      padding: 0.32rem 1.25rem 0.4rem;
+      border-radius: 9999px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      text-shadow: 0 0 14px rgba(255, 166, 210, 0.75);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 179, 217, 0.28);
+      animation: privetSlam 2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    @keyframes facePopWild {
+      0% {
+        transform: scale(0.05) rotate(-28deg) translateY(50vh);
+        opacity: 0;
+      }
+      16% {
+        transform: scale(1.16) rotate(10deg) translateY(-1vh);
+        opacity: 1;
+      }
+      28% {
+        transform: scale(0.93) rotate(-7deg) translateY(0);
+      }
+      40% {
+        transform: scale(1.06) rotate(4deg);
+      }
+      54% {
+        transform: scale(0.98) rotate(-2.5deg);
+      }
+      68% {
+        transform: scale(1.02) rotate(1.5deg);
+      }
+      78% {
+        transform: scale(1.1) rotate(-5deg);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(0) rotate(32deg) translateY(35vh);
+        opacity: 0;
+      }
+    }
+
+    @keyframes privetSlam {
+      0%, 10% {
+        transform: scale(0) rotate(14deg);
+        opacity: 0;
+      }
+      24% {
+        transform: scale(1.2) rotate(-6deg);
+        opacity: 1;
+      }
+      36% {
+        transform: scale(0.95) rotate(3deg);
+      }
+      50% {
+        transform: scale(1.04) rotate(-2deg);
+      }
+      75% {
+        transform: scale(1) rotate(-1.5deg);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(0.2) rotate(-20deg);
+        opacity: 0;
+      }
+    }
+
+    /* Tiny semi-transparent worm crawling UNDER the interface */
+    #wormCanvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.42;
+      filter: blur(0.4px);
+      -webkit-filter: blur(0.4px);
+    }
+
+    /* Ambient background spotlight following cursor/tilt */
+    .ambient-light {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(
+        600px circle at 50% 35%,
+        rgba(255, 255, 255, 0.055),
+        rgba(255, 255, 255, 0.015) 35%,
+        transparent 70%
+      );
+      z-index: 1;
+    }
+
+    /* Hero section */
+    .hero {
+      position: relative;
+      z-index: 2;
+      min-height: 82dvh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.3rem;
+      padding: 5.5rem 1.5rem 2.5rem;
+    }
+
+    .scene {
+      position: relative;
+      perspective: 1000px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Soft pink 30% glow spreading under jinusland */
+    .pink-aura {
+      position: absolute;
+      top: 58%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.85);
+      width: clamp(260px, 68vw, 680px);
+      height: clamp(110px, 24vw, 240px);
+      background: radial-gradient(
+        ellipse at center,
+        rgba(255, 170, 213, 0.30) 0%,
+        rgba(255, 150, 205, 0.14) 45%,
+        rgba(255, 150, 205, 0) 75%
+      );
+      filter: blur(28px);
+      -webkit-filter: blur(28px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0;
+      animation: pinkSpread 2.2s cubic-bezier(0.22, 1, 0.36, 1) forwards, pinkPulse 5s ease-in-out 2.2s infinite alternate;
+    }
+
+    @keyframes pinkSpread {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -45%) scale(0.55);
+      }
+      100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+
+    @keyframes pinkPulse {
+      0% {
+        transform: translate(-50%, -50%) scale(0.96);
+        opacity: 0.88;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(1.08);
+        opacity: 1;
+      }
+    }
+
+    .title-wrapper {
+      position: relative;
+      z-index: 2;
+      transform-style: preserve-3d;
+      transform: translate3d(var(--tx), var(--ty), 0) rotateX(var(--rx)) rotateY(var(--ry));
+      will-change: transform;
+      cursor: pointer;
+    }
+
+    /* Apple Keynote style overlapping badge collage (badge on badge) */
+    .apple-collage {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.35rem;
+      transform-style: preserve-3d;
+      transform: translateZ(18px);
+      pointer-events: none;
+      z-index: 6;
+    }
+
+    .badge-row-top {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .apple-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(0.76rem, 2.3vw, 0.9rem);
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      color: #ffd1e8;
+      background: rgba(32, 16, 25, 0.82);
+      border: 1px solid rgba(255, 179, 217, 0.38);
+      padding: 0.38rem 0.9rem;
+      border-radius: 9999px;
+      white-space: nowrap;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      text-shadow: 0 0 12px rgba(255, 166, 210, 0.45);
+      box-shadow:
+        0 8px 22px rgba(0, 0, 0, 0.65),
+        0 0 18px rgba(255, 166, 210, 0.14),
+        inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    }
+
+    .apple-badge.b-1 {
+      transform: rotate(-6deg) translateX(6px);
+      z-index: 2;
+      animation: floatBadge1 3.4s ease-in-out infinite;
+    }
+
+    .apple-badge.b-2 {
+      background: rgba(45, 20, 34, 0.9);
+      border-color: rgba(255, 195, 226, 0.52);
+      color: #ffffff;
+      transform: rotate(5deg) translateX(-6px) translateY(-2px);
+      z-index: 3;
+      animation: floatBadge2 3.8s ease-in-out infinite;
+    }
+
+    .apple-badge.b-3 {
+      margin-top: -0.42rem;
+      background: rgba(26, 12, 20, 0.92);
+      border-color: rgba(255, 179, 217, 0.44);
+      transform: rotate(-1.8deg);
+      z-index: 4;
+      animation: floatBadge3 4.1s ease-in-out infinite;
+    }
+
+    @keyframes floatBadge1 {
+      0%, 100% {
+        transform: rotate(-6deg) translateX(6px) translateY(0px);
+      }
+      50% {
+        transform: rotate(-4.5deg) translateX(6px) translateY(-4px);
+      }
+    }
+
+    @keyframes floatBadge2 {
+      0%, 100% {
+        transform: rotate(5deg) translateX(-6px) translateY(-2px);
+      }
+      50% {
+        transform: rotate(6.5deg) translateX(-6px) translateY(-6px);
+      }
+    }
+
+    @keyframes floatBadge3 {
+      0%, 100% {
+        transform: rotate(-1.8deg) translateY(0px);
+      }
+      50% {
+        transform: rotate(-0.8deg) translateY(-4px);
+      }
+    }
+
+    .title {
+      position: relative;
+      font-size: clamp(3.4rem, 15.5vw, 12.5rem);
+      font-weight: 800;
+      letter-spacing: -0.045em;
+      line-height: 1;
+      color: #ffffff;
+      text-align: center;
+
+      /* Dynamic light shimmer across the white grotesque typography */
+      background:
+        radial-gradient(
+          circle 280px at var(--lx) var(--ly),
+          #ffffff 0%,
+          #f2f4f8 35%,
+          #9ca3af 75%,
+          #ffffff 100%
+        );
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+
+      /* Subtle 3D extrusion & specular edge glow reacting to cursor/gyro angle */
+      text-shadow:
+        calc(var(--sx) * 0.15) calc(var(--sy) * 0.15) 0px rgba(255, 255, 255, 0.28),
+        calc(var(--sx) * 0.30) calc(var(--sy) * 0.30) 0px rgba(220, 225, 235, 0.20),
+        calc(var(--sx) * 0.45) calc(var(--sy) * 0.45) 1px rgba(180, 190, 205, 0.15),
+        calc(var(--sx) * 0.60) calc(var(--sy) * 0.60) 2px rgba(140, 150, 165, 0.12),
+        calc(var(--sx) * 0.80) calc(var(--sy) * 0.80) 4px rgba(100, 110, 125, 0.08),
+        calc(var(--sx) * 1.10) calc(var(--sy) * 1.10) 18px rgba(0, 0, 0, 0.85),
+        calc(var(--sx) * -0.5) calc(var(--sy) * -0.5) 35px rgba(255, 255, 255, 0.18);
+    }
+
+    /* Specular highlight layer for crisp metallic/pearlescent light sheen */
+    .title::after {
+      content: "jinushi";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        240px circle at var(--lx) var(--ly),
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(255, 255, 255, 0.25) 45%,
+        transparent 75%
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      mix-blend-mode: screen;
+      pointer-events: none;
+      transform: translateZ(2px);
+    }
+
+    /* Centered Telegram & Instagram buttons */
+    .links {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      gap: 0.9rem;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.82rem 2rem;
+      font-size: 0.96rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition:
+        color 0.25s ease,
+        background 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.25s ease;
+    }
+
+    .btn:hover,
+    .btn:active {
+      color: #000000;
+      background: #ffffff;
+      border-color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(255, 255, 255, 0.25);
+    }
+
+    /* Projects Section */
+    .projects-section {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 680px;
+      padding: 1rem 1.5rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .projects-heading {
+      font-size: clamp(1.5rem, 4.5vw, 2.1rem);
+      font-weight: 700;
+      letter-spacing: -0.035em;
+      color: #ffffff;
+      text-transform: lowercase;
+      margin-bottom: 2.8rem;
+      text-align: center;
+    }
+
+    .projects-list {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 3.5rem;
+    }
+
+    .project-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1rem;
+      width: 100%;
+    }
+
+    .project-title {
+      font-size: clamp(1.35rem, 4vw, 1.75rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: #ffffff;
+      text-transform: lowercase;
+    }
+
+    .project-image-link {
+      display: block;
+      width: 100%;
+      max-width: 520px;
+      border-radius: 22px;
+      overflow: hidden;
+      background: #080808;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.7);
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .project-image-link:hover,
+    .project-image-link:active {
+      transform: translateY(-4px) scale(1.01);
+      border-color: rgba(255, 179, 217, 0.38);
+      box-shadow: 0 22px 50px rgba(255, 170, 213, 0.12);
+    }
+
+    .project-image {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+
+    .project-desc {
+      font-size: clamp(0.95rem, 2.8vw, 1.08rem);
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      color: rgba(255, 255, 255, 0.65);
+      margin-top: 0.15rem;
+    }
+
+    /* Footer note */
+    .footer-note {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      text-align: center;
+      padding: 1rem 1.5rem 5.5rem;
+      font-size: clamp(0.92rem, 2.6vw, 1.05rem);
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    @media (max-width: 480px) {
+      .hero {
+        min-height: 74dvh;
+        gap: 1.85rem;
+        padding-top: 4rem;
+      }
+      .apple-collage {
+        margin-bottom: 1.15rem;
+      }
+      .btn {
+        padding: 0.78rem 1.7rem;
+        font-size: 0.92rem;
+      }
+      .projects-section {
+        padding-bottom: 2.5rem;
+      }
+      .projects-list {
+        gap: 2.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 2-second snappy funny transparent sticker intro ("привіт") -->
+  <div class="face-intro" id="faceIntro" aria-hidden="true">
+    <div class="face-intro-card">
+      <canvas class="face-intro-canvas" id="faceCanvas"></canvas>
+      <div class="face-intro-text">привіт</div>
+    </div>
+  </div>
+
+  <canvas id="wormCanvas" aria-hidden="true"></canvas>
+  <div class="ambient-light" id="ambient"></div>
+
+  <section class="hero">
+    <main class="scene" id="scene">
+      <div class="pink-aura" aria-hidden="true"></div>
+      <div class="title-wrapper" id="titleWrapper">
+        <!-- Apple Keynote style badge-on-badge collage -->
+        <div class="apple-collage" aria-label="Обо мне">
+          <div class="badge-row-top">
+            <span class="apple-badge b-1">мне 23 года</span>
+            <span class="apple-badge b-2">я егор</span>
+          </div>
+          <span class="apple-badge b-3">давай сделаем какую-то пикчу или видосик?</span>
+        </div>
+
+        <h1 class="title" id="title">jinushi</h1>
+      </div>
+    </main>
+
+    <nav class="links" aria-label="Социальные ссылки">
+      <a class="btn" href="http://t.me/jinussshi" target="_blank" rel="noopener noreferrer">Telegram</a>
+      <a class="btn" href="https://www.instagram.com/jinuushii" target="_blank" rel="noopener noreferrer">Instagram</a>
+    </nav>
+  </section>
+
+  <section class="projects-section" id="projects">
+    <h2 class="projects-heading">projects</h2>
+
+    <div class="projects-list">
+      <article class="project-card">
+        <h3 class="project-title">alova</h3>
+        <a class="project-image-link" href="https://www.behance.net/gallery/226526537/ALOVA-tatto-studio-2024" target="_blank" rel="noopener noreferrer">
+          <img class="project-image" src="alova.png" alt="alova — тату-студия в харькове" loading="lazy" />
+        </a>
+        <p class="project-desc">тату-студия в харькове</p>
+      </article>
+
+      <article class="project-card">
+        <h3 class="project-title">хкбад</h3>
+        <a class="project-image-link" href="https://www.behance.net/gallery/144711515/HKBAD-architecture-college-2022" target="_blank" rel="noopener noreferrer">
+          <img class="project-image" src="hkbad.jpg" alt="хкбад — колледж архитектуры в харькове" loading="lazy" />
+        </a>
+        <p class="project-desc">колледж архитектуры в харькове</p>
+      </article>
+    </div>
+  </section>
+
+  <footer class="footer-note">
+    больше моих работ могу скинуть в телеге
+  </footer>
+
+  <script>
+    const root = document.documentElement;
+    const title = document.getElementById('title');
+    const ambient = document.getElementById('ambient');
+    const wormCanvas = document.getElementById('wormCanvas');
+    const ctx = wormCanvas.getContext('2d');
+    const faceIntro = document.getElementById('faceIntro');
+    const faceCanvas = document.getElementById('faceCanvas');
+
+    // Load face-v2.jpg and strip out the black background via flood-fill from image borders
+    // so internal dark pixels (pupils/eyebrows) stay 100% intact while the outer background is truly transparent
+    (function initTransparentFace() {
+      const img = new Image();
+      img.src = 'face-v2.jpg';
+      img.onload = () => {
+        const w = img.naturalWidth;
+        const h = img.naturalHeight;
+        faceCanvas.width = w;
+        faceCanvas.height = h;
+        const fctx = faceCanvas.getContext('2d');
+        fctx.drawImage(img, 0, 0);
+
+        const imgData = fctx.getImageData(0, 0, w, h);
+        const data = imgData.data;
+        const visited = new Uint8Array(w * h);
+        const queue = new Int32Array(w * h);
+        let head = 0;
+        let tail = 0;
+
+        function isBg(idx) {
+          const p = idx * 4;
+          const r = data[p];
+          const g = data[p + 1];
+          const b = data[p + 2];
+          return r < 24 && g < 24 && b < 24;
+        }
+
+        function push(x, y) {
+          if (x < 0 || x >= w || y < 0 || y >= h) return;
+          const idx = y * w + x;
+          if (visited[idx]) return;
+          if (isBg(idx)) {
+            visited[idx] = 1;
+            queue[tail++] = idx;
+          }
+        }
+
+        for (let x = 0; x < w; x++) {
+          push(x, 0);
+          push(x, h - 1);
+        }
+        for (let y = 0; y < h; y++) {
+          push(0, y);
+          push(w - 1, y);
+        }
+
+        while (head < tail) {
+          const idx = queue[head++];
+          data[idx * 4 + 3] = 0; // make background pixel 100% transparent
+          const x = idx % w;
+          const y = (idx / w) | 0;
+          if (x > 0) push(x - 1, y);
+          if (x < w - 1) push(x + 1, y);
+          if (y > 0) push(x, y - 1);
+          if (y < h - 1) push(x, y + 1);
+        }
+
+        // Feather 1px edge around removed background for clean anti-aliased cutout
+        for (let y = 1; y < h - 1; y++) {
+          for (let x = 1; x < w - 1; x++) {
+            const idx = y * w + x;
+            if (!visited[idx]) {
+              const neighborsBg =
+                visited[idx - 1] +
+                visited[idx + 1] +
+                visited[idx - w] +
+                visited[idx + w];
+              if (neighborsBg > 0) {
+                const p = idx * 4;
+                const lum = Math.max(data[p], data[p + 1], data[p + 2]);
+                if (lum < 45) {
+                  data[p + 3] = Math.min(255, lum * 5);
+                }
+              }
+            }
+          }
+        }
+
+        fctx.putImageData(imgData, 0, 0);
+      };
+    })();
+
+    // Cleanly remove intro node after 2s animation finishes
+    setTimeout(() => {
+      if (faceIntro) faceIntro.remove();
+    }, 2050);
+
+    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+    function resizeCanvas() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      wormCanvas.width = window.innerWidth * dpr;
+      wormCanvas.height = window.innerHeight * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Tiny pink worm state (crawls under UI with "j" on its back)
+    const numSegments = 12;
+    const baseSegDist = 2.8;
+    const segments = [];
+    const startWormX = window.innerWidth * 0.28;
+    const startWormY = window.innerHeight * 0.42;
+    for (let i = 0; i < numSegments; i++) {
+      segments.push({ x: startWormX - i * baseSegDist, y: startWormY, angle: 0 });
+    }
+
+    let wormAngle = -0.35;
+    let wormTargetAngle = wormAngle;
+    let wormPhase = 0;
+
+    function updateAndDrawWorm(now) {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+
+      ctx.clearRect(0, 0, vw, vh);
+
+      wormPhase += 0.075;
+      const inchSpeed = 0.55 + 0.38 * Math.sin(wormPhase);
+
+      wormTargetAngle += (Math.sin(now * 0.0007) * 0.018) + (Math.cos(now * 0.0019) * 0.015);
+
+      const head = segments[0];
+      const margin = 45;
+      if (head.x < margin || head.x > vw - margin || head.y < margin || head.y > vh - margin) {
+        const angleToCenter = Math.atan2(vh * 0.5 - head.y, vw * 0.5 - head.x);
+        const diff = Math.atan2(Math.sin(angleToCenter - wormAngle), Math.cos(angleToCenter - wormAngle));
+        wormTargetAngle = wormAngle + diff * 0.08;
+      }
+
+      wormAngle += Math.atan2(Math.sin(wormTargetAngle - wormAngle), Math.cos(wormTargetAngle - wormAngle)) * 0.08;
+
+      const wiggle = Math.sin(wormPhase * 1.4) * 0.22;
+      const moveAngle = wormAngle + wiggle;
+
+      head.x += Math.cos(moveAngle) * inchSpeed;
+      head.y += Math.sin(moveAngle) * inchSpeed;
+      head.angle = moveAngle;
+
+      const segSpacing = baseSegDist * (0.86 + 0.16 * Math.cos(wormPhase));
+
+      for (let i = 1; i < numSegments; i++) {
+        const prev = segments[i - 1];
+        const curr = segments[i];
+        const dx = prev.x - curr.x;
+        const dy = prev.y - curr.y;
+        const ang = Math.atan2(dy, dx);
+        curr.x = prev.x - Math.cos(ang) * segSpacing;
+        curr.y = prev.y - Math.sin(ang) * segSpacing;
+        curr.angle = ang;
+      }
+
+      ctx.save();
+      ctx.shadowColor = 'rgba(255, 179, 217, 0.55)';
+      ctx.shadowBlur = 8;
+
+      for (let i = numSegments - 1; i >= 0; i--) {
+        const s = segments[i];
+        let r = 3.2;
+        if (i === 0) r = 3.3;
+        else if (i > numSegments - 4) r = 3.2 * ((numSegments - i) / 4 + 0.25);
+        else if (i >= 3 && i <= 6) r = 3.6;
+
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, r, 0, Math.PI * 2);
+        ctx.fillStyle = i % 2 === 0 ? 'rgba(255, 195, 226, 0.72)' : 'rgba(255, 170, 213, 0.62)';
+        ctx.fill();
+      }
+
+      const backSeg = segments[4];
+      ctx.save();
+      ctx.translate(backSeg.x, backSeg.y);
+      let textAngle = backSeg.angle;
+      if (textAngle > Math.PI / 2 || textAngle < -Math.PI / 2) {
+        textAngle += Math.PI;
+      }
+      ctx.rotate(textAngle);
+      ctx.shadowBlur = 0;
+      ctx.font = '800 5.5px Inter, -apple-system, sans-serif';
+      ctx.fillStyle = 'rgba(32, 12, 22, 0.92)';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('j', 0, 0.3);
+      ctx.restore();
+
+      ctx.restore();
+    }
+
+    let targetX = window.innerWidth / 2;
+    let targetY = window.innerHeight / 3;
+    let currentX = targetX;
+    let currentY = targetY;
+
+    let isInteracting = false;
+    let lastInteractionTime = 0;
+    let gyroEnabled = false;
+
+    const maxRotateX = 14;
+    const maxRotateY = 18;
+    const maxTranslate = 10;
+    const maxShadowOffset = 14;
+
+    function markInteraction(x, y) {
+      targetX = x;
+      targetY = y;
+      isInteracting = true;
+      lastInteractionTime = performance.now();
+    }
+
+    window.addEventListener('pointerdown', (e) => {
+      markInteraction(e.clientX, e.clientY);
+      requestGyroPermission();
+    }, { passive: true });
+
+    window.addEventListener('touchstart', (e) => {
+      if (e.touches && e.touches.length > 0) {
+        markInteraction(e.touches[0].clientX, e.touches[0].clientY);
+      }
+      requestGyroPermission();
+    }, { passive: true });
+
+    window.addEventListener('pointermove', (e) => {
+      markInteraction(e.clientX, e.clientY);
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e) => {
+      if (e.touches && e.touches.length > 0) {
+        markInteraction(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    }, { passive: true });
+
+    window.addEventListener('pointerleave', () => {
+      isInteracting = false;
+    });
+
+    window.addEventListener('touchend', () => {
+      isInteracting = false;
+    });
+
+    function handleOrientation(e) {
+      if (e.gamma === null || e.beta === null) return;
+      gyroEnabled = true;
+
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+
+      const clampedGamma = Math.max(-35, Math.min(35, e.gamma));
+      const clampedBeta = Math.max(10, Math.min(80, e.beta)) - 45;
+
+      const gx = ((clampedGamma / 35) * 0.5 + 0.5) * vw;
+      const gy = ((clampedBeta / 35) * 0.5 + 0.5) * vh;
+
+      markInteraction(gx, gy);
+    }
+
+    function requestGyroPermission() {
+      if (gyroEnabled) return;
+      if (typeof DeviceOrientationEvent !== 'undefined' &&
+          typeof DeviceOrientationEvent.requestPermission === 'function') {
+        DeviceOrientationEvent.requestPermission()
+          .then((state) => {
+            if (state === 'granted') {
+              window.addEventListener('deviceorientation', handleOrientation, true);
+            }
+          })
+          .catch(() => {});
+      }
+    }
+
+    if (typeof DeviceOrientationEvent !== 'undefined' &&
+        typeof DeviceOrientationEvent.requestPermission !== 'function') {
+      window.addEventListener('deviceorientation', handleOrientation, true);
+    }
+
+    function animate(now) {
+      updateAndDrawWorm(now);
+
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+
+      if (!isInteracting || (now - lastInteractionTime > 2200)) {
+        const t = now * 0.0014;
+        targetX = vw * (0.5 + Math.sin(t) * 0.28);
+        targetY = vh * (0.35 + Math.cos(t * 0.8) * 0.18);
+      }
+
+      currentX += (targetX - currentX) * 0.085;
+      currentY += (targetY - currentY) * 0.085;
+
+      const nx = (currentX / vw - 0.5) * 2;
+      const ny = (currentY / vh - 0.5) * 2;
+
+      const rotateY = nx * maxRotateY;
+      const rotateX = -ny * maxRotateX;
+      const translateX = nx * maxTranslate;
+      const translateY = ny * maxTranslate;
+
+      const shadowX = -nx * maxShadowOffset;
+      const shadowY = -ny * maxShadowOffset;
+
+      const rect = title.getBoundingClientRect();
+      const localX = ((currentX - rect.left) / (rect.width || 1)) * 100;
+      const localY = ((currentY - rect.top) / (rect.height || 1)) * 100;
+
+      root.style.setProperty('--rx', `${rotateX.toFixed(2)}deg`);
+      root.style.setProperty('--ry', `${rotateY.toFixed(2)}deg`);
+      root.style.setProperty('--tx', `${translateX.toFixed(2)}px`);
+      root.style.setProperty('--ty', `${translateY.toFixed(2)}px`);
+      root.style.setProperty('--sx', `${shadowX.toFixed(2)}px`);
+      root.style.setProperty('--sy', `${shadowY.toFixed(2)}px`);
+      root.style.setProperty('--lx', `${localX.toFixed(1)}%`);
+      root.style.setProperty('--ly', `${localY.toFixed(1)}%`);
+
+      ambient.style.background = `
+        radial-gradient(
+          600px circle at ${currentX.toFixed(0)}px ${currentY.toFixed(0)}px,
+          rgba(255, 255, 255, 0.065),
+          rgba(255, 255, 255, 0.015) 35%,
+          transparent 70%
+        )
+      `;
+
+      requestAnimationFrame(animate);
+    }
+
+    requestAnimationFrame(animate);
+  </script>
+</body>
+</html>
