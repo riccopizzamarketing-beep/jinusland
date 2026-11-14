@@ -7,14 +7,14 @@
   <meta property="og:title" content="jinushi" />
   <meta property="og:description" content="jinushi — design & projects" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://jinushi.vercel.app/" />
-  <meta property="og:image" content="https://jinushi.vercel.app/og-preview-v2.jpg" />
+  <meta property="og:url" content="https://riccopizzamarketing-beep.github.io/jinusland/" />
+  <meta property="og:image" content="https://riccopizzamarketing-beep.github.io/jinusland/og-preview-v2.jpg" />
   <meta property="og:image:type" content="image/jpeg" />
   <meta property="og:image:width" content="1024" />
   <meta property="og:image:height" content="536" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="jinushi" />
-  <meta name="twitter:image" content="https://jinushi.vercel.app/og-preview-v2.jpg" />
+  <meta name="twitter:image" content="https://riccopizzamarketing-beep.github.io/jinusland/og-preview-v2.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -277,12 +277,6 @@
       z-index: 6;
     }
 
-    .badge-row-top {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
     .apple-badge {
       display: inline-flex;
       align-items: center;
@@ -291,9 +285,9 @@
       font-weight: 600;
       letter-spacing: -0.015em;
       color: #ffd1e8;
-      background: rgba(32, 16, 25, 0.82);
+      background: rgba(32, 16, 25, 0.84);
       border: 1px solid rgba(255, 179, 217, 0.38);
-      padding: 0.38rem 0.9rem;
+      padding: 0.38rem 0.92rem;
       border-radius: 9999px;
       white-space: nowrap;
       backdrop-filter: blur(16px);
@@ -305,55 +299,52 @@
         inset 0 1px 0 rgba(255, 255, 255, 0.22);
     }
 
-    .apple-badge.b-1 {
-      transform: rotate(-6deg) translateX(6px);
-      z-index: 2;
-      animation: floatBadge1 3.4s ease-in-out infinite;
-    }
-
     .apple-badge.b-2 {
-      background: rgba(45, 20, 34, 0.9);
-      border-color: rgba(255, 195, 226, 0.52);
+      background: rgba(45, 20, 34, 0.92);
+      border-color: rgba(255, 195, 226, 0.54);
       color: #ffffff;
-      transform: rotate(5deg) translateX(-6px) translateY(-2px);
+      transform: rotate(4.5deg) translateY(-1px);
       z-index: 3;
-      animation: floatBadge2 3.8s ease-in-out infinite;
+      animation: floatBadge2 3.6s ease-in-out infinite;
     }
 
     .apple-badge.b-3 {
-      margin-top: -0.42rem;
-      background: rgba(26, 12, 20, 0.92);
-      border-color: rgba(255, 179, 217, 0.44);
-      transform: rotate(-1.8deg);
+      margin-top: -0.38rem;
+      background: rgba(26, 12, 20, 0.94);
+      border-color: rgba(255, 179, 217, 0.48);
+      transform: rotate(-2deg);
       z-index: 4;
-      animation: floatBadge3 4.1s ease-in-out infinite;
-    }
-
-    @keyframes floatBadge1 {
-      0%, 100% {
-        transform: rotate(-6deg) translateX(6px) translateY(0px);
-      }
-      50% {
-        transform: rotate(-4.5deg) translateX(6px) translateY(-4px);
-      }
+      animation: floatBadge3 4.0s ease-in-out infinite;
     }
 
     @keyframes floatBadge2 {
       0%, 100% {
-        transform: rotate(5deg) translateX(-6px) translateY(-2px);
+        transform: rotate(4.5deg) translateY(-1px);
       }
       50% {
-        transform: rotate(6.5deg) translateX(-6px) translateY(-6px);
+        transform: rotate(6deg) translateY(-5px);
       }
     }
 
     @keyframes floatBadge3 {
       0%, 100% {
-        transform: rotate(-1.8deg) translateY(0px);
+        transform: rotate(-2deg) translateY(0px);
       }
       50% {
         transform: rotate(-0.8deg) translateY(-4px);
       }
+    }
+
+    /* White subtitle under jinushi with the exact same font and size as the badges */
+    .title-sub {
+      margin-top: 1.15rem;
+      font-size: clamp(0.76rem, 2.3vw, 0.9rem);
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      color: #ffffff;
+      text-align: center;
+      transform: translateZ(10px);
+      pointer-events: none;
     }
 
     .title {
@@ -587,14 +578,12 @@
       <div class="title-wrapper" id="titleWrapper">
         <!-- Apple Keynote style badge-on-badge collage -->
         <div class="apple-collage" aria-label="Обо мне">
-          <div class="badge-row-top">
-            <span class="apple-badge b-1">мне 23 года</span>
-            <span class="apple-badge b-2">я егор</span>
-          </div>
-          <span class="apple-badge b-3">давай сделаем какую-то пикчу или видосик?</span>
+          <span class="apple-badge b-2">я егор</span>
+          <span class="apple-badge b-3">и это моё портфолио</span>
         </div>
 
         <h1 class="title" id="title">jinushi</h1>
+        <p class="title-sub">dranding design, smm design, motion videos</p>
       </div>
     </main>
 
