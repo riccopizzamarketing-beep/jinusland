@@ -17,7 +17,7 @@
   <meta name="twitter:image" content="https://riccopizzamarketing-beep.github.io/jinusland/og-preview-v2.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
     :root {
       --rx: 0deg;
@@ -335,12 +335,12 @@
       }
     }
 
-    /* White subtitle under jinushi with the exact same font and size as the badges */
+    /* White subtitle under jinushi with thinner weight and the same size as the badges */
     .title-sub {
       margin-top: 1.15rem;
       font-size: clamp(0.76rem, 2.3vw, 0.9rem);
-      font-weight: 600;
-      letter-spacing: -0.015em;
+      font-weight: 300;
+      letter-spacing: 0.005em;
       color: #ffffff;
       text-align: center;
       transform: translateZ(10px);
@@ -449,20 +449,41 @@
       z-index: 2;
       width: 100%;
       max-width: 680px;
-      padding: 1rem 1.5rem 2.5rem;
+      padding: 1rem 1.5rem 5rem;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
 
     .projects-heading {
-      font-size: clamp(1.5rem, 4.5vw, 2.1rem);
-      font-weight: 700;
+      position: relative;
+      font-size: clamp(1.6rem, 4.8vw, 2.25rem);
+      font-weight: 800;
       letter-spacing: -0.035em;
       color: #ffffff;
       text-transform: lowercase;
       margin-bottom: 2.8rem;
       text-align: center;
+      transform-style: preserve-3d;
+      transform: perspective(650px) rotateX(calc(var(--rx) * 0.6)) rotateY(calc(var(--ry) * 0.6));
+      will-change: transform;
+      background: radial-gradient(
+        circle 140px at var(--lx) var(--ly),
+        #ffffff 0%,
+        #f2f4f8 40%,
+        #b0b7c3 80%,
+        #ffffff 100%
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow:
+        calc(var(--sx) * 0.08) calc(var(--sy) * 0.08) 0px rgba(255, 255, 255, 0.30),
+        calc(var(--sx) * 0.16) calc(var(--sy) * 0.16) 0px rgba(220, 225, 235, 0.22),
+        calc(var(--sx) * 0.25) calc(var(--sy) * 0.25) 1px rgba(175, 185, 200, 0.16),
+        calc(var(--sx) * 0.36) calc(var(--sy) * 0.36) 2px rgba(130, 140, 155, 0.12),
+        calc(var(--sx) * 0.55) calc(var(--sy) * 0.55) 10px rgba(0, 0, 0, 0.8),
+        0 0 22px rgba(255, 179, 217, 0.18);
     }
 
     .projects-list {
@@ -523,22 +544,89 @@
       letter-spacing: -0.01em;
       color: rgba(255, 255, 255, 0.65);
       margin-top: 0.15rem;
+      transition: opacity 0.2s ease;
     }
 
-    /* Footer note */
-    .footer-note {
-      position: relative;
-      z-index: 2;
-      width: 100%;
-      text-align: center;
-      padding: 1rem 1.5rem 5.5rem;
-      font-size: clamp(0.92rem, 2.6vw, 1.05rem);
-      font-weight: 500;
-      letter-spacing: -0.01em;
-      color: rgba(255, 255, 255, 0.55);
+    /* Minimalist language switcher in top-right corner */
+    .lang-switcher {
+      position: fixed;
+      top: 1.4rem;
+      right: 1.65rem;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      font-family: inherit;
+    }
+
+    .lang-current {
+      background: transparent;
+      border: none;
+      color: rgba(255, 255, 255, 0.78);
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+      text-transform: lowercase;
+      cursor: pointer;
+      padding: 0.25rem 0.4rem;
+      transition: color 0.2s ease, text-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .lang-current:hover,
+    .lang-switcher.open .lang-current {
+      color: #ffffff;
+      text-shadow: 0 0 12px rgba(255, 179, 217, 0.55);
+    }
+
+    .lang-menu {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.2rem;
+      margin-top: 0.2rem;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-6px);
+      pointer-events: none;
+      transition:
+        opacity 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0.22s;
+    }
+
+    .lang-switcher.open .lang-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .lang-option {
+      background: transparent;
+      border: none;
+      color: rgba(255, 255, 255, 0.52);
+      font-family: inherit;
+      font-size: 0.84rem;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+      text-transform: lowercase;
+      cursor: pointer;
+      padding: 0.18rem 0.4rem;
+      transition: color 0.18s ease, transform 0.18s ease, text-shadow 0.18s ease;
+    }
+
+    .lang-option:hover {
+      color: #ffd1e8;
+      transform: translateX(-2px);
+      text-shadow: 0 0 10px rgba(255, 179, 217, 0.45);
     }
 
     @media (max-width: 480px) {
+      .lang-switcher {
+        top: 1.1rem;
+        right: 1.25rem;
+      }
       .hero {
         min-height: 74dvh;
         gap: 1.85rem;
@@ -552,7 +640,7 @@
         font-size: 0.92rem;
       }
       .projects-section {
-        padding-bottom: 2.5rem;
+        padding-bottom: 4rem;
       }
       .projects-list {
         gap: 2.8rem;
@@ -569,6 +657,15 @@
     </div>
   </div>
 
+  <!-- Top-right thin language switcher -->
+  <div class="lang-switcher" id="langSwitcher">
+    <button class="lang-current" id="langCurrent" type="button" aria-expanded="false" aria-label="Выбор языка">ru</button>
+    <div class="lang-menu" id="langMenu">
+      <button class="lang-option" type="button" data-lang="ua">ua</button>
+      <button class="lang-option" type="button" data-lang="eng">eng</button>
+    </div>
+  </div>
+
   <canvas id="wormCanvas" aria-hidden="true"></canvas>
   <div class="ambient-light" id="ambient"></div>
 
@@ -578,8 +675,8 @@
       <div class="title-wrapper" id="titleWrapper">
         <!-- Apple Keynote style badge-on-badge collage -->
         <div class="apple-collage" aria-label="Обо мне">
-          <span class="apple-badge b-2">я егор</span>
-          <span class="apple-badge b-3">и это моё портфолио</span>
+          <span class="apple-badge b-2" id="i18nBadge1">я егор</span>
+          <span class="apple-badge b-3" id="i18nBadge2">и это моё портфолио</span>
         </div>
 
         <h1 class="title" id="title">jinushi</h1>
@@ -588,8 +685,8 @@
     </main>
 
     <nav class="links" aria-label="Социальные ссылки">
-      <a class="btn" href="http://t.me/jinussshi" target="_blank" rel="noopener noreferrer">Telegram</a>
-      <a class="btn" href="https://www.instagram.com/jinuushii" target="_blank" rel="noopener noreferrer">Instagram</a>
+      <a class="btn" href="http://t.me/jinussshi" target="_blank" rel="noopener noreferrer">telegram</a>
+      <a class="btn" href="https://www.instagram.com/jinuushii" target="_blank" rel="noopener noreferrer">instagram</a>
     </nav>
   </section>
 
@@ -602,24 +699,106 @@
         <a class="project-image-link" href="https://www.behance.net/gallery/226526537/ALOVA-tatto-studio-2024" target="_blank" rel="noopener noreferrer">
           <img class="project-image" src="alova.png" alt="alova — тату-студия в харькове" loading="lazy" />
         </a>
-        <p class="project-desc">тату-студия в харькове</p>
+        <p class="project-desc" id="i18nAlovaDesc">тату-студия в харькове</p>
       </article>
 
       <article class="project-card">
-        <h3 class="project-title">хкбад</h3>
+        <h3 class="project-title" id="i18nHkbadTitle">хкбад</h3>
         <a class="project-image-link" href="https://www.behance.net/gallery/144711515/HKBAD-architecture-college-2022" target="_blank" rel="noopener noreferrer">
           <img class="project-image" src="hkbad.jpg" alt="хкбад — колледж архитектуры в харькове" loading="lazy" />
         </a>
-        <p class="project-desc">колледж архитектуры в харькове</p>
+        <p class="project-desc" id="i18nHkbadDesc">колледж архитектуры в харькове</p>
       </article>
     </div>
   </section>
 
-  <footer class="footer-note">
-    больше моих работ могу скинуть в телеге
-  </footer>
-
   <script>
+    // Language switcher logic (ru / ua / eng)
+    (function initLangSwitcher() {
+      const translations = {
+        ru: {
+          badge1: 'я егор',
+          badge2: 'и это моё портфолио',
+          alovaDesc: 'тату-студия в харькове',
+          hkbadTitle: 'хкбад',
+          hkbadDesc: 'колледж архитектуры в харькове'
+        },
+        ua: {
+          badge1: 'я єгор',
+          badge2: 'і це моє портфоліо',
+          alovaDesc: 'тату-студія в харкові',
+          hkbadTitle: 'хкбад',
+          hkbadDesc: 'коледж архітектури в харкові'
+        },
+        eng: {
+          badge1: "i'm egor",
+          badge2: 'and this is my portfolio',
+          alovaDesc: 'tattoo studio in kharkiv',
+          hkbadTitle: 'hkbad',
+          hkbadDesc: 'college of architecture in kharkiv'
+        }
+      };
+
+      const allLangs = ['ru', 'ua', 'eng'];
+      let currentLang = 'ru';
+
+      const switcher = document.getElementById('langSwitcher');
+      const currentBtn = document.getElementById('langCurrent');
+      const menu = document.getElementById('langMenu');
+
+      const badge1El = document.getElementById('i18nBadge1');
+      const badge2El = document.getElementById('i18nBadge2');
+      const alovaDescEl = document.getElementById('i18nAlovaDesc');
+      const hkbadTitleEl = document.getElementById('i18nHkbadTitle');
+      const hkbadDescEl = document.getElementById('i18nHkbadDesc');
+
+      function renderMenu() {
+        menu.innerHTML = '';
+        allLangs
+          .filter((l) => l !== currentLang)
+          .forEach((lang) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'lang-option';
+            btn.dataset.lang = lang;
+            btn.textContent = lang;
+            btn.addEventListener('click', (e) => {
+              e.stopPropagation();
+              setLanguage(lang);
+              switcher.classList.remove('open');
+              currentBtn.setAttribute('aria-expanded', 'false');
+            });
+            menu.appendChild(btn);
+          });
+      }
+
+      function setLanguage(lang) {
+        if (!translations[lang]) return;
+        currentLang = lang;
+        currentBtn.textContent = lang;
+        const t = translations[lang];
+        badge1El.textContent = t.badge1;
+        badge2El.textContent = t.badge2;
+        alovaDescEl.textContent = t.alovaDesc;
+        hkbadTitleEl.textContent = t.hkbadTitle;
+        hkbadDescEl.textContent = t.hkbadDesc;
+        document.documentElement.lang = lang === 'ua' ? 'uk' : lang === 'eng' ? 'en' : 'ru';
+        renderMenu();
+      }
+
+      currentBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = switcher.classList.toggle('open');
+        currentBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+
+      document.addEventListener('click', () => {
+        switcher.classList.remove('open');
+        currentBtn.setAttribute('aria-expanded', 'false');
+      });
+
+      renderMenu();
+    })();
     const root = document.documentElement;
     const title = document.getElementById('title');
     const ambient = document.getElementById('ambient');
