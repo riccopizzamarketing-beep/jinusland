@@ -494,27 +494,6 @@
       }
     }
 
-    /* Specular highlight layer for crisp metallic/pearlescent light sheen */
-    .title::after {
-      content: "jinushi";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(
-        240px circle at var(--lx) var(--ly),
-        rgba(255, 255, 255, 0.95) 0%,
-        rgba(255, 255, 255, 0.25) 45%,
-        transparent 75%
-      );
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      mix-blend-mode: screen;
-      pointer-events: none;
-      transform: translateZ(2px);
-      opacity: 0;
-      animation: sheenAppear 0.25s ease 3.5s forwards;
-    }
-
     @keyframes sheenAppear {
       to {
         opacity: 1;
@@ -925,7 +904,7 @@
         </div>
 
         <h1 class="title" id="title" aria-label="jinushi"><span class="title-char" style="--i:0">j</span><span class="title-char" style="--i:1">i</span><span class="title-char" style="--i:2">n</span><span class="title-char" style="--i:3">u</span><span class="title-char" style="--i:4">s</span><span class="title-char" style="--i:5">h</span><span class="title-char" style="--i:6">i</span></h1>
-        <p class="title-sub">dranding design, smm design, motion videos</p>
+        <p class="title-sub">branding design, smm design, motion videos</p>
       </div>
     </main>
 
