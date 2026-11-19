@@ -315,6 +315,12 @@
     .title-wrapper {
       position: relative;
       z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      width: 100%;
       transform-style: preserve-3d;
       transform: translate3d(var(--tx), var(--ty), 0) rotateX(var(--rx)) rotateY(var(--ry));
       will-change: transform;
@@ -438,15 +444,20 @@
       font-size: clamp(3.4rem, 15.5vw, 12.5rem);
       font-weight: 800;
       letter-spacing: -0.045em;
-      line-height: 1;
+      line-height: 1.15;
       color: #ffffff;
       text-align: center;
-      display: inline-flex;
+      display: flex;
+      align-items: center;
       justify-content: center;
+      width: 100%;
+      margin: 0 auto;
     }
 
     .title-char {
       display: inline-block;
+      padding: 0.16em 0.08em;
+      margin: -0.16em -0.08em;
       opacity: 0;
       transform: translateY(18px) scale(0.92);
       filter: blur(5px);
@@ -577,6 +588,8 @@
       font-size: clamp(1.6rem, 4.8vw, 2.25rem);
       font-weight: 800;
       letter-spacing: -0.035em;
+      line-height: 1.2;
+      padding: 0.15em 0.1em;
       color: #ffffff;
       text-transform: lowercase;
       margin-bottom: 2.8rem;
