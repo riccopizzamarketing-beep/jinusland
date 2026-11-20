@@ -19,7 +19,7 @@
   <meta name="twitter:image" content="https://riccopizzamarketing-beep.github.io/jinusland/og-preview-v2.jpg?v=3" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..800&display=swap" rel="stylesheet" />
   <link rel="preload" as="image" href="face.png?v=3" fetchpriority="high" />
   <style>
     :root {
@@ -34,8 +34,8 @@
 
       /* Default theme: soft pink */
       --dot-color: #ffb3d9;
-      --aura-core: rgba(255, 170, 213, 0.30);
-      --aura-mid: rgba(255, 150, 205, 0.14);
+      --aura-core: rgba(255, 170, 213, 0.22);
+      --aura-mid: rgba(255, 150, 205, 0.10);
       --aura-zero: rgba(255, 150, 205, 0);
       --badge-text: #ffd1e8;
       --badge-bg: rgba(32, 16, 25, 0.84);
@@ -61,8 +61,8 @@
 
     :root[data-theme="blue"] {
       --dot-color: #a6d4ff;
-      --aura-core: rgba(150, 205, 255, 0.30);
-      --aura-mid: rgba(130, 190, 255, 0.14);
+      --aura-core: rgba(150, 205, 255, 0.22);
+      --aura-mid: rgba(130, 190, 255, 0.10);
       --aura-zero: rgba(130, 190, 255, 0);
       --badge-text: #d0e8ff;
       --badge-bg: rgba(15, 26, 40, 0.84);
@@ -80,8 +80,8 @@
 
     :root[data-theme="green"] {
       --dot-color: #a6f0c6;
-      --aura-core: rgba(150, 238, 190, 0.30);
-      --aura-mid: rgba(130, 225, 175, 0.14);
+      --aura-core: rgba(150, 238, 190, 0.22);
+      --aura-mid: rgba(130, 225, 175, 0.10);
       --aura-zero: rgba(130, 225, 175, 0);
       --badge-text: #d2fae3;
       --badge-bg: rgba(14, 34, 24, 0.84);
@@ -222,21 +222,21 @@
       -webkit-filter: blur(0.4px);
     }
 
-    /* Ambient background spotlight following cursor/tilt */
+    /* Ambient background spotlight following cursor/tilt (-30% tighter size, -20% softer glow) */
     .ambient-light {
       position: fixed;
       inset: 0;
       pointer-events: none;
       background: radial-gradient(
-        600px circle at 50% 35%,
-        rgba(255, 255, 255, 0.055),
-        rgba(255, 255, 255, 0.015) 35%,
-        transparent 70%
+        440px circle at 50% 35%,
+        rgba(255, 255, 255, 0.085),
+        rgba(255, 255, 255, 0.024) 32%,
+        transparent 64%
       );
       z-index: 1;
     }
 
-    /* Hero section */
+    /* Hero section (+15% block spacing) */
     .hero {
       position: relative;
       z-index: 2;
@@ -246,8 +246,8 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 2.3rem;
-      padding: 5.5rem 1.5rem 2.5rem;
+      gap: 2.65rem;
+      padding: 5.5rem 1.5rem 2.75rem;
     }
 
     .scene {
@@ -258,22 +258,22 @@
       justify-content: center;
     }
 
-    /* Soft accent 30% glow spreading under jinushi (starts at 2.0s with letter reveal) */
+    /* Soft accent glow spreading under jinushi (-25% smaller & softer) */
     .pink-aura {
       position: absolute;
       top: 58%;
       left: 50%;
       transform: translate(-50%, -50%) scale(0.85);
-      width: clamp(260px, 68vw, 680px);
-      height: clamp(110px, 24vw, 240px);
+      width: clamp(200px, 52vw, 510px);
+      height: clamp(86px, 19vw, 182px);
       background: radial-gradient(
         ellipse at center,
         var(--aura-core) 0%,
         var(--aura-mid) 45%,
         var(--aura-zero) 75%
       );
-      filter: blur(28px);
-      -webkit-filter: blur(28px);
+      filter: blur(24px);
+      -webkit-filter: blur(24px);
       pointer-events: none;
       z-index: 0;
       opacity: 0;
@@ -318,7 +318,7 @@
       cursor: pointer;
     }
 
-    /* Step 3 (4.1s -> 4.36s): Top badges positioned lower (closer to jinushi) with real transparent blur */
+    /* Step 3 (4.1s -> 4.44s): Top badges with more intense + 25% longer opening blur reveal */
     .apple-collage {
       position: relative;
       display: flex;
@@ -327,20 +327,26 @@
       justify-content: center;
       margin-bottom: 0.18rem;
       transform: translateY(10px) scale(0.92);
+      filter: blur(10px);
+      -webkit-filter: blur(10px);
       opacity: 0;
       pointer-events: none;
       z-index: 6;
-      animation: popTopBadges 0.26s cubic-bezier(0.22, 1, 0.36, 1) 4.1s forwards;
+      animation: popTopBadges 0.34s cubic-bezier(0.22, 1, 0.36, 1) 4.1s forwards;
     }
 
     @keyframes popTopBadges {
       0% {
         opacity: 0;
         transform: translateY(10px) scale(0.92);
+        filter: blur(10px);
+        -webkit-filter: blur(10px);
       }
       100% {
         opacity: 1;
         transform: translateY(0) scale(1);
+        filter: blur(0px);
+        -webkit-filter: blur(0px);
       }
     }
 
@@ -401,7 +407,7 @@
       }
     }
 
-    /* White subtitle under jinushi with thinner weight (appears with step 4 at 4.36s) */
+    /* White subtitle under jinushi with thinner weight (appears with step 4 at 4.36s, +25% longer blur) */
     .title-sub {
       margin-top: 1.05rem;
       font-size: clamp(0.76rem, 2.3vw, 0.9rem);
@@ -410,26 +416,32 @@
       color: #ffffff;
       text-align: center;
       transform: translateZ(10px) translateY(8px) scale(0.95);
+      filter: blur(9px);
+      -webkit-filter: blur(9px);
       opacity: 0;
       pointer-events: none;
-      animation: popBottomSub 0.24s cubic-bezier(0.22, 1, 0.36, 1) 4.36s forwards;
+      animation: popBottomSub 0.32s cubic-bezier(0.22, 1, 0.36, 1) 4.36s forwards;
     }
 
     @keyframes popBottomSub {
       0% {
         opacity: 0;
         transform: translateZ(10px) translateY(8px) scale(0.95);
+        filter: blur(9px);
+        -webkit-filter: blur(9px);
       }
       100% {
         opacity: 1;
         transform: translateZ(10px) translateY(0) scale(1);
+        filter: blur(0px);
+        -webkit-filter: blur(0px);
       }
     }
 
-    /* Step 2 (2.0s -> 3.5s): jinushi appears neatly letter by letter over 1.5s */
+    /* Step 2 (2.0s -> 3.5s): jinushi appears neatly letter by letter (-5% font size) */
     .title {
       position: relative;
-      font-size: clamp(3.4rem, 15.5vw, 12.5rem);
+      font-size: clamp(3.23rem, 14.7vw, 11.88rem);
       font-weight: 800;
       letter-spacing: -0.045em;
       line-height: 1.15;
@@ -448,8 +460,8 @@
       margin: -0.16em -0.08em;
       opacity: 0;
       transform: translateY(18px) scale(0.92);
-      filter: blur(5px);
-      -webkit-filter: blur(5px);
+      filter: blur(11px);
+      -webkit-filter: blur(11px);
 
       /* Dynamic light shimmer across the white grotesque typography */
       background:
@@ -472,9 +484,9 @@
         calc(var(--sx) * 0.60) calc(var(--sy) * 0.60) 2px rgba(140, 150, 165, 0.12),
         calc(var(--sx) * 0.80) calc(var(--sy) * 0.80) 4px rgba(100, 110, 125, 0.08),
         calc(var(--sx) * 1.10) calc(var(--sy) * 1.10) 18px rgba(0, 0, 0, 0.85),
-        calc(var(--sx) * -0.5) calc(var(--sy) * -0.5) 35px rgba(255, 255, 255, 0.18);
+        calc(var(--sx) * -0.5) calc(var(--sy) * -0.5) 26px rgba(255, 255, 255, 0.13);
 
-      animation: charReveal 0.48s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      animation: charReveal 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
       animation-delay: calc(2.6s + var(--i) * 0.17s);
     }
 
@@ -482,8 +494,8 @@
       0% {
         opacity: 0;
         transform: translateY(18px) scale(0.92);
-        filter: blur(5px);
-        -webkit-filter: blur(5px);
+        filter: blur(11px);
+        -webkit-filter: blur(11px);
       }
       100% {
         opacity: 1;
@@ -499,7 +511,7 @@
       }
     }
 
-    /* Step 4 (4.36s -> 4.62s): Centered social buttons pop in neatly after top badges finish */
+    /* Step 4 (4.36s -> 4.70s): Centered social buttons pop in with intense + 25% longer blur */
     .links {
       position: relative;
       z-index: 10;
@@ -510,17 +522,23 @@
       flex-wrap: wrap;
       opacity: 0;
       transform: translateY(10px) scale(0.94);
-      animation: popSocialBtns 0.26s cubic-bezier(0.22, 1, 0.36, 1) 4.36s forwards;
+      filter: blur(9px);
+      -webkit-filter: blur(9px);
+      animation: popSocialBtns 0.34s cubic-bezier(0.22, 1, 0.36, 1) 4.36s forwards;
     }
 
     @keyframes popSocialBtns {
       0% {
         opacity: 0;
         transform: translateY(10px) scale(0.94);
+        filter: blur(9px);
+        -webkit-filter: blur(9px);
       }
       100% {
         opacity: 1;
         transform: translateY(0) scale(1);
+        filter: blur(0px);
+        -webkit-filter: blur(0px);
       }
     }
 
@@ -563,12 +581,28 @@
       z-index: 2;
       width: 100%;
       max-width: 680px;
-      padding: 1rem 1.5rem 2.5rem;
+      padding: 1.1rem 1.5rem 2.75rem;
       display: flex;
       flex-direction: column;
       align-items: center;
       opacity: 0;
       animation: sheenAppear 0.35s ease 4.62s forwards;
+    }
+
+    .section-group {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2.95rem;
+    }
+
+    .section-cards-stack {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4.03rem;
     }
 
     .projects-heading {
@@ -586,29 +620,27 @@
       background: var(--glass-sheen), var(--glass-pill-bg);
       border: 0.5px solid var(--badge-border);
       text-transform: lowercase;
-      margin-bottom: 2.8rem;
-      scroll-margin-top: 4.5rem;
+      margin-bottom: 0;
+      scroll-margin-top: 5.2rem;
       text-align: center;
       transform: perspective(650px) rotateX(calc(var(--rx) * 0.6)) rotateY(calc(var(--ry) * 0.6));
-      text-shadow: 0 0 14px var(--accent-glow);
+      text-shadow: none;
       box-shadow:
-        0 10px 26px rgba(0, 0, 0, 0.58),
-        0 0 18px var(--accent-box-glow),
+        0 8px 20px rgba(0, 0, 0, 0.46),
         inset 0 0.5px 0 rgba(255, 255, 255, 0.14);
       transition:
         color 0.3s ease,
         background 0.3s ease,
         border-color 0.3s ease,
-        text-shadow 0.3s ease,
         box-shadow 0.3s ease;
     }
 
     .projects-heading.section-subhead {
-      margin-top: -0.4rem;
-      margin-bottom: -0.8rem;
+      margin-top: 0;
+      margin-bottom: 0;
     }
 
-    /* Understated plain gray heading for "комната ожидания" (no border, no pill, blends quietly) */
+    /* Understated plain gray heading for "комната ожидания" (no border, no pill, no outer frame) */
     .projects-heading.waiting-heading {
       display: block;
       padding: 0;
@@ -622,11 +654,11 @@
       font-weight: 600;
       letter-spacing: -0.02em;
       color: rgba(255, 255, 255, 0.46);
-      margin-top: -0.2rem;
-      margin-bottom: -1.1rem;
+      margin-top: 0;
+      margin-bottom: -1.4rem;
     }
 
-    /* Very dark near-black kids LCD drawing board — borderless with subtle worn scuff texture */
+    /* Kids LCD drawing board — 10% brighter, borderless, borderless trash icon, subtle worn scuff texture */
     .tablet-frame {
       position: relative;
       width: 100%;
@@ -634,9 +666,9 @@
       aspect-ratio: 1.3 / 1;
       border-radius: 22px;
       overflow: hidden;
-      background: radial-gradient(circle at 30% 24%, #101114 0%, #0a0b0d 55%, #070809 100%);
+      background: radial-gradient(circle at 30% 24%, #202227 0%, #17191d 55%, #111316 100%);
       border: none;
-      box-shadow: inset 0 0 32px rgba(0, 0, 0, 0.75);
+      box-shadow: inset 0 0 28px rgba(0, 0, 0, 0.58);
     }
 
     .tablet-canvas,
@@ -657,8 +689,8 @@
 
     .tablet-active-canvas {
       z-index: 2;
-      opacity: 0.42;
-      cursor: crosshair;
+      opacity: 0.46;
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ctext x='10' y='15' text-anchor='middle' font-family='Inter,-apple-system,sans-serif' font-weight='800' font-size='14' fill='%23ffffff'%3EJ%3C/text%3E%3C/svg%3E") 10 10, crosshair;
       touch-action: none;
     }
 
@@ -687,22 +719,6 @@
       transition: opacity 0.05s ease;
     }
 
-    /* Tiny engraved gray "J" tablet brand mark in bottom-right corner */
-    .tablet-logo {
-      position: absolute;
-      right: 1rem;
-      bottom: 0.78rem;
-      z-index: 4;
-      font-size: 0.78rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      line-height: 1;
-      color: rgba(255, 255, 255, 0.22);
-      pointer-events: none;
-      user-select: none;
-      -webkit-user-select: none;
-    }
-
     .tablet-clear-btn {
       position: absolute;
       left: 0.8rem;
@@ -716,10 +732,10 @@
       align-items: center;
       justify-content: center;
       background: rgba(255, 255, 255, 0.05);
-      border: 0.5px solid rgba(255, 255, 255, 0.14);
-      color: rgba(255, 255, 255, 0.5);
+      border: none;
+      color: rgba(255, 255, 255, 0.52);
       cursor: pointer;
-      transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+      transition: color 0.2s ease, background 0.2s ease, transform 0.2s ease;
     }
 
     .tablet-clear-btn svg {
@@ -736,47 +752,48 @@
     .tablet-clear-btn:active {
       color: #ffffff;
       background: rgba(255, 255, 255, 0.12);
-      border-color: var(--badge-border);
       transform: scale(1.06);
     }
 
-    /* Delicate ultra-thin solid edge-to-edge section dividers matching the accent color of top badges */
+    /* Delicate solid edge-to-edge section dividers (~5% thicker than 0.5px -> 0.58px) */
     .section-divider {
       width: 100vw;
       max-width: none;
       height: 1px;
       background: var(--badge-border);
-      transform: scaleY(0.5);
+      transform: scaleY(0.58);
       transition: background 0.35s ease;
       flex-shrink: 0;
     }
 
     .projects-list > .section-divider {
-      margin: -0.35rem 0;
+      margin: 0;
     }
 
     .section-divider-top {
-      margin-bottom: 2.6rem;
+      margin-bottom: 3.1rem;
     }
 
     .section-divider-bottom {
-      margin-top: 3.2rem;
+      margin-top: 3.55rem;
     }
 
+    /* +10% spacing between sections */
     .projects-list {
       width: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 3.5rem;
+      gap: 3.85rem;
     }
 
+    /* +15% spacing inside cards */
     .project-card {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       text-align: left;
-      gap: 0.85rem;
+      gap: 0.98rem;
       width: 100%;
       max-width: 520px;
     }
@@ -796,7 +813,7 @@
       border-radius: 22px;
       overflow: hidden;
       background: #080808;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1.15px solid rgba(255, 255, 255, 0.13);
       box-shadow: 0 18px 45px rgba(0, 0, 0, 0.7);
       text-decoration: none;
       cursor: pointer;
@@ -831,10 +848,10 @@
 
     :root[data-theme="bw"] .theme-current .theme-dot {
       background: linear-gradient(135deg, #ffffff 50%, #52525b 50%);
-      box-shadow: 0 0 12px rgba(255, 255, 255, 0.55), 0 0 4px #ffffff;
+      box-shadow: none;
     }
 
-    /* SMM Design 8x3 B&W infinite slow pan preview card */
+    /* SMM & Motion preview frame (+5% thicker border) */
     .smm-preview-frame {
       position: relative;
       width: 100%;
@@ -843,7 +860,7 @@
       border-radius: 22px;
       overflow: hidden;
       background: #080808;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1.15px solid rgba(255, 255, 255, 0.13);
       box-shadow: 0 18px 45px rgba(0, 0, 0, 0.7);
       cursor: pointer;
       transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.35s ease, box-shadow 0.35s ease;
@@ -1042,7 +1059,7 @@
       border-radius: 24px;
       overflow: hidden;
       background: #080808;
-      border: 1px solid rgba(255, 255, 255, 0.14);
+      border: 1.15px solid rgba(255, 255, 255, 0.16);
       box-shadow: 0 24px 70px rgba(0, 0, 0, 0.85);
     }
 
@@ -1075,18 +1092,19 @@
       will-change: transform;
     }
 
+    /* 30% faster pan speed ONLY for opened fullscreen previews */
     .modal-preview-strip.is-smm {
-      animation: smmPanSlow 24s ease-in-out infinite alternate;
+      animation: smmPanSlow 16.8s ease-in-out infinite alternate;
     }
 
     .modal-preview-strip.is-motion {
-      animation: motionPanSlow 21s ease-in-out infinite alternate;
+      animation: motionPanSlow 14.7s ease-in-out infinite alternate;
     }
 
-    /* Timeline progress bar under the fullscreen preview (loads forward & unloads in reverse with pan direction) */
+    /* Timeline progress bar under the fullscreen preview (50% shorter visually, synced with 30% faster pan) */
     .modal-timeline-track {
-      width: 100%;
-      max-width: 440px;
+      width: 50%;
+      max-width: 220px;
       height: 4px;
       border-radius: 999px;
       background: rgba(255, 255, 255, 0.16);
@@ -1106,11 +1124,11 @@
     }
 
     .modal-timeline-fill.is-smm {
-      animation: timelineLoadUnload 24s ease-in-out infinite alternate;
+      animation: timelineLoadUnload 16.8s ease-in-out infinite alternate;
     }
 
     .modal-timeline-fill.is-motion {
-      animation: timelineLoadUnload 21s ease-in-out infinite alternate;
+      animation: timelineLoadUnload 14.7s ease-in-out infinite alternate;
     }
 
     @keyframes timelineLoadUnload {
@@ -1156,11 +1174,11 @@
       transition: opacity 0.2s ease;
     }
 
-    /* Scroll-triggered ultra-thin accent underline on 3000 & 300 */
+    /* Scroll-triggered crisp accent underline on all numbers */
     .num-underline {
       position: relative;
       display: inline-block;
-      color: rgba(255, 255, 255, 0.88);
+      color: rgba(255, 255, 255, 0.92);
     }
 
     .num-underline::after {
@@ -1169,7 +1187,7 @@
       left: 0;
       right: 0;
       bottom: -2px;
-      height: 1px;
+      height: 1.25px;
       border-radius: 999px;
       background: var(--dot-color);
       box-shadow: 0 0 8px var(--accent-glow);
@@ -1185,7 +1203,7 @@
       transform: scaleX(1);
     }
 
-    /* Minimalist language switcher in top-right corner */
+    /* Minimalist language switcher in top-right corner (+10% thicker font weight: 350) */
     .lang-switcher {
       position: fixed;
       top: 1.4rem;
@@ -1205,7 +1223,8 @@
       color: rgba(255, 255, 255, 0.78);
       font-family: inherit;
       font-size: 0.88rem;
-      font-weight: 300;
+      font-weight: 350;
+      font-variation-settings: 'wght' 350;
       letter-spacing: 0.02em;
       text-transform: lowercase;
       cursor: pointer;
@@ -1248,7 +1267,8 @@
       color: rgba(255, 255, 255, 0.52);
       font-family: inherit;
       font-size: 0.84rem;
-      font-weight: 300;
+      font-weight: 350;
+      font-variation-settings: 'wght' 350;
       letter-spacing: 0.02em;
       text-transform: lowercase;
       cursor: pointer;
@@ -1262,7 +1282,7 @@
       text-shadow: 0 0 10px var(--accent-glow);
     }
 
-    /* Minimalist accent color dot switcher in top-left corner (opposite language switcher) */
+    /* Minimalist accent color dot switcher in top-left corner (no glow) */
     .theme-switcher {
       position: fixed;
       top: 1.55rem;
@@ -1292,10 +1312,9 @@
       height: 10px;
       border-radius: 50%;
       background: var(--dot-color);
-      box-shadow: 0 0 12px var(--accent-glow), 0 0 4px var(--dot-color);
+      box-shadow: none;
       transition:
         background 0.3s ease,
-        box-shadow 0.3s ease,
         transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
@@ -1340,22 +1359,22 @@
 
     .theme-dot[data-color="pink"] {
       background: #ffb3d9;
-      box-shadow: 0 0 10px rgba(255, 166, 210, 0.55);
+      box-shadow: none;
     }
 
     .theme-dot[data-color="blue"] {
       background: #a6d4ff;
-      box-shadow: 0 0 10px rgba(150, 205, 255, 0.55);
+      box-shadow: none;
     }
 
     .theme-dot[data-color="green"] {
       background: #a6f0c6;
-      box-shadow: 0 0 10px rgba(150, 238, 190, 0.55);
+      box-shadow: none;
     }
 
     .theme-dot[data-color="bw"] {
       background: linear-gradient(135deg, #ffffff 50%, #52525b 50%);
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.55);
+      box-shadow: none;
     }
 
     /* Top-center horizontal morphing white Liquid Glass navigation menu with real transparent backdrop blur */
@@ -1573,16 +1592,16 @@
       animation-play-state: paused !important;
     }
 
-    /* First-scroll subtle blur reveal for each block (triggers once only, 50% longer: 0.98s) */
+    /* First-scroll blur reveal for each block (triggers once only — more intense blur & +25% longer: 1.23s) */
     .scroll-reveal {
       opacity: 0;
-      filter: blur(5px);
-      -webkit-filter: blur(5px);
+      filter: blur(10px);
+      -webkit-filter: blur(10px);
       transition:
-        opacity 0.98s cubic-bezier(0.22, 1, 0.36, 1),
-        filter 0.98s cubic-bezier(0.22, 1, 0.36, 1),
-        -webkit-filter 0.98s cubic-bezier(0.22, 1, 0.36, 1),
-        transform 0.98s cubic-bezier(0.22, 1, 0.36, 1);
+        opacity 1.23s cubic-bezier(0.22, 1, 0.36, 1),
+        filter 1.23s cubic-bezier(0.22, 1, 0.36, 1),
+        -webkit-filter 1.23s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 1.23s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .project-card.scroll-reveal,
@@ -1615,7 +1634,7 @@
       }
       .hero {
         min-height: 74dvh;
-        gap: 1.85rem;
+        gap: 2.13rem;
         padding-top: 4rem;
       }
       .apple-collage {
@@ -1626,10 +1645,16 @@
         font-size: 0.74rem;
       }
       .projects-section {
-        padding-bottom: 2rem;
+        padding: 1rem 1.5rem 2.2rem;
       }
       .projects-list {
-        gap: 2.8rem;
+        gap: 3.08rem;
+      }
+      .section-group {
+        gap: 2.4rem;
+      }
+      .section-cards-stack {
+        gap: 3.22rem;
       }
     }
   </style>
@@ -1700,75 +1725,83 @@
   <section class="projects-section" id="projects">
     <div class="section-divider section-divider-top scroll-reveal" aria-hidden="true"></div>
 
-    <h2 class="projects-heading scroll-reveal" id="branding">branding design</h2>
-
     <div class="projects-list">
-      <article class="project-card scroll-reveal">
-        <h3 class="project-title">alova</h3>
-        <div class="project-meta-row">
-          <p class="project-desc" id="i18nAlovaDesc">тату-студия в харькове</p>
-          <span class="project-year">2024</span>
-        </div>
-        <a class="project-image-link" href="https://www.behance.net/gallery/226526537/ALOVA-tatto-studio-2024" target="_blank" rel="noopener noreferrer">
-          <img class="project-image" src="alova.png" alt="alova — тату-студия в харькове" loading="lazy" />
-        </a>
-        <a class="preview-watch-btn" href="https://www.behance.net/gallery/226526537/ALOVA-tatto-studio-2024" target="_blank" rel="noopener noreferrer">
-          <svg class="preview-watch-icon" viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
-          <span class="watch-btn-label">смотреть</span>
-        </a>
-      </article>
+      <div class="section-group">
+        <h2 class="projects-heading scroll-reveal" id="branding">branding design</h2>
 
-      <article class="project-card scroll-reveal">
-        <h3 class="project-title" id="i18nHkbadTitle">хкбад</h3>
-        <div class="project-meta-row">
-          <p class="project-desc" id="i18nHkbadDesc">колледж архитектуры в харькове</p>
-          <span class="project-year">2022</span>
+        <div class="section-cards-stack">
+          <article class="project-card scroll-reveal">
+            <h3 class="project-title">alova</h3>
+            <div class="project-meta-row">
+              <p class="project-desc" id="i18nAlovaDesc">тату-студия в харькове</p>
+              <span class="project-year">2024</span>
+            </div>
+            <a class="project-image-link" href="https://www.behance.net/gallery/226526537/ALOVA-tatto-studio-2024" target="_blank" rel="noopener noreferrer">
+              <img class="project-image" src="alova.png" alt="alova — тату-студия в харькове" loading="lazy" />
+            </a>
+            <a class="preview-watch-btn" href="https://www.behance.net/gallery/226526537/ALOVA-tatto-studio-2024" target="_blank" rel="noopener noreferrer">
+              <svg class="preview-watch-icon" viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
+              <span class="watch-btn-label">смотреть</span>
+            </a>
+          </article>
+
+          <article class="project-card scroll-reveal">
+            <h3 class="project-title" id="i18nHkbadTitle">хкбад</h3>
+            <div class="project-meta-row">
+              <p class="project-desc" id="i18nHkbadDesc">колледж архитектуры в харькове</p>
+              <span class="project-year">2022</span>
+            </div>
+            <a class="project-image-link" href="https://www.behance.net/gallery/144711515/HKBAD-architecture-college-2022" target="_blank" rel="noopener noreferrer">
+              <img class="project-image" src="hkbad.jpg" alt="хкбад — колледж архитектуры в харькове" loading="lazy" />
+            </a>
+            <a class="preview-watch-btn" href="https://www.behance.net/gallery/144711515/HKBAD-architecture-college-2022" target="_blank" rel="noopener noreferrer">
+              <svg class="preview-watch-icon" viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
+              <span class="watch-btn-label">смотреть</span>
+            </a>
+          </article>
         </div>
-        <a class="project-image-link" href="https://www.behance.net/gallery/144711515/HKBAD-architecture-college-2022" target="_blank" rel="noopener noreferrer">
-          <img class="project-image" src="hkbad.jpg" alt="хкбад — колледж архитектуры в харькове" loading="lazy" />
-        </a>
-        <a class="preview-watch-btn" href="https://www.behance.net/gallery/144711515/HKBAD-architecture-college-2022" target="_blank" rel="noopener noreferrer">
-          <svg class="preview-watch-icon" viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
-          <span class="watch-btn-label">смотреть</span>
-        </a>
-      </article>
+      </div>
 
       <div class="section-divider scroll-reveal" aria-hidden="true"></div>
 
-      <h2 class="projects-heading section-subhead scroll-reveal" id="smm">smm design</h2>
+      <div class="section-group">
+        <h2 class="projects-heading section-subhead scroll-reveal" id="smm">smm design</h2>
 
-      <article class="project-card scroll-reveal">
-        <p class="project-desc" id="i18nSmmDesc">создал более <span class="num-underline">3000</span> креативов за 3 года для различных ниш</p>
-        <div class="smm-preview-frame" data-open-modal="smm" role="button" tabindex="0" aria-label="Открыть превью smm design в полный экран">
-          <img class="smm-preview-strip" src="smm.jpg?v=2" alt="smm design — 24 креатива" decoding="async" />
-        </div>
-        <button class="preview-watch-btn" type="button" data-open-modal="smm">
-          <svg class="preview-watch-icon" viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
-          <span class="watch-btn-label">смотреть</span>
-        </button>
-      </article>
+        <article class="project-card scroll-reveal">
+          <p class="project-desc" id="i18nSmmDesc">создал более <span class="num-underline">3000</span> креативов за 3 года для различных ниш</p>
+          <div class="smm-preview-frame" data-open-modal="smm" role="button" tabindex="0" aria-label="Открыть превью smm design в полный экран">
+            <img class="smm-preview-strip" src="smm.jpg?v=2" alt="smm design — 24 креатива" decoding="async" />
+          </div>
+          <button class="preview-watch-btn" type="button" data-open-modal="smm">
+            <svg class="preview-watch-icon" viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
+            <span class="watch-btn-label">смотреть</span>
+          </button>
+        </article>
+      </div>
 
       <div class="section-divider scroll-reveal" aria-hidden="true"></div>
 
-      <h2 class="projects-heading section-subhead scroll-reveal" id="motion">motion videos</h2>
+      <div class="section-group">
+        <h2 class="projects-heading section-subhead scroll-reveal" id="motion">motion videos</h2>
 
-      <article class="project-card scroll-reveal">
-        <p class="project-desc" id="i18nMotionDesc">создал примерно <span class="num-underline">300</span> моушн видео junior &amp; mid уровня сложности</p>
-        <div class="smm-preview-frame" data-open-modal="motion" role="button" tabindex="0" aria-label="Открыть превью motion videos в полный экран">
-          <img class="motion-preview-strip" src="motion.gif?v=1" alt="motion videos — 10 анимаций" decoding="async" />
-        </div>
-        <button class="preview-watch-btn" type="button" data-open-modal="motion">
-          <svg class="preview-watch-icon" viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
-          <span class="watch-btn-label">смотреть</span>
-        </button>
-      </article>
+        <article class="project-card scroll-reveal">
+          <p class="project-desc" id="i18nMotionDesc">создал примерно <span class="num-underline">300</span> моушн видео junior &amp; mid уровня сложности</p>
+          <div class="smm-preview-frame" data-open-modal="motion" role="button" tabindex="0" aria-label="Открыть превью motion videos в полный экран">
+            <img class="motion-preview-strip" src="motion.gif?v=1" alt="motion videos — 10 анимаций" decoding="async" />
+          </div>
+          <button class="preview-watch-btn" type="button" data-open-modal="motion">
+            <svg class="preview-watch-icon" viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
+            <span class="watch-btn-label">смотреть</span>
+          </button>
+        </article>
+      </div>
 
       <div class="section-divider scroll-reveal" aria-hidden="true"></div>
 
       <h2 class="projects-heading section-subhead waiting-heading scroll-reveal" id="waiting">комната ожидания</h2>
 
       <article class="project-card scroll-reveal">
-        <p class="project-desc" id="i18nWaitingDesc">пока дизайны готовятся, можете здесь порисовать на детском планшете</p>
+        <p class="project-desc" id="i18nWaitingDesc">пока дизайны готовятся можете здесь порисовать</p>
         <div class="tablet-frame" id="tabletFrame">
           <canvas class="tablet-canvas" id="drawCanvas" aria-hidden="true"></canvas>
           <canvas class="tablet-active-canvas" id="drawActiveCanvas" aria-label="Детский планшет для рисования"></canvas>
@@ -1820,7 +1853,6 @@
             </g>
           </svg>
           <div class="tablet-flash" id="tabletFlash" aria-hidden="true"></div>
-          <span class="tablet-logo" aria-hidden="true">J</span>
           <button class="tablet-clear-btn" id="tabletClearBtn" type="button" aria-label="Очистить планшет" title="Очистить">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <polyline points="3 6 5 6 21 6" />
@@ -1837,12 +1869,12 @@
     <div class="section-divider section-divider-bottom scroll-reveal" aria-hidden="true"></div>
   </section>
 
-  <!-- Bottom head sticker + vibecoding caption at the very bottom of the site -->
+  <!-- Bottom head sticker + caption at the very bottom of the site -->
   <section class="bottom-face-section" aria-label="Футер">
     <div class="bottom-face-reveal scroll-reveal">
       <div class="bottom-face-3d">
         <img class="bottom-face-img" src="face.png?v=3" alt="Егор" decoding="async" />
-        <p class="bottom-vibe-note" id="i18nVibeNote">сайт в разработке (точнее он вайбкодится лол)</p>
+        <p class="bottom-vibe-note" id="i18nVibeNote">портфолио в разработке и обновляется</p>
       </div>
     </div>
   </section>
@@ -1912,7 +1944,7 @@
       }
 
       // Release animation-fill-mode: forwards on parents once intro finishes so backdrop-filter: blur() works natively
-      ['.nav-switcher', '.apple-collage', '.projects-section', '.links'].forEach((sel) => {
+      ['.nav-switcher', '.apple-collage', '.projects-section', '.links', '.title-sub'].forEach((sel) => {
         const el = document.querySelector(sel);
         if (!el) return;
         el.addEventListener(
@@ -1921,6 +1953,8 @@
             if (e.target !== el) return;
             el.style.opacity = '1';
             el.style.transform = 'none';
+            el.style.filter = 'none';
+            el.style.webkitFilter = 'none';
             el.style.animation = 'none';
           },
           { once: true }
@@ -1928,7 +1962,7 @@
       });
     })();
 
-    // First-scroll subtle blur reveal for each block (runs once per block on first scroll)
+    // First-scroll blur reveal for each block (runs once per block on first scroll — 1.23s)
     (function initFirstScrollBlurReveal() {
       const blocks = document.querySelectorAll('.scroll-reveal');
       if (!('IntersectionObserver' in window)) {
@@ -1944,11 +1978,11 @@
               obs.unobserve(el);
               setTimeout(() => {
                 el.classList.remove('scroll-reveal', 'is-revealed');
-              }, 1050);
+              }, 1300);
             }
           });
         },
-        { threshold: 0.14, rootMargin: '0px 0px -24px 0px' }
+        { threshold: 0.05, rootMargin: '0px 0px -12px 0px' }
       );
       blocks.forEach((el) => revealObserver.observe(el));
     })();
@@ -2102,10 +2136,10 @@
           hkbadDesc: 'колледж архитектуры в харькове',
           smmDesc: 'создал более 3000 креативов за 3 года для различных ниш',
           motionDesc: 'создал примерно 300 моушн видео junior & mid уровня сложности',
-          vibeNote: 'сайт в разработке (точнее он вайбкодится лол)',
+          vibeNote: 'портфолио в разработке и обновляется',
           watchBtn: 'смотреть',
           waitingTitle: 'комната ожидания',
-          waitingDesc: 'пока дизайны готовятся, можете здесь порисовать на детском планшете',
+          waitingDesc: 'пока дизайны готовятся можете здесь порисовать',
           tabletClear: 'очистить'
         },
         ua: {
@@ -2117,10 +2151,10 @@
           hkbadDesc: 'коледж архітектури в харкові',
           smmDesc: 'створив понад 3000 креативів за 3 роки для різних ніш',
           motionDesc: 'створив приблизно 300 моушн відео junior & mid рівня складності',
-          vibeNote: 'сайт у розробці (точніше він вайбкодиться лол)',
+          vibeNote: 'портфоліо у розробці та оновлюється',
           watchBtn: 'дивитись',
           waitingTitle: 'кімната очікування',
-          waitingDesc: 'поки дизайни готуються, можете тут помалювати на дитячому планшеті',
+          waitingDesc: 'поки дизайни готуються можете тут помалювати',
           tabletClear: 'очистити'
         },
         eng: {
@@ -2132,10 +2166,10 @@
           hkbadDesc: 'college of architecture in kharkiv',
           smmDesc: 'created over 3000 creatives in 3 years for various niches',
           motionDesc: 'created around 300 motion videos of junior & mid complexity',
-          vibeNote: 'site in progress (more like being vibecoded lol)',
+          vibeNote: 'portfolio is in progress and being updated',
           watchBtn: 'watch',
           waitingTitle: 'waiting room',
-          waitingDesc: 'while the designs are cooking, feel free to doodle here on a kids drawing tablet',
+          waitingDesc: 'while the designs are cooking you can draw here',
           tabletClear: 'clear'
         },
         cz: {
@@ -2147,10 +2181,10 @@
           hkbadDesc: 'střední škola architektury v charkově',
           smmDesc: 'za 3 roky jsem vytvořil přes 3000 kreativ pro různé obory',
           motionDesc: 'vytvořil jsem přibližně 300 motion videí úrovně junior & mid',
-          vibeNote: 'web je ve vývoji (spíš se vibecodí lol)',
+          vibeNote: 'portfolio je ve vývoji a průběžně se aktualizuje',
           watchBtn: 'přehrát',
           waitingTitle: 'čekárna',
-          waitingDesc: 'než se designy připraví, můžete si tu kreslit na dětském tabletu',
+          waitingDesc: 'než se designy připraví můžete si tu kreslit',
           tabletClear: 'smazat'
         },
         '日本語': {
@@ -2162,10 +2196,10 @@
           hkbadDesc: 'ハルキウの建築カレッジ',
           smmDesc: '3年間で様々なニッチ向けに3000以上のクリエイティブを制作',
           motionDesc: 'junior & midレベルのモーション動画を約300本制作',
-          vibeNote: 'サイト開発中（というかバイブコーディング中笑）',
+          vibeNote: 'ポートフォリオは制作中で随時更新しています',
           watchBtn: '見る',
           waitingTitle: '待合室',
-          waitingDesc: 'デザインを準備している間、ここでお絵かきタブレットに落書きできます',
+          waitingDesc: 'デザインを準備している間ここで落書きできます',
           tabletClear: '消去'
         }
       };
@@ -2254,21 +2288,23 @@
         renderMenu();
       }
 
-      // Scroll observer to underline 3000 & 300 when their descriptions scroll into view
+      // Scroll observer to underline ONLY 3000 & 300 when their descriptions scroll into view
+      const numContainers = document.querySelectorAll('#i18nSmmDesc, #i18nMotionDesc');
       if ('IntersectionObserver' in window) {
         const numObserver = new IntersectionObserver(
-          (entries) => {
+          (entries, obs) => {
             entries.forEach((entry) => {
-              entry.target.classList.toggle('in-view', entry.isIntersecting);
+              if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                obs.unobserve(entry.target);
+              }
             });
           },
-          { threshold: 0.45 }
+          { threshold: 0.1 }
         );
-        if (smmDescEl) numObserver.observe(smmDescEl);
-        if (motionDescEl) numObserver.observe(motionDescEl);
+        numContainers.forEach((el) => numObserver.observe(el));
       } else {
-        if (smmDescEl) smmDescEl.classList.add('in-view');
-        if (motionDescEl) motionDescEl.classList.add('in-view');
+        numContainers.forEach((el) => el.classList.add('in-view'));
       }
 
       currentBtn.addEventListener('click', (e) => {
@@ -2285,7 +2321,7 @@
       renderMenu();
     })();
 
-    // Interactive kids LCD drawing tablet ("комната ожидания") — zero-lag O(1) incremental gray felt-tip marker
+    // Interactive kids LCD drawing tablet ("комната ожидания") — zero-lag O(1) translucent gray "J" letter brush
     (function initDrawingTablet() {
       const baseCanvas = document.getElementById('drawCanvas');
       const activeCanvas = document.getElementById('drawActiveCanvas');
@@ -2296,16 +2332,33 @@
       const bctx = baseCanvas.getContext('2d', { alpha: true });
       const actx = activeCanvas.getContext('2d', { alpha: true });
       const MARKER_COLOR = '#a3a8b4';
-      const MARKER_ALPHA = 0.42;
-      const MARKER_WIDTH = 10;
+      const MARKER_ALPHA = 0.46;
+      const STAMP_STEP = 11;
+      const FONT_SPEC = '800 13px Inter, -apple-system, sans-serif';
       let drawing = false;
       let lastX = 0;
       let lastY = 0;
-      let midX = 0;
-      let midY = 0;
+      let stepCount = 0;
       let canvasW = 0;
       let canvasH = 0;
       let cachedRect = null;
+
+      function setupBrushCtx() {
+        actx.fillStyle = MARKER_COLOR;
+        actx.font = FONT_SPEC;
+        actx.textAlign = 'center';
+        actx.textBaseline = 'middle';
+      }
+
+      function stampJ(x, y) {
+        const tilt = Math.sin(stepCount * 0.9) * 0.16;
+        stepCount++;
+        actx.save();
+        actx.translate(x, y);
+        actx.rotate(tilt);
+        actx.fillText('J', 0, 0);
+        actx.restore();
+      }
 
       function sizeTabletCanvas() {
         const rect = frame.getBoundingClientRect();
@@ -2331,11 +2384,7 @@
         canvasH = rect.height;
         bctx.setTransform(ratio, 0, 0, ratio, 0, 0);
         actx.setTransform(ratio, 0, 0, ratio, 0, 0);
-        actx.strokeStyle = MARKER_COLOR;
-        actx.fillStyle = MARKER_COLOR;
-        actx.lineWidth = MARKER_WIDTH;
-        actx.lineCap = 'round';
-        actx.lineJoin = 'round';
+        setupBrushCtx();
         if (snapshot) {
           bctx.drawImage(snapshot, 0, 0, rect.width, rect.height);
         }
@@ -2354,17 +2403,8 @@
         drawing = true;
         lastX = x;
         lastY = y;
-        midX = x;
-        midY = y;
-
-        actx.strokeStyle = MARKER_COLOR;
-        actx.fillStyle = MARKER_COLOR;
-        actx.lineWidth = MARKER_WIDTH;
-        actx.lineCap = 'round';
-        actx.lineJoin = 'round';
-        actx.beginPath();
-        actx.arc(x, y, MARKER_WIDTH * 0.5, 0, Math.PI * 2);
-        actx.fill();
+        setupBrushCtx();
+        stampJ(x, y);
       }
 
       function moveStroke(e) {
@@ -2374,21 +2414,17 @@
         const y = e.clientY - cachedRect.top;
         const dx = x - lastX;
         const dy = y - lastY;
-        if (dx * dx + dy * dy < 2.25) return;
+        const dist = Math.hypot(dx, dy);
+        if (dist < STAMP_STEP) return;
 
-        const newMidX = (lastX + x) * 0.5;
-        const newMidY = (lastY + y) * 0.5;
-
-        // O(1) incremental segment draw on active layer (no clearRect, no shadowBlur -> locked 60-120fps on mobile)
-        actx.beginPath();
-        actx.moveTo(midX, midY);
-        actx.quadraticCurveTo(lastX, lastY, newMidX, newMidY);
-        actx.stroke();
-
-        lastX = x;
-        lastY = y;
-        midX = newMidX;
-        midY = newMidY;
+        const steps = Math.floor(dist / STAMP_STEP);
+        const ux = (dx / dist) * STAMP_STEP;
+        const uy = (dy / dist) * STAMP_STEP;
+        for (let i = 1; i <= steps; i++) {
+          lastX += ux;
+          lastY += uy;
+          stampJ(lastX, lastY);
+        }
       }
 
       function endStroke(e) {
@@ -2398,7 +2434,7 @@
         if (activeCanvas.releasePointerCapture && e && e.pointerId !== undefined) {
           try { activeCanvas.releasePointerCapture(e.pointerId); } catch (_) {}
         }
-        // Stamp the uniform translucent marker stroke once onto permanent baseCanvas
+        // Bake translucent J-trail stroke once onto permanent baseCanvas
         bctx.save();
         bctx.globalAlpha = MARKER_ALPHA;
         bctx.drawImage(activeCanvas, 0, 0, canvasW, canvasH);
@@ -2764,10 +2800,10 @@
 
       ambient.style.background = `
         radial-gradient(
-          600px circle at ${currentX.toFixed(0)}px ${currentY.toFixed(0)}px,
-          rgba(255, 255, 255, 0.065),
-          rgba(255, 255, 255, 0.015) 35%,
-          transparent 70%
+          440px circle at ${currentX.toFixed(0)}px ${currentY.toFixed(0)}px,
+          rgba(255, 255, 255, 0.085),
+          rgba(255, 255, 255, 0.024) 32%,
+          transparent 64%
         )
       `;
 
