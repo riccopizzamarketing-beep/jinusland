@@ -124,26 +124,58 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* 2.6-second slightly slower funny transparent head intro */
+    /* Small intro face + 2-second 0% -> 100% loader text underneath */
     .face-intro {
       position: fixed;
       inset: 0;
       z-index: 9999;
       background: transparent;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+      gap: 0.95rem;
       pointer-events: none;
       overflow: hidden;
     }
 
     .face-intro-img {
-      width: min(74vw, 330px);
+      width: clamp(82px, 20vw, 110px);
       height: auto;
       display: block;
-      filter: drop-shadow(0 16px 36px rgba(0, 0, 0, 0.8));
+      filter: drop-shadow(0 12px 26px rgba(0, 0, 0, 0.8));
       transform-origin: center center;
       animation: faceIntroSlow 2.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .face-intro-loader {
+      font-size: clamp(0.76rem, 2.2vw, 0.88rem);
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      font-variant-numeric: tabular-nums;
+      color: rgba(255, 255, 255, 0.72);
+      text-shadow: 0 0 12px var(--accent-glow);
+      opacity: 0;
+      animation: faceLoaderFade 2.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    @keyframes faceLoaderFade {
+      0% {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      12% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      84% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(14px);
+      }
     }
 
     @keyframes faceIntroSlow {
@@ -472,7 +504,7 @@
       position: relative;
       z-index: 10;
       display: flex;
-      gap: 0.9rem;
+      gap: 0.72rem;
       align-items: center;
       justify-content: center;
       flex-wrap: wrap;
@@ -497,8 +529,8 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 0.82rem 2rem;
-      font-size: 0.96rem;
+      padding: 0.65rem 1.6rem;
+      font-size: 0.78rem;
       font-weight: 600;
       letter-spacing: -0.01em;
       color: #ffffff;
@@ -1394,6 +1426,7 @@
 
     /* Pause intro timeline until face.png is ready on mobile Safari */
     body.wait-face .face-intro-img,
+    body.wait-face .face-intro-loader,
     body.wait-face .pink-aura,
     body.wait-face .apple-collage,
     body.wait-face .title-char,
@@ -1408,16 +1441,16 @@
       animation-play-state: paused !important;
     }
 
-    /* First-scroll subtle blur reveal for each block (triggers once only) */
+    /* First-scroll subtle blur reveal for each block (triggers once only, 50% longer: 0.98s) */
     .scroll-reveal {
       opacity: 0;
       filter: blur(5px);
       -webkit-filter: blur(5px);
       transition:
-        opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
-        filter 0.65s cubic-bezier(0.22, 1, 0.36, 1),
-        -webkit-filter 0.65s cubic-bezier(0.22, 1, 0.36, 1),
-        transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+        opacity 0.98s cubic-bezier(0.22, 1, 0.36, 1),
+        filter 0.98s cubic-bezier(0.22, 1, 0.36, 1),
+        -webkit-filter 0.98s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.98s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .project-card.scroll-reveal,
@@ -1457,8 +1490,8 @@
         margin-bottom: 0.15rem;
       }
       .btn {
-        padding: 0.78rem 1.7rem;
-        font-size: 0.92rem;
+        padding: 0.62rem 1.36rem;
+        font-size: 0.74rem;
       }
       .projects-section {
         padding-bottom: 2rem;
@@ -1470,9 +1503,10 @@
   </style>
 </head>
 <body class="wait-face">
-  <!-- 2.6-second slightly slower funny transparent head intro -->
+  <!-- Small transparent head intro + 2-second 0% -> 100% loader -->
   <div class="face-intro" id="faceIntro" aria-hidden="true">
     <img class="face-intro-img" id="faceIntroImg" src="face.png?v=3" alt="" fetchpriority="high" decoding="sync" />
+    <div class="face-intro-loader" id="faceIntroLoader">0%</div>
   </div>
 
   <!-- Top-left accent color dot switcher -->
@@ -1633,6 +1667,27 @@
         if (started) return;
         started = true;
         document.body.classList.remove('wait-face');
+
+        // Smooth 2-second 0% -> 100% loading text counter under the small face
+        const loaderEl = document.getElementById('faceIntroLoader');
+        if (loaderEl) {
+          const loadDuration = 2000;
+          const loadStart = performance.now();
+          function tickLoader(now) {
+            const progress = Math.min(1, (now - loadStart) / loadDuration);
+            // Smooth ease-out curve for natural loading feel
+            const eased = 1 - Math.pow(1 - progress, 2.2);
+            const pct = Math.round(eased * 100);
+            loaderEl.textContent = pct + '%';
+            if (progress < 1) {
+              requestAnimationFrame(tickLoader);
+            } else {
+              loaderEl.textContent = '100%';
+            }
+          }
+          requestAnimationFrame(tickLoader);
+        }
+
         setTimeout(() => {
           const intro = document.getElementById('faceIntro');
           if (intro) intro.remove();
@@ -1687,7 +1742,7 @@
               obs.unobserve(el);
               setTimeout(() => {
                 el.classList.remove('scroll-reveal', 'is-revealed');
-              }, 700);
+              }, 1050);
             }
           });
         },
