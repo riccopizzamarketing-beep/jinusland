@@ -608,6 +608,117 @@
       margin-bottom: -0.8rem;
     }
 
+    /* Gray capsule heading for the "комната ожидания" section */
+    .projects-heading.waiting-heading {
+      color: #c2c6ce;
+      background: var(--glass-sheen), rgba(30, 32, 37, 0.9);
+      border-color: rgba(196, 200, 210, 0.28);
+      text-shadow: 0 0 12px rgba(255, 255, 255, 0.12);
+      box-shadow:
+        0 10px 26px rgba(0, 0, 0, 0.58),
+        inset 0 0.5px 0 rgba(255, 255, 255, 0.12);
+    }
+
+    /* Very dark near-black kids LCD drawing board — borderless with subtle worn scuff texture */
+    .tablet-frame {
+      position: relative;
+      width: 100%;
+      max-width: 520px;
+      aspect-ratio: 1.3 / 1;
+      border-radius: 22px;
+      overflow: hidden;
+      background: radial-gradient(circle at 30% 24%, #101114 0%, #0a0b0d 55%, #070809 100%);
+      border: none;
+      box-shadow: inset 0 0 32px rgba(0, 0, 0, 0.75);
+    }
+
+    .tablet-canvas,
+    .tablet-active-canvas {
+      position: absolute;
+      inset: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .tablet-canvas {
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .tablet-active-canvas {
+      z-index: 2;
+      opacity: 0.46;
+      cursor: crosshair;
+      touch-action: none;
+    }
+
+    .tablet-scratches {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 3;
+      pointer-events: none;
+      opacity: 0.65;
+    }
+
+    .tablet-flash {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      pointer-events: none;
+      background: rgba(255, 255, 255, 0.12);
+      opacity: 0;
+      transition: opacity 0.22s ease;
+    }
+
+    .tablet-flash.active {
+      opacity: 1;
+      transition: opacity 0.05s ease;
+    }
+
+    .tablet-clear-btn {
+      position: absolute;
+      right: 0.8rem;
+      bottom: 0.8rem;
+      z-index: 5;
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.05);
+      border: 0.5px solid rgba(255, 255, 255, 0.14);
+      color: rgba(255, 255, 255, 0.56);
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .tablet-clear-btn svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.75;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .tablet-clear-btn:hover,
+    .tablet-clear-btn:active {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.12);
+      border-color: var(--badge-border);
+      transform: scale(1.06);
+    }
+
     /* Delicate ultra-thin solid edge-to-edge section dividers matching the accent color of top badges */
     .section-divider {
       width: 100vw;
@@ -1630,6 +1741,82 @@
           <span class="watch-btn-label">смотреть</span>
         </button>
       </article>
+
+      <div class="section-divider scroll-reveal" aria-hidden="true"></div>
+
+      <h2 class="projects-heading section-subhead waiting-heading scroll-reveal" id="waiting">комната ожидания</h2>
+
+      <article class="project-card scroll-reveal">
+        <p class="project-desc" id="i18nWaitingDesc">пока дизайны готовятся, можете здесь порисовать на детском планшете</p>
+        <div class="tablet-frame" id="tabletFrame">
+          <canvas class="tablet-canvas" id="drawCanvas" aria-hidden="true"></canvas>
+          <canvas class="tablet-active-canvas" id="drawActiveCanvas" aria-label="Детский планшет для рисования"></canvas>
+          <svg class="tablet-scratches" viewBox="0 0 520 400" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="wornGrain" x="0%" y="0%" width="100%" height="100%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch" />
+                <feColorMatrix type="saturate" values="0" />
+              </filter>
+            </defs>
+            <rect width="520" height="400" filter="url(#wornGrain)" opacity="0.032" />
+            <g fill="none" stroke="#ffffff" stroke-linecap="round">
+              <!-- Short, subtle micro-scuffs and aged surface ticks -->
+              <path d="M44 62 l11 -3" stroke-width="0.45" stroke-opacity="0.055" />
+              <path d="M51 67 l7 -1" stroke-width="0.35" stroke-opacity="0.045" />
+              <path d="M128 38 q6 -3 13 1" stroke-width="0.4" stroke-opacity="0.05" />
+              <path d="M142 94 l8 4" stroke-width="0.35" stroke-opacity="0.04" />
+              <path d="M214 52 l9 -4" stroke-width="0.4" stroke-opacity="0.05" />
+              <path d="M222 57 l5 -2" stroke-width="0.35" stroke-opacity="0.04" />
+              <path d="M318 44 q7 3 12 0" stroke-width="0.4" stroke-opacity="0.045" />
+              <path d="M396 68 l10 -3" stroke-width="0.4" stroke-opacity="0.05" />
+              <path d="M452 54 l7 5" stroke-width="0.35" stroke-opacity="0.045" />
+              <path d="M72 138 l12 -2" stroke-width="0.4" stroke-opacity="0.05" />
+              <path d="M78 144 l6 1" stroke-width="0.35" stroke-opacity="0.04" />
+              <path d="M186 128 q5 -3 11 2" stroke-width="0.4" stroke-opacity="0.045" />
+              <path d="M262 118 l9 3" stroke-width="0.35" stroke-opacity="0.05" />
+              <path d="M268 124 l6 2" stroke-width="0.35" stroke-opacity="0.04" />
+              <path d="M348 134 l11 -4" stroke-width="0.4" stroke-opacity="0.05" />
+              <path d="M438 122 q6 2 10 -2" stroke-width="0.35" stroke-opacity="0.045" />
+              <path d="M34 218 l9 3" stroke-width="0.4" stroke-opacity="0.045" />
+              <path d="M116 202 q7 -2 13 2" stroke-width="0.45" stroke-opacity="0.055" />
+              <path d="M124 208 l7 -1" stroke-width="0.35" stroke-opacity="0.04" />
+              <path d="M218 194 l10 -3" stroke-width="0.4" stroke-opacity="0.05" />
+              <path d="M294 214 l8 4" stroke-width="0.35" stroke-opacity="0.045" />
+              <path d="M302 221 l6 2" stroke-width="0.35" stroke-opacity="0.04" />
+              <path d="M384 198 l12 -2" stroke-width="0.4" stroke-opacity="0.05" />
+              <path d="M466 212 l8 -5" stroke-width="0.4" stroke-opacity="0.045" />
+              <path d="M64 286 q6 -2 12 2" stroke-width="0.4" stroke-opacity="0.05" />
+              <path d="M158 274 l11 -4" stroke-width="0.45" stroke-opacity="0.05" />
+              <path d="M166 280 l6 -2" stroke-width="0.35" stroke-opacity="0.04" />
+              <path d="M248 266 l9 2" stroke-width="0.35" stroke-opacity="0.045" />
+              <path d="M336 284 q6 3 13 -1" stroke-width="0.4" stroke-opacity="0.05" />
+              <path d="M418 272 l10 -3" stroke-width="0.4" stroke-opacity="0.045" />
+              <path d="M96 346 l10 -2" stroke-width="0.4" stroke-opacity="0.05" />
+              <path d="M198 338 l8 3" stroke-width="0.35" stroke-opacity="0.045" />
+              <path d="M286 352 q7 -3 12 1" stroke-width="0.4" stroke-opacity="0.045" />
+              <path d="M376 342 l9 -4" stroke-width="0.4" stroke-opacity="0.05" />
+              <path d="M454 328 l7 3" stroke-width="0.35" stroke-opacity="0.04" />
+              <!-- Subtle aged smudge/wear specks -->
+              <circle cx="134" cy="154" r="0.7" fill="#ffffff" fill-opacity="0.05" stroke="none" />
+              <circle cx="282" cy="176" r="0.6" fill="#ffffff" fill-opacity="0.045" stroke="none" />
+              <circle cx="364" cy="238" r="0.8" fill="#ffffff" fill-opacity="0.04" stroke="none" />
+              <circle cx="192" cy="248" r="0.6" fill="#ffffff" fill-opacity="0.05" stroke="none" />
+              <circle cx="412" cy="148" r="0.7" fill="#ffffff" fill-opacity="0.04" stroke="none" />
+              <circle cx="88" cy="244" r="0.6" fill="#ffffff" fill-opacity="0.045" stroke="none" />
+            </g>
+          </svg>
+          <div class="tablet-flash" id="tabletFlash" aria-hidden="true"></div>
+          <button class="tablet-clear-btn" id="tabletClearBtn" type="button" aria-label="Очистить планшет" title="Очистить">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <polyline points="3 6 5 6 21 6" />
+              <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+              <path d="M10 11v6" />
+              <path d="M14 11v6" />
+              <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+            </svg>
+          </button>
+        </div>
+      </article>
     </div>
 
     <div class="section-divider section-divider-bottom scroll-reveal" aria-hidden="true"></div>
@@ -1901,7 +2088,10 @@
           smmDesc: 'создал более 3000 креативов за 3 года для различных ниш',
           motionDesc: 'создал примерно 300 моушн видео junior & mid уровня сложности',
           vibeNote: 'сайт в разработке (точнее он вайбкодится лол)',
-          watchBtn: 'смотреть'
+          watchBtn: 'смотреть',
+          waitingTitle: 'комната ожидания',
+          waitingDesc: 'пока дизайны готовятся, можете здесь порисовать на детском планшете',
+          tabletClear: 'очистить'
         },
         ua: {
           badge1: 'я єгор',
@@ -1913,7 +2103,10 @@
           smmDesc: 'створив понад 3000 креативів за 3 роки для різних ніш',
           motionDesc: 'створив приблизно 300 моушн відео junior & mid рівня складності',
           vibeNote: 'сайт у розробці (точніше він вайбкодиться лол)',
-          watchBtn: 'дивитись'
+          watchBtn: 'дивитись',
+          waitingTitle: 'кімната очікування',
+          waitingDesc: 'поки дизайни готуються, можете тут помалювати на дитячому планшеті',
+          tabletClear: 'очистити'
         },
         eng: {
           badge1: "i'm egor",
@@ -1925,7 +2118,10 @@
           smmDesc: 'created over 3000 creatives in 3 years for various niches',
           motionDesc: 'created around 300 motion videos of junior & mid complexity',
           vibeNote: 'site in progress (more like being vibecoded lol)',
-          watchBtn: 'watch'
+          watchBtn: 'watch',
+          waitingTitle: 'waiting room',
+          waitingDesc: 'while the designs are cooking, feel free to doodle here on a kids drawing tablet',
+          tabletClear: 'clear'
         },
         cz: {
           badge1: 'jsem egor',
@@ -1937,7 +2133,10 @@
           smmDesc: 'za 3 roky jsem vytvořil přes 3000 kreativ pro různé obory',
           motionDesc: 'vytvořil jsem přibližně 300 motion videí úrovně junior & mid',
           vibeNote: 'web je ve vývoji (spíš se vibecodí lol)',
-          watchBtn: 'přehrát'
+          watchBtn: 'přehrát',
+          waitingTitle: 'čekárna',
+          waitingDesc: 'než se designy připraví, můžete si tu kreslit na dětském tabletu',
+          tabletClear: 'smazat'
         },
         '日本語': {
           badge1: '私はエゴルです',
@@ -1949,7 +2148,10 @@
           smmDesc: '3年間で様々なニッチ向けに3000以上のクリエイティブを制作',
           motionDesc: 'junior & midレベルのモーション動画を約300本制作',
           vibeNote: 'サイト開発中（というかバイブコーディング中笑）',
-          watchBtn: '見る'
+          watchBtn: '見る',
+          waitingTitle: '待合室',
+          waitingDesc: 'デザインを準備している間、ここでお絵かきタブレットに落書きできます',
+          tabletClear: '消去'
         }
       };
 
@@ -1968,6 +2170,9 @@
       const hkbadDescEl = document.getElementById('i18nHkbadDesc');
       const smmDescEl = document.getElementById('i18nSmmDesc');
       const motionDescEl = document.getElementById('i18nMotionDesc');
+      const waitingTitleEl = document.getElementById('waiting');
+      const waitingDescEl = document.getElementById('i18nWaitingDesc');
+      const tabletClearEl = document.getElementById('tabletClearBtn');
       const vibeNoteEl = document.getElementById('i18nVibeNote');
 
       function renderMenu() {
@@ -2019,6 +2224,12 @@
         hkbadDescEl.textContent = t.hkbadDesc;
         setDescWithUnderlinedNum(smmDescEl, t.smmDesc, '3000');
         setDescWithUnderlinedNum(motionDescEl, t.motionDesc, '300');
+        if (waitingTitleEl) waitingTitleEl.textContent = t.waitingTitle;
+        if (waitingDescEl) waitingDescEl.textContent = t.waitingDesc;
+        if (tabletClearEl) {
+          tabletClearEl.setAttribute('aria-label', t.tabletClear);
+          tabletClearEl.setAttribute('title', t.tabletClear);
+        }
         if (vibeNoteEl) vibeNoteEl.textContent = t.vibeNote;
         document.querySelectorAll('.watch-btn-label').forEach((el) => {
           el.textContent = t.watchBtn;
@@ -2057,6 +2268,168 @@
       });
 
       renderMenu();
+    })();
+
+    // Interactive kids LCD drawing tablet ("комната ожидания") — translucent felt-tip marker with dynamic theme color
+    (function initDrawingTablet() {
+      const baseCanvas = document.getElementById('drawCanvas');
+      const activeCanvas = document.getElementById('drawActiveCanvas');
+      const frame = document.getElementById('tabletFrame');
+      const clearBtn = document.getElementById('tabletClearBtn');
+      const flashEl = document.getElementById('tabletFlash');
+      if (!baseCanvas || !activeCanvas || !frame) return;
+      const bctx = baseCanvas.getContext('2d');
+      const actx = activeCanvas.getContext('2d');
+      const MARKER_ALPHA = 0.46;
+      const MARKER_WIDTH = 11;
+      let drawing = false;
+      let points = [];
+      let currentBrush = null;
+      let canvasW = 0;
+      let canvasH = 0;
+
+      function getBrushStyle() {
+        const theme = document.documentElement.getAttribute('data-theme');
+        if (theme === 'bw') {
+          return { color: '#e5e7eb', glow: 'rgba(255, 255, 255, 0.25)' };
+        }
+        const style = getComputedStyle(document.documentElement);
+        return {
+          color: style.getPropertyValue('--dot-color').trim() || '#ffb3d9',
+          glow: style.getPropertyValue('--accent-glow').trim() || 'rgba(255, 166, 210, 0.35)'
+        };
+      }
+
+      function sizeTabletCanvas() {
+        const rect = frame.getBoundingClientRect();
+        if (!rect.width || !rect.height) return;
+        const ratio = Math.min(window.devicePixelRatio || 1, 2);
+        const newW = Math.round(rect.width * ratio);
+        const newH = Math.round(rect.height * ratio);
+        if (baseCanvas.width === newW && baseCanvas.height === newH) return;
+
+        let snapshot = null;
+        if (baseCanvas.width > 0 && baseCanvas.height > 0) {
+          snapshot = document.createElement('canvas');
+          snapshot.width = baseCanvas.width;
+          snapshot.height = baseCanvas.height;
+          snapshot.getContext('2d').drawImage(baseCanvas, 0, 0);
+        }
+
+        baseCanvas.width = newW;
+        baseCanvas.height = newH;
+        activeCanvas.width = newW;
+        activeCanvas.height = newH;
+        canvasW = rect.width;
+        canvasH = rect.height;
+        bctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+        actx.setTransform(ratio, 0, 0, ratio, 0, 0);
+        if (snapshot) {
+          bctx.drawImage(snapshot, 0, 0, rect.width, rect.height);
+        }
+      }
+
+      function getCoords(e) {
+        const rect = activeCanvas.getBoundingClientRect();
+        return {
+          x: e.clientX - rect.left,
+          y: e.clientY - rect.top
+        };
+      }
+
+      function renderActiveStroke() {
+        actx.clearRect(0, 0, canvasW || activeCanvas.width, canvasH || activeCanvas.height);
+        if (!points.length || !currentBrush) return;
+
+        actx.save();
+        actx.strokeStyle = currentBrush.color;
+        actx.fillStyle = currentBrush.color;
+        actx.shadowColor = currentBrush.glow;
+        actx.shadowBlur = 3;
+        actx.lineWidth = MARKER_WIDTH;
+        actx.lineCap = 'round';
+        actx.lineJoin = 'round';
+
+        if (points.length === 1) {
+          actx.beginPath();
+          actx.arc(points[0].x, points[0].y, MARKER_WIDTH * 0.5, 0, Math.PI * 2);
+          actx.fill();
+        } else {
+          actx.beginPath();
+          actx.moveTo(points[0].x, points[0].y);
+          for (let i = 1; i < points.length - 1; i++) {
+            const xc = (points[i].x + points[i + 1].x) * 0.5;
+            const yc = (points[i].y + points[i + 1].y) * 0.5;
+            actx.quadraticCurveTo(points[i].x, points[i].y, xc, yc);
+          }
+          const last = points[points.length - 1];
+          actx.lineTo(last.x, last.y);
+          actx.stroke();
+        }
+        actx.restore();
+      }
+
+      function beginStroke(e) {
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        e.preventDefault();
+        sizeTabletCanvas();
+        if (activeCanvas.setPointerCapture && e.pointerId !== undefined) {
+          try { activeCanvas.setPointerCapture(e.pointerId); } catch (_) {}
+        }
+        drawing = true;
+        currentBrush = getBrushStyle();
+        points = [getCoords(e)];
+        renderActiveStroke();
+      }
+
+      function moveStroke(e) {
+        if (!drawing) return;
+        e.preventDefault();
+        const pt = getCoords(e);
+        const prev = points[points.length - 1];
+        if (prev && Math.hypot(pt.x - prev.x, pt.y - prev.y) < 1.5) return;
+        points.push(pt);
+        renderActiveStroke();
+      }
+
+      function endStroke(e) {
+        if (!drawing) return;
+        drawing = false;
+        if (activeCanvas.releasePointerCapture && e && e.pointerId !== undefined) {
+          try { activeCanvas.releasePointerCapture(e.pointerId); } catch (_) {}
+        }
+        // Bake translucent marker stroke permanently onto baseCanvas so overlaps layer naturally
+        bctx.save();
+        bctx.globalAlpha = MARKER_ALPHA;
+        bctx.drawImage(activeCanvas, 0, 0, canvasW, canvasH);
+        bctx.restore();
+        actx.clearRect(0, 0, canvasW || activeCanvas.width, canvasH || activeCanvas.height);
+        points = [];
+      }
+
+      activeCanvas.addEventListener('pointerdown', beginStroke, { passive: false });
+      activeCanvas.addEventListener('pointermove', moveStroke, { passive: false });
+      activeCanvas.addEventListener('pointerup', endStroke);
+      activeCanvas.addEventListener('pointercancel', endStroke);
+      activeCanvas.addEventListener('pointerleave', endStroke);
+      activeCanvas.addEventListener('touchstart', (e) => e.preventDefault(), { passive: false });
+      activeCanvas.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+
+      if (clearBtn) {
+        clearBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (flashEl) {
+            flashEl.classList.add('active');
+            setTimeout(() => flashEl.classList.remove('active'), 110);
+          }
+          bctx.clearRect(0, 0, canvasW || baseCanvas.width, canvasH || baseCanvas.height);
+          actx.clearRect(0, 0, canvasW || activeCanvas.width, canvasH || activeCanvas.height);
+          points = [];
+        });
+      }
+
+      window.addEventListener('resize', sizeTabletCanvas, { passive: true });
+      sizeTabletCanvas();
     })();
 
     // Accent color theme switcher (pink / blue / green)
