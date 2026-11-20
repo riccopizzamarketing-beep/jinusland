@@ -606,22 +606,14 @@
       margin-bottom: -0.8rem;
     }
 
-    /* Delicate thin section dividers matching the accent color of top badges */
+    /* Delicate ultra-thin solid section dividers matching the accent color of top badges (no gradient) */
     .section-divider {
       width: 100%;
       max-width: 520px;
       height: 1px;
-      border-radius: 999px;
-      background: linear-gradient(
-        90deg,
-        transparent 0%,
-        var(--badge-border) 16%,
-        var(--badge-border-2) 50%,
-        var(--badge-border) 84%,
-        transparent 100%
-      );
-      box-shadow: 0 0 12px var(--accent-box-glow);
-      transition: background 0.35s ease, box-shadow 0.35s ease;
+      background: var(--badge-border);
+      transform: scaleY(0.5);
+      transition: background 0.35s ease;
     }
 
     .projects-list > .section-divider {
