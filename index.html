@@ -835,13 +835,14 @@
       transition: filter 0.35s ease;
     }
 
-    /* In B&W mode ("bw"), all site images/creatives/GIFs except the UI become black-and-white */
+    /* In B&W mode ("bw"), all site images/creatives/videos except the UI become black-and-white */
     :root[data-theme="bw"] .face-intro-img,
     :root[data-theme="bw"] .bottom-face-img,
     :root[data-theme="bw"] .project-image,
     :root[data-theme="bw"] .smm-preview-strip,
-    :root[data-theme="bw"] .motion-preview-strip,
-    :root[data-theme="bw"] .modal-preview-strip {
+    :root[data-theme="bw"] .motion-preview-video,
+    :root[data-theme="bw"] .modal-preview-strip,
+    :root[data-theme="bw"] .modal-preview-video {
       filter: grayscale(100%);
       -webkit-filter: grayscale(100%);
     }
@@ -923,24 +924,27 @@
       }
     }
 
-    /* Single stitched 5x2 Motion GIF infinite pan preview card (25% faster: 21s) */
-    .motion-preview-strip {
-      display: block;
-      height: 100%;
-      width: auto;
-      max-width: none;
-      will-change: transform;
-      transition: filter 0.35s ease;
-      animation: motionPanSlow 21s ease-in-out infinite alternate;
+    .smm-preview-frame.is-video-frame::before,
+    .smm-preview-frame.is-video-frame::after,
+    .modal-preview-frame.is-video-frame::before,
+    .modal-preview-frame.is-video-frame::after {
+      display: none;
     }
 
-    @keyframes motionPanSlow {
-      0% {
-        transform: translate3d(0%, 0, 0);
-      }
-      100% {
-        transform: translate3d(-45.95%, 0, 0);
-      }
+    /* Motion Videos looping MP4 preview (no pan animation) */
+    .motion-preview-video,
+    .modal-preview-video {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transition: filter 0.35s ease;
+    }
+
+    .modal-preview-strip.hidden,
+    .modal-preview-video.hidden {
+      display: none;
     }
 
     /* White "смотреть" button with play icon on the left under every preview */
@@ -1092,16 +1096,12 @@
       will-change: transform;
     }
 
-    /* 30% faster pan speed ONLY for opened fullscreen previews */
+    /* 30% faster pan speed ONLY for opened SMM fullscreen preview */
     .modal-preview-strip.is-smm {
       animation: smmPanSlow 16.8s ease-in-out infinite alternate;
     }
 
-    .modal-preview-strip.is-motion {
-      animation: motionPanSlow 14.7s ease-in-out infinite alternate;
-    }
-
-    /* Timeline progress bar under the fullscreen preview (50% shorter visually, synced with 30% faster pan) */
+    /* Timeline progress bar under the fullscreen preview (50% shorter visually) */
     .modal-timeline-track {
       width: 50%;
       max-width: 220px;
@@ -1125,10 +1125,6 @@
 
     .modal-timeline-fill.is-smm {
       animation: timelineLoadUnload 16.8s ease-in-out infinite alternate;
-    }
-
-    .modal-timeline-fill.is-motion {
-      animation: timelineLoadUnload 14.7s ease-in-out infinite alternate;
     }
 
     @keyframes timelineLoadUnload {
@@ -1786,8 +1782,8 @@
 
         <article class="project-card scroll-reveal">
           <p class="project-desc" id="i18nMotionDesc">создал примерно <span class="num-underline">300</span> моушн видео junior &amp; mid уровня сложности</p>
-          <div class="smm-preview-frame" data-open-modal="motion" role="button" tabindex="0" aria-label="Открыть превью motion videos в полный экран">
-            <img class="motion-preview-strip" src="motion.gif?v=1" alt="motion videos — 10 анимаций" decoding="async" />
+          <div class="smm-preview-frame is-video-frame" data-open-modal="motion" role="button" tabindex="0" aria-label="Открыть превью motion videos в полный экран">
+            <video class="motion-preview-video" id="motionPreviewVideo" src="motion.mp4?v=1" autoplay loop muted playsinline preload="metadata"></video>
           </div>
           <button class="preview-watch-btn" type="button" data-open-modal="motion">
             <svg class="preview-watch-icon" viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
@@ -1879,12 +1875,13 @@
     </div>
   </section>
 
-  <!-- Fullscreen preview modal for SMM & Motion with synced forward/reverse timeline progress bar -->
+  <!-- Fullscreen preview modal for SMM & Motion with synced timeline progress bar -->
   <div class="preview-modal" id="previewModal" aria-hidden="true" role="dialog" aria-modal="true">
     <div class="preview-modal-inner">
       <button class="preview-modal-close" id="previewModalClose" type="button" aria-label="Закрыть">&times;</button>
-      <div class="modal-preview-frame">
-        <img class="modal-preview-strip" id="modalPreviewStrip" src="" alt="" decoding="async" />
+      <div class="modal-preview-frame" id="modalPreviewFrame">
+        <img class="modal-preview-strip hidden" id="modalPreviewStrip" src="" alt="" decoding="async" />
+        <video class="modal-preview-video hidden" id="modalPreviewVideo" src="motion.mp4?v=1" autoplay loop muted playsinline preload="metadata"></video>
       </div>
       <div class="modal-timeline-track" aria-hidden="true">
         <div class="modal-timeline-fill" id="modalTimelineFill"></div>
@@ -1926,12 +1923,18 @@
           const intro = document.getElementById('faceIntro');
           if (intro) intro.remove();
         }, 2650);
-        const bgAssets = ['smm.jpg?v=2', 'motion.gif?v=1'];
+        const bgAssets = ['smm.jpg?v=2'];
         bgAssets.forEach((href) => {
           const img = new Image();
           img.decoding = 'async';
           img.src = href;
         });
+        const motionVid = document.getElementById('motionPreviewVideo');
+        if (motionVid) {
+          motionVid.preload = 'auto';
+          motionVid.muted = true;
+          motionVid.play().catch(() => {});
+        }
       }
       if (faceImg && faceImg.complete && faceImg.naturalWidth > 0) {
         startIntro();
@@ -2065,37 +2068,86 @@
       });
     })();
 
-    // Fullscreen modal controller for SMM & Motion previews + synced timeline bar
+    // Fullscreen modal controller for SMM (panning strip) & Motion (looping MP4 synced timeline bar)
     (function initPreviewModal() {
       const modal = document.getElementById('previewModal');
       const closeBtn = document.getElementById('previewModalClose');
+      const modalFrame = document.getElementById('modalPreviewFrame');
       const stripEl = document.getElementById('modalPreviewStrip');
+      const videoEl = document.getElementById('modalPreviewVideo');
+      const pageMotionVid = document.getElementById('motionPreviewVideo');
       const fillEl = document.getElementById('modalTimelineFill');
       const triggers = document.querySelectorAll('[data-open-modal]');
-      if (!modal || !stripEl || !fillEl) return;
+      if (!modal || !stripEl || !videoEl || !fillEl) return;
 
-      const config = {
-        smm: { src: 'smm.jpg?v=2', alt: 'smm design — 24 креатива', cls: 'is-smm' },
-        motion: { src: 'motion.gif?v=1', alt: 'motion videos — 10 анимаций', cls: 'is-motion' }
+      let videoRafId = null;
+
+      // Ensure inline motion video keeps playing on mobile Safari after first gesture
+      const ensureInlinePlay = () => {
+        if (pageMotionVid && pageMotionVid.paused) {
+          pageMotionVid.muted = true;
+          pageMotionVid.play().catch(() => {});
+        }
       };
+      window.addEventListener('pointerdown', ensureInlinePlay, { passive: true, once: true });
+      window.addEventListener('touchstart', ensureInlinePlay, { passive: true, once: true });
+
+      function stopVideoProgress() {
+        if (videoRafId !== null) {
+          cancelAnimationFrame(videoRafId);
+          videoRafId = null;
+        }
+      }
+
+      function tickVideoProgress() {
+        if (!modal.classList.contains('open')) {
+          videoRafId = null;
+          return;
+        }
+        const dur = videoEl.duration;
+        if (dur && isFinite(dur) && dur > 0) {
+          const ratio = Math.min(1, Math.max(0, videoEl.currentTime / dur));
+          fillEl.style.transform = `scaleX(${ratio.toFixed(4)})`;
+        }
+        videoRafId = requestAnimationFrame(tickVideoProgress);
+      }
 
       function openModal(type) {
-        const cfg = config[type];
-        if (!cfg) return;
-        stripEl.className = 'modal-preview-strip';
+        stopVideoProgress();
+        stripEl.className = 'modal-preview-strip hidden';
+        videoEl.className = 'modal-preview-video hidden';
         fillEl.className = 'modal-timeline-fill';
-        stripEl.src = cfg.src;
-        stripEl.alt = cfg.alt;
-        // Force reflow so pan and timeline start in perfect 0% lockstep
-        void stripEl.offsetWidth;
-        stripEl.classList.add(cfg.cls);
-        fillEl.classList.add(cfg.cls);
+        fillEl.style.transform = '';
+        if (modalFrame) modalFrame.classList.remove('is-video-frame');
+
+        if (type === 'smm') {
+          stripEl.src = 'smm.jpg?v=2';
+          stripEl.alt = 'smm design — 24 креатива';
+          stripEl.classList.remove('hidden');
+          void stripEl.offsetWidth;
+          stripEl.classList.add('is-smm');
+          fillEl.classList.add('is-smm');
+        } else if (type === 'motion') {
+          if (modalFrame) modalFrame.classList.add('is-video-frame');
+          videoEl.classList.remove('hidden');
+          videoEl.muted = true;
+          videoEl.loop = true;
+          try { videoEl.currentTime = 0; } catch (_) {}
+          fillEl.style.transform = 'scaleX(0)';
+          videoEl.play().catch(() => {});
+          videoRafId = requestAnimationFrame(tickVideoProgress);
+        } else {
+          return;
+        }
+
         modal.classList.add('open');
         modal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
       }
 
       function closeModal() {
+        stopVideoProgress();
+        videoEl.pause();
         modal.classList.remove('open');
         modal.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
