@@ -124,70 +124,56 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Head sticker: rasterized at full intro resolution (no GPU upscale blur), then shrinks to 0.22x under the top badges */
-    .hero-face-wrap {
-      position: relative;
-      z-index: 8;
-      width: clamp(58px, 13vw, 76px);
-      height: clamp(68px, 15.2vw, 90px);
+    /* 2.6-second slightly slower funny transparent head intro */
+    .face-intro {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: transparent;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 0.35rem;
-      transform-style: preserve-3d;
-      transform: translateZ(22px);
       pointer-events: none;
-      animation: floatHeroFace 3.8s ease-in-out 2s infinite;
+      overflow: hidden;
     }
 
-    .hero-face {
-      position: absolute;
+    .face-intro-img {
       width: min(74vw, 330px);
       height: auto;
       display: block;
-      filter: drop-shadow(0 14px 32px rgba(0, 0, 0, 0.78));
+      filter: drop-shadow(0 16px 36px rgba(0, 0, 0, 0.8));
       transform-origin: center center;
-      transition: filter 0.35s ease;
-      animation: facePopAndShrink 2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      animation: faceIntroSlow 2.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
 
-    @keyframes facePopAndShrink {
+    @keyframes faceIntroSlow {
       0% {
-        transform: translateY(42vh) scale(0.05) rotate(-28deg);
+        transform: scale(0.05) rotate(-28deg) translateY(48vh);
         opacity: 0;
       }
-      16% {
-        transform: translateY(6vh) scale(1.08) rotate(10deg);
+      18% {
+        transform: scale(1.12) rotate(10deg) translateY(-1vh);
         opacity: 1;
       }
-      28% {
-        transform: translateY(7vh) scale(0.92) rotate(-7deg);
+      32% {
+        transform: scale(0.93) rotate(-7deg) translateY(0);
       }
-      40% {
-        transform: translateY(7vh) scale(1.03) rotate(4deg);
+      46% {
+        transform: scale(1.05) rotate(4deg);
       }
-      54% {
-        transform: translateY(7vh) scale(0.97) rotate(-2.5deg);
+      60% {
+        transform: scale(0.98) rotate(-2.5deg);
       }
-      68% {
-        transform: translateY(7vh) scale(1.01) rotate(1.5deg);
+      74% {
+        transform: scale(1.02) rotate(1.5deg);
       }
-      78% {
-        transform: translateY(7vh) scale(1.05) rotate(-4deg);
+      84% {
+        transform: scale(1.08) rotate(-5deg);
         opacity: 1;
       }
       100% {
-        transform: translateY(0) scale(0.225) rotate(0deg);
-        opacity: 1;
-      }
-    }
-
-    @keyframes floatHeroFace {
-      0%, 100% {
-        transform: translateZ(22px) translateY(0px) rotate(-1.5deg);
-      }
-      50% {
-        transform: translateZ(22px) translateY(-5px) rotate(2deg);
+        transform: scale(0) rotate(28deg) translateY(32vh);
+        opacity: 0;
       }
     }
 
@@ -261,8 +247,8 @@
       opacity: 0;
       transition: background 0.35s ease;
       animation:
-        pinkSpread 1.5s cubic-bezier(0.22, 1, 0.36, 1) 2s forwards,
-        pinkPulse 5s ease-in-out 3.5s infinite alternate;
+        pinkSpread 1.5s cubic-bezier(0.22, 1, 0.36, 1) 2.6s forwards,
+        pinkPulse 5s ease-in-out 4.1s infinite alternate;
     }
 
     @keyframes pinkSpread {
@@ -302,20 +288,20 @@
       cursor: pointer;
     }
 
-    /* Step 3 (3.5s -> 3.76s): Top badges pop in neatly right after jinushi finishes */
+    /* Step 3 (4.1s -> 4.36s): Top badges positioned lower (closer to jinushi) with Liquid Glass effect */
     .apple-collage {
       position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      margin-bottom: 0.65rem;
+      margin-bottom: 0.18rem;
       transform-style: preserve-3d;
       transform: translateZ(18px) translateY(10px) scale(0.92);
       opacity: 0;
       pointer-events: none;
       z-index: 6;
-      animation: popTopBadges 0.26s cubic-bezier(0.22, 1, 0.36, 1) 3.5s forwards;
+      animation: popTopBadges 0.26s cubic-bezier(0.22, 1, 0.36, 1) 4.1s forwards;
     }
 
     @keyframes popTopBadges {
@@ -337,23 +323,39 @@
       font-weight: 600;
       letter-spacing: -0.015em;
       color: var(--badge-text);
-      background: var(--badge-bg);
-      border: 1px solid var(--badge-border);
-      padding: 0.38rem 0.92rem;
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.28) 0%,
+          rgba(255, 255, 255, 0.05) 45%,
+          rgba(255, 255, 255, 0.18) 100%
+        ),
+        var(--badge-bg);
+      border: 1px solid var(--badge-border-2);
+      padding: 0.38rem 0.95rem;
       border-radius: 9999px;
       white-space: nowrap;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(24px) saturate(190%) brightness(1.14);
+      -webkit-backdrop-filter: blur(24px) saturate(190%) brightness(1.14);
       text-shadow: 0 0 12px var(--accent-glow);
       box-shadow:
-        0 8px 22px rgba(0, 0, 0, 0.65),
-        0 0 18px var(--accent-box-glow),
-        inset 0 1px 0 rgba(255, 255, 255, 0.22);
+        0 10px 26px rgba(0, 0, 0, 0.6),
+        0 0 20px var(--accent-box-glow),
+        inset 0 1.5px 1.5px rgba(255, 255, 255, 0.62),
+        inset 0 -1.5px 2px rgba(255, 255, 255, 0.18),
+        inset 1px 0 2px rgba(255, 255, 255, 0.24);
       transition: color 0.3s ease, background 0.3s ease, border-color 0.3s ease, text-shadow 0.3s ease, box-shadow 0.3s ease;
     }
 
     .apple-badge.b-2 {
-      background: var(--badge-bg-2);
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.32) 0%,
+          rgba(255, 255, 255, 0.07) 48%,
+          rgba(255, 255, 255, 0.22) 100%
+        ),
+        var(--badge-bg-2);
       border-color: var(--badge-border-2);
       color: #ffffff;
       transform: rotate(4.5deg) translateY(-1px);
@@ -363,7 +365,14 @@
 
     .apple-badge.b-3 {
       margin-top: -0.38rem;
-      background: var(--badge-bg-3);
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.26) 0%,
+          rgba(255, 255, 255, 0.05) 48%,
+          rgba(255, 255, 255, 0.18) 100%
+        ),
+        var(--badge-bg-3);
       border-color: var(--badge-border-3);
       transform: rotate(-2deg);
       z-index: 4;
@@ -388,9 +397,9 @@
       }
     }
 
-    /* White subtitle under jinushi with thinner weight (appears with step 4 at 3.76s) */
+    /* White subtitle under jinushi with thinner weight (appears with step 4 at 4.36s) */
     .title-sub {
-      margin-top: 1.15rem;
+      margin-top: 1.05rem;
       font-size: clamp(0.76rem, 2.3vw, 0.9rem);
       font-weight: 300;
       letter-spacing: 0.005em;
@@ -399,7 +408,7 @@
       transform: translateZ(10px) translateY(8px) scale(0.95);
       opacity: 0;
       pointer-events: none;
-      animation: popBottomSub 0.24s cubic-bezier(0.22, 1, 0.36, 1) 3.76s forwards;
+      animation: popBottomSub 0.24s cubic-bezier(0.22, 1, 0.36, 1) 4.36s forwards;
     }
 
     @keyframes popBottomSub {
@@ -462,7 +471,7 @@
         calc(var(--sx) * -0.5) calc(var(--sy) * -0.5) 35px rgba(255, 255, 255, 0.18);
 
       animation: charReveal 0.48s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-      animation-delay: calc(2s + var(--i) * 0.17s);
+      animation-delay: calc(2.6s + var(--i) * 0.17s);
     }
 
     @keyframes charReveal {
@@ -486,7 +495,7 @@
       }
     }
 
-    /* Step 4 (3.76s -> 4.02s): Centered social buttons pop in neatly after top badges finish */
+    /* Step 4 (4.36s -> 4.62s): Centered social buttons pop in neatly after top badges finish */
     .links {
       position: relative;
       z-index: 10;
@@ -497,7 +506,7 @@
       flex-wrap: wrap;
       opacity: 0;
       transform: translateY(10px) scale(0.94);
-      animation: popSocialBtns 0.26s cubic-bezier(0.22, 1, 0.36, 1) 3.76s forwards;
+      animation: popSocialBtns 0.26s cubic-bezier(0.22, 1, 0.36, 1) 4.36s forwards;
     }
 
     @keyframes popSocialBtns {
@@ -550,12 +559,12 @@
       z-index: 2;
       width: 100%;
       max-width: 680px;
-      padding: 1rem 1.5rem 5rem;
+      padding: 1rem 1.5rem 2.5rem;
       display: flex;
       flex-direction: column;
       align-items: center;
       opacity: 0;
-      animation: sheenAppear 0.35s ease 4.02s forwards;
+      animation: sheenAppear 0.35s ease 4.62s forwards;
     }
 
     .projects-heading {
@@ -593,8 +602,38 @@
     }
 
     .projects-heading.section-subhead {
-      margin-top: 1.8rem;
-      margin-bottom: 0.4rem;
+      margin-top: -0.4rem;
+      margin-bottom: -0.8rem;
+    }
+
+    /* Delicate thin section dividers matching the accent color of top badges */
+    .section-divider {
+      width: 100%;
+      max-width: 520px;
+      height: 1px;
+      border-radius: 999px;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--badge-border) 16%,
+        var(--badge-border-2) 50%,
+        var(--badge-border) 84%,
+        transparent 100%
+      );
+      box-shadow: 0 0 12px var(--accent-box-glow);
+      transition: background 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .projects-list > .section-divider {
+      margin: -0.35rem 0;
+    }
+
+    .section-divider-top {
+      margin-bottom: 2.6rem;
+    }
+
+    .section-divider-bottom {
+      margin-top: 3.2rem;
     }
 
     .projects-list {
@@ -653,7 +692,8 @@
     }
 
     /* In B&W mode ("bw"), all site images/creatives/GIFs except the UI become black-and-white */
-    :root[data-theme="bw"] .hero-face,
+    :root[data-theme="bw"] .face-intro-img,
+    :root[data-theme="bw"] .bottom-face-img,
     :root[data-theme="bw"] .project-image,
     :root[data-theme="bw"] .smm-preview-strip,
     :root[data-theme="bw"] .motion-preview-grid {
@@ -773,6 +813,30 @@
       }
     }
 
+    .project-meta-row {
+      width: 100%;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: -0.25rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .project-meta-row .project-desc {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    .project-year {
+      font-size: clamp(0.92rem, 2.6vw, 1.04rem);
+      font-weight: 300;
+      letter-spacing: -0.01em;
+      color: rgba(255, 255, 255, 0.72);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
     .project-desc {
       font-size: clamp(0.95rem, 2.8vw, 1.08rem);
       font-weight: 400;
@@ -781,6 +845,35 @@
       margin-top: -0.25rem;
       margin-bottom: 0.25rem;
       transition: opacity 0.2s ease;
+    }
+
+    /* Scroll-triggered ultra-thin accent underline on 3000 & 300 */
+    .num-underline {
+      position: relative;
+      display: inline-block;
+      color: rgba(255, 255, 255, 0.88);
+    }
+
+    .num-underline::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -2px;
+      height: 1px;
+      border-radius: 999px;
+      background: var(--dot-color);
+      box-shadow: 0 0 8px var(--accent-glow);
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition:
+        transform 0.68s cubic-bezier(0.22, 1, 0.36, 1) 0.1s,
+        background 0.35s ease,
+        box-shadow 0.35s ease;
+    }
+
+    .project-desc.in-view .num-underline::after {
+      transform: scaleX(1);
     }
 
     /* Minimalist language switcher in top-right corner */
@@ -794,7 +887,7 @@
       align-items: flex-end;
       font-family: inherit;
       opacity: 0;
-      animation: sheenAppear 0.3s ease 4.02s forwards;
+      animation: sheenAppear 0.3s ease 4.62s forwards;
     }
 
     .lang-current {
@@ -870,7 +963,7 @@
       flex-direction: column;
       align-items: center;
       opacity: 0;
-      animation: sheenAppear 0.3s ease 4.02s forwards;
+      animation: sheenAppear 0.3s ease 4.62s forwards;
     }
 
     .theme-dot-btn {
@@ -956,7 +1049,7 @@
       box-shadow: 0 0 10px rgba(255, 255, 255, 0.55);
     }
 
-    /* Top-center badge-styled section navigation dropdown ("branding", "smm", "motion") */
+    /* Top-center horizontal morphing Liquid Glass slightly-gray navigation menu ("branding", "smm", "motion") */
     .nav-switcher {
       position: fixed;
       top: 1.15rem;
@@ -964,86 +1057,193 @@
       transform: translateX(-50%);
       z-index: 100;
       display: flex;
-      flex-direction: column;
       align-items: center;
+      justify-content: center;
       font-family: inherit;
       opacity: 0;
-      animation: sheenAppear 0.3s ease 4.02s forwards;
+      animation: sheenAppear 0.3s ease 4.62s forwards;
     }
 
-    .nav-pill {
+    .nav-capsule {
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      border-radius: 9999px;
+      padding: 0.22rem;
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.24) 0%,
+          rgba(165, 172, 185, 0.08) 48%,
+          rgba(255, 255, 255, 0.16) 100%
+        ),
+        rgba(34, 36, 42, 0.62);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      backdrop-filter: blur(24px) saturate(185%) brightness(1.12);
+      -webkit-backdrop-filter: blur(24px) saturate(185%) brightness(1.12);
+      box-shadow:
+        0 10px 28px rgba(0, 0, 0, 0.65),
+        0 0 18px rgba(255, 255, 255, 0.07),
+        inset 0 1.5px 1.5px rgba(255, 255, 255, 0.58),
+        inset 0 -1.5px 2px rgba(255, 255, 255, 0.15),
+        inset 1px 0 2px rgba(255, 255, 255, 0.22);
+      transition:
+        padding 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+        background 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+    }
+
+    .nav-capsule:hover {
+      border-color: rgba(255, 255, 255, 0.42);
+    }
+
+    .nav-current {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 0.35rem;
+      background: transparent;
+      border: none;
       font-family: inherit;
       font-size: clamp(0.75rem, 2.2vw, 0.86rem);
       font-weight: 600;
       letter-spacing: -0.015em;
-      color: var(--badge-text);
-      background: var(--badge-bg);
-      border: 1px solid var(--badge-border);
-      padding: 0.34rem 0.92rem;
+      color: #e5e7eb;
+      padding: 0.22rem 0.78rem;
       border-radius: 9999px;
       white-space: nowrap;
       cursor: pointer;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      text-shadow: 0 0 12px var(--accent-glow);
-      box-shadow:
-        0 8px 22px rgba(0, 0, 0, 0.65),
-        0 0 18px var(--accent-box-glow),
-        inset 0 1px 0 rgba(255, 255, 255, 0.22);
+      max-width: 140px;
+      overflow: hidden;
+      opacity: 1;
       transition:
-        color 0.25s ease,
-        background 0.25s ease,
-        border-color 0.25s ease,
-        transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
-        box-shadow 0.25s ease;
+        max-width 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+        padding 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.22s ease,
+        color 0.2s ease;
     }
 
-    .nav-pill:hover,
-    .nav-switcher.open .nav-current {
+    .nav-current:hover {
       color: #ffffff;
-      background: var(--badge-bg-2);
-      border-color: var(--badge-border-2);
+    }
+
+    .nav-switcher.open .nav-current {
+      max-width: 0;
+      padding-left: 0;
+      padding-right: 0;
+      opacity: 0;
+      pointer-events: none;
     }
 
     .nav-chevron {
-      font-size: 0.68em;
-      opacity: 0.8;
-      transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-
-    .nav-switcher.open .nav-chevron {
-      transform: rotate(180deg);
+      font-size: 0.72em;
+      opacity: 0.78;
+      transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .nav-menu {
-      display: flex;
-      flex-direction: column;
+      display: inline-flex;
+      flex-direction: row;
       align-items: center;
-      gap: 0.34rem;
-      margin-top: 0.38rem;
+      justify-content: center;
+      gap: 0.2rem;
+      max-width: 0;
       opacity: 0;
-      visibility: hidden;
-      transform: translateY(-8px) scale(0.95);
+      overflow: hidden;
       pointer-events: none;
       transition:
-        opacity 0.22s cubic-bezier(0.22, 1, 0.36, 1),
-        transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
-        visibility 0.22s;
+        max-width 0.36s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.26s cubic-bezier(0.22, 1, 0.36, 1),
+        padding 0.32s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .nav-switcher.open .nav-menu {
+      max-width: 340px;
       opacity: 1;
-      visibility: visible;
-      transform: translateY(0) scale(1);
       pointer-events: auto;
     }
 
-    .nav-option:hover {
-      transform: scale(1.05);
+    .nav-option {
+      background: transparent;
+      border: 1px solid transparent;
+      font-family: inherit;
+      font-size: clamp(0.74rem, 2.2vw, 0.85rem);
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      color: #d1d5db;
+      padding: 0.24rem 0.72rem;
+      border-radius: 9999px;
+      white-space: nowrap;
+      cursor: pointer;
+      transition:
+        color 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.2s ease;
+    }
+
+    .nav-option:hover,
+    .nav-option:active {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.14);
+      border-color: rgba(255, 255, 255, 0.28);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.45);
+    }
+
+    /* Bottom head sticker + vibecoding caption at the very bottom of the site */
+    .bottom-face-section {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      padding: 1.5rem 1.5rem 4.8rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      perspective: 1000px;
+      opacity: 0;
+      animation: sheenAppear 0.35s ease 4.62s forwards;
+    }
+
+    .bottom-face-3d {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.85rem;
+      transform-style: preserve-3d;
+      transform: translate3d(var(--tx), var(--ty), 0) rotateX(var(--rx)) rotateY(var(--ry));
+      will-change: transform;
+    }
+
+    .bottom-face-img {
+      width: clamp(64px, 14vw, 86px);
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 12px 26px rgba(0, 0, 0, 0.8));
+      transition: filter 0.35s ease;
+      animation: floatBottomFace 3.8s ease-in-out infinite;
+    }
+
+    @keyframes floatBottomFace {
+      0%, 100% {
+        transform: translateZ(16px) translateY(0px) rotate(-2deg);
+      }
+      50% {
+        transform: translateZ(16px) translateY(-5px) rotate(2.5deg);
+      }
+    }
+
+    .bottom-vibe-note {
+      font-size: clamp(0.75rem, 2.2vw, 0.86rem);
+      font-weight: 300;
+      letter-spacing: 0.005em;
+      color: rgba(255, 255, 255, 0.52);
+      text-align: center;
+      transform: translateZ(10px);
     }
 
     @media (max-width: 480px) {
@@ -1064,14 +1264,14 @@
         padding-top: 4rem;
       }
       .apple-collage {
-        margin-bottom: 1.15rem;
+        margin-bottom: 0.15rem;
       }
       .btn {
         padding: 0.78rem 1.7rem;
         font-size: 0.92rem;
       }
       .projects-section {
-        padding-bottom: 4rem;
+        padding-bottom: 2rem;
       }
       .projects-list {
         gap: 2.8rem;
@@ -1080,6 +1280,11 @@
   </style>
 </head>
 <body>
+  <!-- 2.6-second slightly slower funny transparent head intro -->
+  <div class="face-intro" id="faceIntro" aria-hidden="true">
+    <img class="face-intro-img" src="face.png?v=2" alt="" decoding="async" />
+  </div>
+
   <!-- Top-left accent color dot switcher -->
   <div class="theme-switcher" id="themeSwitcher">
     <button class="theme-dot-btn theme-current" id="themeCurrent" type="button" aria-expanded="false" aria-label="Сменить оттенок сайта">
@@ -1088,16 +1293,18 @@
     <div class="theme-menu" id="themeMenu"></div>
   </div>
 
-  <!-- Top-center badge-styled navigation dropdown -->
+  <!-- Top-center horizontal morphing Liquid Glass slightly-gray navigation menu -->
   <div class="nav-switcher" id="navSwitcher">
-    <button class="nav-pill nav-current" id="navCurrent" type="button" aria-expanded="false">
-      <span id="navCurrentText">projects</span>
-      <span class="nav-chevron">▾</span>
-    </button>
-    <div class="nav-menu" id="navMenu">
-      <button class="nav-pill nav-option" type="button" data-target="branding">branding</button>
-      <button class="nav-pill nav-option" type="button" data-target="smm">smm</button>
-      <button class="nav-pill nav-option" type="button" data-target="motion">motion</button>
+    <div class="nav-capsule">
+      <button class="nav-current" id="navCurrent" type="button" aria-expanded="false">
+        <span id="navCurrentText">projects</span>
+        <span class="nav-chevron">▸</span>
+      </button>
+      <div class="nav-menu" id="navMenu">
+        <button class="nav-option" type="button" data-target="branding">branding</button>
+        <button class="nav-option" type="button" data-target="smm">smm</button>
+        <button class="nav-option" type="button" data-target="motion">motion</button>
+      </div>
     </div>
   </div>
 
@@ -1123,11 +1330,6 @@
           <span class="apple-badge b-3" id="i18nBadge2">и это моё портфолио</span>
         </div>
 
-        <!-- Head sticker: pops in big (0-2s), then shrinks & stays here under the badges -->
-        <div class="hero-face-wrap">
-          <img class="hero-face" id="heroFace" src="face.png?v=2" alt="Егор" decoding="async" />
-        </div>
-
         <h1 class="title" id="title" aria-label="jinushi"><span class="title-char" style="--i:0">j</span><span class="title-char" style="--i:1">i</span><span class="title-char" style="--i:2">n</span><span class="title-char" style="--i:3">u</span><span class="title-char" style="--i:4">s</span><span class="title-char" style="--i:5">h</span><span class="title-char" style="--i:6">i</span></h1>
         <p class="title-sub" id="i18nTitleSub">делаю дизайн и моушн</p>
       </div>
@@ -1140,12 +1342,17 @@
   </section>
 
   <section class="projects-section" id="projects">
+    <div class="section-divider section-divider-top" aria-hidden="true"></div>
+
     <h2 class="projects-heading" id="branding">branding design</h2>
 
     <div class="projects-list">
       <article class="project-card">
         <h3 class="project-title">alova</h3>
-        <p class="project-desc" id="i18nAlovaDesc">тату-студия в харькове</p>
+        <div class="project-meta-row">
+          <p class="project-desc" id="i18nAlovaDesc">тату-студия в харькове</p>
+          <span class="project-year">2024</span>
+        </div>
         <a class="project-image-link" href="https://www.behance.net/gallery/226526537/ALOVA-tatto-studio-2024" target="_blank" rel="noopener noreferrer">
           <img class="project-image" src="alova.png" alt="alova — тату-студия в харькове" loading="lazy" />
         </a>
@@ -1153,25 +1360,32 @@
 
       <article class="project-card">
         <h3 class="project-title" id="i18nHkbadTitle">хкбад</h3>
-        <p class="project-desc" id="i18nHkbadDesc">колледж архитектуры в харькове</p>
+        <div class="project-meta-row">
+          <p class="project-desc" id="i18nHkbadDesc">колледж архитектуры в харькове</p>
+          <span class="project-year">2022</span>
+        </div>
         <a class="project-image-link" href="https://www.behance.net/gallery/144711515/HKBAD-architecture-college-2022" target="_blank" rel="noopener noreferrer">
           <img class="project-image" src="hkbad.jpg" alt="хкбад — колледж архитектуры в харькове" loading="lazy" />
         </a>
       </article>
 
+      <div class="section-divider" aria-hidden="true"></div>
+
       <h2 class="projects-heading section-subhead" id="smm">smm design</h2>
 
       <article class="project-card">
-        <p class="project-desc" id="i18nSmmDesc">создал более 3000 креативов за 3 года для различных ниш</p>
+        <p class="project-desc" id="i18nSmmDesc">создал более <span class="num-underline">3000</span> креативов за 3 года для различных ниш</p>
         <div class="smm-preview-frame">
           <img class="smm-preview-strip" src="smm.jpg?v=2" alt="smm design — 24 креатива" decoding="async" />
         </div>
       </article>
 
+      <div class="section-divider" aria-hidden="true"></div>
+
       <h2 class="projects-heading section-subhead" id="motion">motion videos</h2>
 
       <article class="project-card">
-        <p class="project-desc" id="i18nMotionDesc">создал примерно 300 моушн видео junior &amp; mid уровня сложности</p>
+        <p class="project-desc" id="i18nMotionDesc">создал примерно <span class="num-underline">300</span> моушн видео junior &amp; mid уровня сложности</p>
         <div class="smm-preview-frame">
           <div class="motion-preview-grid">
             <div class="motion-preview-cell"><img src="m1.gif" alt="motion 1" decoding="async" /></div>
@@ -1188,9 +1402,25 @@
         </div>
       </article>
     </div>
+
+    <div class="section-divider section-divider-bottom" aria-hidden="true"></div>
+  </section>
+
+  <!-- Bottom head sticker + vibecoding caption at the very bottom of the site -->
+  <section class="bottom-face-section" aria-label="Футер">
+    <div class="bottom-face-3d">
+      <img class="bottom-face-img" src="face.png?v=2" alt="Егор" decoding="async" />
+      <p class="bottom-vibe-note" id="i18nVibeNote">сайт в разработке (точнее он вайбкодится лол)</p>
+    </div>
   </section>
 
   <script>
+    // Cleanly remove intro face overlay after 2.6s animation finishes
+    setTimeout(() => {
+      const intro = document.getElementById('faceIntro');
+      if (intro) intro.remove();
+    }, 2650);
+
     // Top-center section navigation dropdown logic ("branding", "smm", "motion")
     (function initNavSwitcher() {
       const navSwitcher = document.getElementById('navSwitcher');
@@ -1233,7 +1463,8 @@
           hkbadTitle: 'хкбад',
           hkbadDesc: 'колледж архитектуры в харькове',
           smmDesc: 'создал более 3000 креативов за 3 года для различных ниш',
-          motionDesc: 'создал примерно 300 моушн видео junior & mid уровня сложности'
+          motionDesc: 'создал примерно 300 моушн видео junior & mid уровня сложности',
+          vibeNote: 'сайт в разработке (точнее он вайбкодится лол)'
         },
         ua: {
           badge1: 'я єгор',
@@ -1243,7 +1474,8 @@
           hkbadTitle: 'хкбад',
           hkbadDesc: 'коледж архітектури в харкові',
           smmDesc: 'створив понад 3000 креативів за 3 роки для різних ніш',
-          motionDesc: 'створив приблизно 300 моушн відео junior & mid рівня складності'
+          motionDesc: 'створив приблизно 300 моушн відео junior & mid рівня складності',
+          vibeNote: 'сайт у розробці (точніше він вайбкодиться лол)'
         },
         eng: {
           badge1: "i'm egor",
@@ -1253,7 +1485,8 @@
           hkbadTitle: 'hkbad',
           hkbadDesc: 'college of architecture in kharkiv',
           smmDesc: 'created over 3000 creatives in 3 years for various niches',
-          motionDesc: 'created around 300 motion videos of junior & mid complexity'
+          motionDesc: 'created around 300 motion videos of junior & mid complexity',
+          vibeNote: 'site in progress (more like being vibecoded lol)'
         },
         cz: {
           badge1: 'jsem egor',
@@ -1263,7 +1496,8 @@
           hkbadTitle: 'hkbad',
           hkbadDesc: 'střední škola architektury v charkově',
           smmDesc: 'za 3 roky jsem vytvořil přes 3000 kreativ pro různé obory',
-          motionDesc: 'vytvořil jsem přibližně 300 motion videí úrovně junior & mid'
+          motionDesc: 'vytvořil jsem přibližně 300 motion videí úrovně junior & mid',
+          vibeNote: 'web je ve vývoji (spíš se vibecodí lol)'
         },
         '日本語': {
           badge1: '私はエゴルです',
@@ -1273,7 +1507,8 @@
           hkbadTitle: 'hkbad',
           hkbadDesc: 'ハルキウの建築カレッジ',
           smmDesc: '3年間で様々なニッチ向けに3000以上のクリエイティブを制作',
-          motionDesc: 'junior & midレベルのモーション動画を約300本制作'
+          motionDesc: 'junior & midレベルのモーション動画を約300本制作',
+          vibeNote: 'サイト開発中（というかバイブコーディング中笑）'
         }
       };
 
@@ -1292,6 +1527,7 @@
       const hkbadDescEl = document.getElementById('i18nHkbadDesc');
       const smmDescEl = document.getElementById('i18nSmmDesc');
       const motionDescEl = document.getElementById('i18nMotionDesc');
+      const vibeNoteEl = document.getElementById('i18nVibeNote');
 
       function renderMenu() {
         menu.innerHTML = '';
@@ -1313,6 +1549,22 @@
           });
       }
 
+      function setDescWithUnderlinedNum(el, text, numStr) {
+        if (!el) return;
+        const idx = text.indexOf(numStr);
+        if (idx === -1) {
+          el.textContent = text;
+          return;
+        }
+        el.innerHTML = '';
+        el.appendChild(document.createTextNode(text.slice(0, idx)));
+        const span = document.createElement('span');
+        span.className = 'num-underline';
+        span.textContent = numStr;
+        el.appendChild(span);
+        el.appendChild(document.createTextNode(text.slice(idx + numStr.length)));
+      }
+
       function setLanguage(lang) {
         if (!translations[lang]) return;
         currentLang = lang;
@@ -1324,11 +1576,29 @@
         alovaDescEl.textContent = t.alovaDesc;
         hkbadTitleEl.textContent = t.hkbadTitle;
         hkbadDescEl.textContent = t.hkbadDesc;
-        if (smmDescEl) smmDescEl.textContent = t.smmDesc;
-        if (motionDescEl) motionDescEl.textContent = t.motionDesc;
+        setDescWithUnderlinedNum(smmDescEl, t.smmDesc, '3000');
+        setDescWithUnderlinedNum(motionDescEl, t.motionDesc, '300');
+        if (vibeNoteEl) vibeNoteEl.textContent = t.vibeNote;
         const langMap = { ru: 'ru', ua: 'uk', eng: 'en', cz: 'cs', '日本語': 'ja' };
         document.documentElement.lang = langMap[lang] || 'ru';
         renderMenu();
+      }
+
+      // Scroll observer to underline 3000 & 300 when their descriptions scroll into view
+      if ('IntersectionObserver' in window) {
+        const numObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              entry.target.classList.toggle('in-view', entry.isIntersecting);
+            });
+          },
+          { threshold: 0.45 }
+        );
+        if (smmDescEl) numObserver.observe(smmDescEl);
+        if (motionDescEl) numObserver.observe(motionDescEl);
+      } else {
+        if (smmDescEl) smmDescEl.classList.add('in-view');
+        if (motionDescEl) motionDescEl.classList.add('in-view');
       }
 
       currentBtn.addEventListener('click', (e) => {
