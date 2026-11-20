@@ -742,6 +742,43 @@
       }
     }
 
+    /* Motion Videos 5x2 B&W GIFs infinite slow pan preview card */
+    .motion-preview-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      width: 185%;
+      height: 100%;
+      filter: grayscale(100%);
+      -webkit-filter: grayscale(100%);
+      will-change: transform;
+      animation: motionPanSlow 28s ease-in-out infinite alternate;
+    }
+
+    .motion-preview-cell {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #050505;
+    }
+
+    .motion-preview-cell img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    @keyframes motionPanSlow {
+      0% {
+        transform: translate3d(0%, 0, 0);
+      }
+      100% {
+        transform: translate3d(-45.946%, 0, 0);
+      }
+    }
+
     .project-desc {
       font-size: clamp(0.95rem, 2.8vw, 1.08rem);
       font-weight: 400;
@@ -1026,6 +1063,25 @@
         </div>
         <p class="project-desc" id="i18nSmmDesc">я создал более 3000 креативов за 3 года для различных бизнесов</p>
       </article>
+
+      <article class="project-card">
+        <h3 class="project-title">motion videos</h3>
+        <div class="smm-preview-frame">
+          <div class="motion-preview-grid">
+            <div class="motion-preview-cell"><img src="m1.gif" alt="motion 1" loading="lazy" /></div>
+            <div class="motion-preview-cell"><img src="m2.gif" alt="motion 2" loading="lazy" /></div>
+            <div class="motion-preview-cell"><img src="m3.gif" alt="motion 3" loading="lazy" /></div>
+            <div class="motion-preview-cell"><img src="m4.gif" alt="motion 4" loading="lazy" /></div>
+            <div class="motion-preview-cell"><img src="m5.gif" alt="motion 5" loading="lazy" /></div>
+            <div class="motion-preview-cell"><img src="m6.gif" alt="motion 6" loading="lazy" /></div>
+            <div class="motion-preview-cell"><img src="m7.gif" alt="motion 7" loading="lazy" /></div>
+            <div class="motion-preview-cell"><img src="m8.gif" alt="motion 8" loading="lazy" /></div>
+            <div class="motion-preview-cell"><img src="m9.gif" alt="motion 9" loading="lazy" /></div>
+            <div class="motion-preview-cell"><img src="m10.gif" alt="motion 10" loading="lazy" /></div>
+          </div>
+        </div>
+        <p class="project-desc" id="i18nMotionDesc">у меня очень много моушн видео для брендов и событий, мои умения моушн уровня mid</p>
+      </article>
     </div>
   </section>
 
@@ -1039,7 +1095,8 @@
           alovaDesc: 'тату-студия в харькове',
           hkbadTitle: 'хкбад',
           hkbadDesc: 'колледж архитектуры в харькове',
-          smmDesc: 'я создал более 3000 креативов за 3 года для различных бизнесов'
+          smmDesc: 'я создал более 3000 креативов за 3 года для различных бизнесов',
+          motionDesc: 'у меня очень много моушн видео для брендов и событий, мои умения моушн уровня mid'
         },
         ua: {
           badge1: 'я єгор',
@@ -1047,7 +1104,8 @@
           alovaDesc: 'тату-студія в харкові',
           hkbadTitle: 'хкбад',
           hkbadDesc: 'коледж архітектури в харкові',
-          smmDesc: 'я створив понад 3000 креативів за 3 роки для різних бізнесів'
+          smmDesc: 'я створив понад 3000 креативів за 3 роки для різних бізнесів',
+          motionDesc: 'у мене дуже багато моушн відео для брендів та подій, мої навички моушн рівня mid'
         },
         eng: {
           badge1: "i'm egor",
@@ -1055,7 +1113,8 @@
           alovaDesc: 'tattoo studio in kharkiv',
           hkbadTitle: 'hkbad',
           hkbadDesc: 'college of architecture in kharkiv',
-          smmDesc: 'i created over 3000 creatives in 3 years for various businesses'
+          smmDesc: 'i created over 3000 creatives in 3 years for various businesses',
+          motionDesc: 'i have lots of motion videos for brands and events, my motion skills are mid level'
         },
         cz: {
           badge1: 'jsem egor',
@@ -1063,7 +1122,8 @@
           alovaDesc: 'tetovací studio v charkově',
           hkbadTitle: 'hkbad',
           hkbadDesc: 'střední škola architektury v charkově',
-          smmDesc: 'za 3 roky jsem vytvořil přes 3000 kreativ pro různé firmy'
+          smmDesc: 'za 3 roky jsem vytvořil přes 3000 kreativ pro různé firmy',
+          motionDesc: 'mám spoustu motion videí pro značky a akce, moje motion dovednosti jsou na úrovni mid'
         },
         '日本語': {
           badge1: '私はエゴルです',
@@ -1071,7 +1131,8 @@
           alovaDesc: 'ハルキウのタトゥースタジオ',
           hkbadTitle: 'hkbad',
           hkbadDesc: 'ハルキウの建築カレッジ',
-          smmDesc: '3年間で様々なビジネスのために3000以上のクリエイティブを制作しました'
+          smmDesc: '3年間で様々なビジネスのために3000以上のクリエイティブを制作しました',
+          motionDesc: 'ブランドやイベント向けのモーション動画を多数制作しており、スキルはmidレベルです'
         }
       };
 
@@ -1088,6 +1149,7 @@
       const hkbadTitleEl = document.getElementById('i18nHkbadTitle');
       const hkbadDescEl = document.getElementById('i18nHkbadDesc');
       const smmDescEl = document.getElementById('i18nSmmDesc');
+      const motionDescEl = document.getElementById('i18nMotionDesc');
 
       function renderMenu() {
         menu.innerHTML = '';
@@ -1120,6 +1182,7 @@
         hkbadTitleEl.textContent = t.hkbadTitle;
         hkbadDescEl.textContent = t.hkbadDesc;
         if (smmDescEl) smmDescEl.textContent = t.smmDesc;
+        if (motionDescEl) motionDescEl.textContent = t.motionDesc;
         const langMap = { ru: 'ru', ua: 'uk', eng: 'en', cz: 'cs', '日本語': 'ja' };
         document.documentElement.lang = langMap[lang] || 'ru';
         renderMenu();
