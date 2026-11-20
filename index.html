@@ -608,15 +608,22 @@
       margin-bottom: -0.8rem;
     }
 
-    /* Gray capsule heading for the "комната ожидания" section */
+    /* Understated plain gray heading for "комната ожидания" (no border, no pill, blends quietly) */
     .projects-heading.waiting-heading {
-      color: #c2c6ce;
-      background: var(--glass-sheen), rgba(30, 32, 37, 0.9);
-      border-color: rgba(196, 200, 210, 0.28);
-      text-shadow: 0 0 12px rgba(255, 255, 255, 0.12);
-      box-shadow:
-        0 10px 26px rgba(0, 0, 0, 0.58),
-        inset 0 0.5px 0 rgba(255, 255, 255, 0.12);
+      display: block;
+      padding: 0;
+      border-radius: 0;
+      border: none;
+      background: none;
+      box-shadow: none;
+      text-shadow: none;
+      transform: none;
+      font-size: clamp(1.15rem, 3.5vw, 1.42rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: rgba(255, 255, 255, 0.46);
+      margin-top: -0.2rem;
+      margin-bottom: -1.1rem;
     }
 
     /* Very dark near-black kids LCD drawing board — borderless with subtle worn scuff texture */
@@ -650,7 +657,7 @@
 
     .tablet-active-canvas {
       z-index: 2;
-      opacity: 0.46;
+      opacity: 0.42;
       cursor: crosshair;
       touch-action: none;
     }
@@ -680,13 +687,29 @@
       transition: opacity 0.05s ease;
     }
 
+    /* Tiny engraved gray "J" tablet brand mark in bottom-right corner */
+    .tablet-logo {
+      position: absolute;
+      right: 1rem;
+      bottom: 0.78rem;
+      z-index: 4;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      color: rgba(255, 255, 255, 0.22);
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
     .tablet-clear-btn {
       position: absolute;
-      right: 0.8rem;
-      bottom: 0.8rem;
+      left: 0.8rem;
+      bottom: 0.78rem;
       z-index: 5;
-      width: 32px;
-      height: 32px;
+      width: 30px;
+      height: 30px;
       padding: 0;
       border-radius: 50%;
       display: inline-flex;
@@ -694,10 +717,8 @@
       justify-content: center;
       background: rgba(255, 255, 255, 0.05);
       border: 0.5px solid rgba(255, 255, 255, 0.14);
-      color: rgba(255, 255, 255, 0.56);
+      color: rgba(255, 255, 255, 0.5);
       cursor: pointer;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
       transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
     }
 
@@ -1752,15 +1773,8 @@
           <canvas class="tablet-canvas" id="drawCanvas" aria-hidden="true"></canvas>
           <canvas class="tablet-active-canvas" id="drawActiveCanvas" aria-label="Детский планшет для рисования"></canvas>
           <svg class="tablet-scratches" viewBox="0 0 520 400" preserveAspectRatio="none" aria-hidden="true">
-            <defs>
-              <filter id="wornGrain" x="0%" y="0%" width="100%" height="100%">
-                <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch" />
-                <feColorMatrix type="saturate" values="0" />
-              </filter>
-            </defs>
-            <rect width="520" height="400" filter="url(#wornGrain)" opacity="0.032" />
             <g fill="none" stroke="#ffffff" stroke-linecap="round">
-              <!-- Short, subtle micro-scuffs and aged surface ticks -->
+              <!-- Short, subtle micro-scuffs and aged surface ticks (no heavy SVG filters for smooth 60fps mobile draw) -->
               <path d="M44 62 l11 -3" stroke-width="0.45" stroke-opacity="0.055" />
               <path d="M51 67 l7 -1" stroke-width="0.35" stroke-opacity="0.045" />
               <path d="M128 38 q6 -3 13 1" stroke-width="0.4" stroke-opacity="0.05" />
@@ -1806,6 +1820,7 @@
             </g>
           </svg>
           <div class="tablet-flash" id="tabletFlash" aria-hidden="true"></div>
+          <span class="tablet-logo" aria-hidden="true">J</span>
           <button class="tablet-clear-btn" id="tabletClearBtn" type="button" aria-label="Очистить планшет" title="Очистить">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <polyline points="3 6 5 6 21 6" />
@@ -2270,7 +2285,7 @@
       renderMenu();
     })();
 
-    // Interactive kids LCD drawing tablet ("комната ожидания") — translucent felt-tip marker with dynamic theme color
+    // Interactive kids LCD drawing tablet ("комната ожидания") — zero-lag O(1) incremental gray felt-tip marker
     (function initDrawingTablet() {
       const baseCanvas = document.getElementById('drawCanvas');
       const activeCanvas = document.getElementById('drawActiveCanvas');
@@ -2278,32 +2293,24 @@
       const clearBtn = document.getElementById('tabletClearBtn');
       const flashEl = document.getElementById('tabletFlash');
       if (!baseCanvas || !activeCanvas || !frame) return;
-      const bctx = baseCanvas.getContext('2d');
-      const actx = activeCanvas.getContext('2d');
-      const MARKER_ALPHA = 0.46;
-      const MARKER_WIDTH = 11;
+      const bctx = baseCanvas.getContext('2d', { alpha: true });
+      const actx = activeCanvas.getContext('2d', { alpha: true });
+      const MARKER_COLOR = '#a3a8b4';
+      const MARKER_ALPHA = 0.42;
+      const MARKER_WIDTH = 10;
       let drawing = false;
-      let points = [];
-      let currentBrush = null;
+      let lastX = 0;
+      let lastY = 0;
+      let midX = 0;
+      let midY = 0;
       let canvasW = 0;
       let canvasH = 0;
-
-      function getBrushStyle() {
-        const theme = document.documentElement.getAttribute('data-theme');
-        if (theme === 'bw') {
-          return { color: '#e5e7eb', glow: 'rgba(255, 255, 255, 0.25)' };
-        }
-        const style = getComputedStyle(document.documentElement);
-        return {
-          color: style.getPropertyValue('--dot-color').trim() || '#ffb3d9',
-          glow: style.getPropertyValue('--accent-glow').trim() || 'rgba(255, 166, 210, 0.35)'
-        };
-      }
+      let cachedRect = null;
 
       function sizeTabletCanvas() {
         const rect = frame.getBoundingClientRect();
         if (!rect.width || !rect.height) return;
-        const ratio = Math.min(window.devicePixelRatio || 1, 2);
+        const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
         const newW = Math.round(rect.width * ratio);
         const newH = Math.round(rect.height * ratio);
         if (baseCanvas.width === newW && baseCanvas.height === newH) return;
@@ -2324,87 +2331,79 @@
         canvasH = rect.height;
         bctx.setTransform(ratio, 0, 0, ratio, 0, 0);
         actx.setTransform(ratio, 0, 0, ratio, 0, 0);
-        if (snapshot) {
-          bctx.drawImage(snapshot, 0, 0, rect.width, rect.height);
-        }
-      }
-
-      function getCoords(e) {
-        const rect = activeCanvas.getBoundingClientRect();
-        return {
-          x: e.clientX - rect.left,
-          y: e.clientY - rect.top
-        };
-      }
-
-      function renderActiveStroke() {
-        actx.clearRect(0, 0, canvasW || activeCanvas.width, canvasH || activeCanvas.height);
-        if (!points.length || !currentBrush) return;
-
-        actx.save();
-        actx.strokeStyle = currentBrush.color;
-        actx.fillStyle = currentBrush.color;
-        actx.shadowColor = currentBrush.glow;
-        actx.shadowBlur = 3;
+        actx.strokeStyle = MARKER_COLOR;
+        actx.fillStyle = MARKER_COLOR;
         actx.lineWidth = MARKER_WIDTH;
         actx.lineCap = 'round';
         actx.lineJoin = 'round';
-
-        if (points.length === 1) {
-          actx.beginPath();
-          actx.arc(points[0].x, points[0].y, MARKER_WIDTH * 0.5, 0, Math.PI * 2);
-          actx.fill();
-        } else {
-          actx.beginPath();
-          actx.moveTo(points[0].x, points[0].y);
-          for (let i = 1; i < points.length - 1; i++) {
-            const xc = (points[i].x + points[i + 1].x) * 0.5;
-            const yc = (points[i].y + points[i + 1].y) * 0.5;
-            actx.quadraticCurveTo(points[i].x, points[i].y, xc, yc);
-          }
-          const last = points[points.length - 1];
-          actx.lineTo(last.x, last.y);
-          actx.stroke();
+        if (snapshot) {
+          bctx.drawImage(snapshot, 0, 0, rect.width, rect.height);
         }
-        actx.restore();
       }
 
       function beginStroke(e) {
         if (e.pointerType === 'mouse' && e.button !== 0) return;
         e.preventDefault();
         sizeTabletCanvas();
+        cachedRect = activeCanvas.getBoundingClientRect();
         if (activeCanvas.setPointerCapture && e.pointerId !== undefined) {
           try { activeCanvas.setPointerCapture(e.pointerId); } catch (_) {}
         }
+        const x = e.clientX - cachedRect.left;
+        const y = e.clientY - cachedRect.top;
         drawing = true;
-        currentBrush = getBrushStyle();
-        points = [getCoords(e)];
-        renderActiveStroke();
+        lastX = x;
+        lastY = y;
+        midX = x;
+        midY = y;
+
+        actx.strokeStyle = MARKER_COLOR;
+        actx.fillStyle = MARKER_COLOR;
+        actx.lineWidth = MARKER_WIDTH;
+        actx.lineCap = 'round';
+        actx.lineJoin = 'round';
+        actx.beginPath();
+        actx.arc(x, y, MARKER_WIDTH * 0.5, 0, Math.PI * 2);
+        actx.fill();
       }
 
       function moveStroke(e) {
-        if (!drawing) return;
+        if (!drawing || !cachedRect) return;
         e.preventDefault();
-        const pt = getCoords(e);
-        const prev = points[points.length - 1];
-        if (prev && Math.hypot(pt.x - prev.x, pt.y - prev.y) < 1.5) return;
-        points.push(pt);
-        renderActiveStroke();
+        const x = e.clientX - cachedRect.left;
+        const y = e.clientY - cachedRect.top;
+        const dx = x - lastX;
+        const dy = y - lastY;
+        if (dx * dx + dy * dy < 2.25) return;
+
+        const newMidX = (lastX + x) * 0.5;
+        const newMidY = (lastY + y) * 0.5;
+
+        // O(1) incremental segment draw on active layer (no clearRect, no shadowBlur -> locked 60-120fps on mobile)
+        actx.beginPath();
+        actx.moveTo(midX, midY);
+        actx.quadraticCurveTo(lastX, lastY, newMidX, newMidY);
+        actx.stroke();
+
+        lastX = x;
+        lastY = y;
+        midX = newMidX;
+        midY = newMidY;
       }
 
       function endStroke(e) {
         if (!drawing) return;
         drawing = false;
+        cachedRect = null;
         if (activeCanvas.releasePointerCapture && e && e.pointerId !== undefined) {
           try { activeCanvas.releasePointerCapture(e.pointerId); } catch (_) {}
         }
-        // Bake translucent marker stroke permanently onto baseCanvas so overlaps layer naturally
+        // Stamp the uniform translucent marker stroke once onto permanent baseCanvas
         bctx.save();
         bctx.globalAlpha = MARKER_ALPHA;
         bctx.drawImage(activeCanvas, 0, 0, canvasW, canvasH);
         bctx.restore();
         actx.clearRect(0, 0, canvasW || activeCanvas.width, canvasH || activeCanvas.height);
-        points = [];
       }
 
       activeCanvas.addEventListener('pointerdown', beginStroke, { passive: false });
@@ -2424,7 +2423,6 @@
           }
           bctx.clearRect(0, 0, canvasW || baseCanvas.width, canvasH || baseCanvas.height);
           actx.clearRect(0, 0, canvasW || activeCanvas.width, canvasH || activeCanvas.height);
-          points = [];
         });
       }
 
