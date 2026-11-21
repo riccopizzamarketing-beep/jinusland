@@ -17,9 +17,6 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="jinushi" />
   <meta name="twitter:image" content="https://riccopizzamarketing-beep.github.io/jinusland/og-preview-v2.jpg?v=3" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..800&display=swap" rel="stylesheet" />
   <link rel="preload" as="image" href="face.png?v=3" fetchpriority="high" />
   <style>
     :root {
@@ -49,14 +46,6 @@
       --accent-glow-strong: rgba(255, 179, 217, 0.65);
       --accent-box-glow: rgba(255, 166, 210, 0.14);
       --heading-glow: rgba(255, 179, 217, 0.18);
-      --glass-sheen: linear-gradient(
-        110deg,
-        rgba(255, 255, 255, 0.02) 0%,
-        rgba(255, 255, 255, 0.08) 28%,
-        rgba(255, 255, 255, 0.015) 54%,
-        rgba(255, 255, 255, 0.055) 80%,
-        rgba(255, 255, 255, 0.015) 100%
-      );
     }
 
     :root[data-theme="blue"] {
@@ -107,6 +96,7 @@
     html {
       scroll-behavior: smooth;
       background-color: #000000;
+      overflow-x: clip;
     }
 
     body {
@@ -114,8 +104,9 @@
       min-height: 100dvh;
       background-color: #000000;
       color: #ffffff;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-      overflow-x: hidden;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      letter-spacing: -0.03em;
+      overflow-x: clip;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -151,10 +142,10 @@
     .face-intro-loader {
       font-size: clamp(0.76rem, 2.2vw, 0.88rem);
       font-weight: 400;
-      letter-spacing: 0.04em;
+      letter-spacing: -0.03em;
       font-variant-numeric: tabular-nums;
       color: rgba(255, 255, 255, 0.72);
-      text-shadow: 0 0 12px var(--accent-glow);
+      text-shadow: none;
       opacity: 0;
       animation: faceLoaderFade 2.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
@@ -209,19 +200,6 @@
       }
     }
 
-    /* Tiny semi-transparent worm crawling UNDER the interface */
-    #wormCanvas {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 1;
-      opacity: 0.42;
-      filter: blur(0.4px);
-      -webkit-filter: blur(0.4px);
-    }
-
     /* Ambient background spotlight following cursor/tilt (-30% tighter size, -20% softer glow) */
     .ambient-light {
       position: fixed;
@@ -252,28 +230,26 @@
 
     .scene {
       position: relative;
-      perspective: 1000px;
       display: flex;
       align-items: center;
       justify-content: center;
+      isolation: isolate;
     }
 
-    /* Soft accent glow spreading under jinushi (-25% smaller & softer) */
+    /* Soft accent glow spreading under jinushi (pure smooth Gaussian radial-gradient, zero Safari blur-tile seams) */
     .pink-aura {
       position: absolute;
       top: 58%;
       left: 50%;
       transform: translate(-50%, -50%) scale(0.85);
-      width: clamp(200px, 52vw, 510px);
-      height: clamp(86px, 19vw, 182px);
+      width: clamp(260px, 64vw, 600px);
+      height: clamp(120px, 26vw, 230px);
       background: radial-gradient(
-        ellipse at center,
+        ellipse 50% 50% at center,
         var(--aura-core) 0%,
-        var(--aura-mid) 45%,
-        var(--aura-zero) 75%
+        var(--aura-mid) 36%,
+        var(--aura-zero) 72%
       );
-      filter: blur(24px);
-      -webkit-filter: blur(24px);
       pointer-events: none;
       z-index: 0;
       opacity: 0;
@@ -314,11 +290,11 @@
       justify-content: center;
       text-align: center;
       width: 100%;
-      transform: translate3d(var(--tx), var(--ty), 0) rotateX(var(--rx)) rotateY(var(--ry));
+      transform: perspective(1000px) translate3d(var(--tx), var(--ty), 0) rotateX(var(--rx)) rotateY(var(--ry));
       cursor: pointer;
     }
 
-    /* Step 3 (4.1s -> 4.44s): Top badges with more intense + 25% longer opening blur reveal */
+    /* Step 3 (4.1s -> 4.44s): Top badges clean entrance (no parent blur filter over rotated pills to prevent iOS Safari streak bug) */
     .apple-collage {
       position: relative;
       display: flex;
@@ -327,8 +303,6 @@
       justify-content: center;
       margin-bottom: 0.18rem;
       transform: translateY(10px) scale(0.92);
-      filter: blur(10px);
-      -webkit-filter: blur(10px);
       opacity: 0;
       pointer-events: none;
       z-index: 6;
@@ -339,14 +313,10 @@
       0% {
         opacity: 0;
         transform: translateY(10px) scale(0.92);
-        filter: blur(10px);
-        -webkit-filter: blur(10px);
       }
       100% {
         opacity: 1;
         transform: translateY(0) scale(1);
-        filter: blur(0px);
-        -webkit-filter: blur(0px);
       }
     }
 
@@ -355,24 +325,23 @@
       align-items: center;
       justify-content: center;
       font-size: clamp(0.76rem, 2.3vw, 0.9rem);
-      font-weight: 600;
-      letter-spacing: -0.015em;
+      font-weight: 700;
+      letter-spacing: -0.03em;
       color: var(--badge-text);
-      background: var(--glass-sheen), var(--badge-bg);
-      border: 0.5px solid var(--badge-border);
+      background: var(--badge-bg);
+      border: 1px solid var(--badge-border);
       padding: 0.38rem 0.92rem;
       border-radius: 9999px;
       white-space: nowrap;
-      text-shadow: 0 0 12px var(--accent-glow);
-      box-shadow:
-        0 8px 22px rgba(0, 0, 0, 0.6),
-        0 0 16px var(--accent-box-glow),
-        inset 0 0.5px 0 rgba(255, 255, 255, 0.14);
-      transition: color 0.3s ease, background 0.3s ease, border-color 0.3s ease, text-shadow 0.3s ease, box-shadow 0.3s ease;
+      text-shadow: none;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.6);
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      transition: color 0.3s ease, background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     }
 
     .apple-badge.b-2 {
-      background: var(--glass-sheen), var(--badge-bg-2);
+      background: var(--badge-bg-2);
       border-color: var(--badge-border-2);
       color: #ffffff;
       transform: rotate(4.5deg) translateY(-1px);
@@ -382,7 +351,7 @@
 
     .apple-badge.b-3 {
       margin-top: -0.38rem;
-      background: var(--glass-sheen), var(--badge-bg-3);
+      background: var(--badge-bg-3);
       border-color: var(--badge-border-3);
       transform: rotate(-2deg);
       z-index: 4;
@@ -407,15 +376,15 @@
       }
     }
 
-    /* White subtitle under jinushi with thinner weight (appears with step 4 at 4.36s, +25% longer blur) */
+    /* White subtitle under jinushi — Regular description (slightly larger) with -3% tracking */
     .title-sub {
       margin-top: 1.05rem;
-      font-size: clamp(0.76rem, 2.3vw, 0.9rem);
-      font-weight: 300;
-      letter-spacing: 0.005em;
+      font-size: clamp(0.86rem, 2.55vw, 1.02rem);
+      font-weight: 400;
+      letter-spacing: -0.03em;
       color: #ffffff;
       text-align: center;
-      transform: translateZ(10px) translateY(8px) scale(0.95);
+      transform: translateY(8px) scale(0.95);
       filter: blur(9px);
       -webkit-filter: blur(9px);
       opacity: 0;
@@ -426,13 +395,13 @@
     @keyframes popBottomSub {
       0% {
         opacity: 0;
-        transform: translateZ(10px) translateY(8px) scale(0.95);
+        transform: translateY(8px) scale(0.95);
         filter: blur(9px);
         -webkit-filter: blur(9px);
       }
       100% {
         opacity: 1;
-        transform: translateZ(10px) translateY(0) scale(1);
+        transform: translateY(0) scale(1);
         filter: blur(0px);
         -webkit-filter: blur(0px);
       }
@@ -442,8 +411,8 @@
     .title {
       position: relative;
       font-size: clamp(3.23rem, 14.7vw, 11.88rem);
-      font-weight: 800;
-      letter-spacing: -0.045em;
+      font-weight: 700;
+      letter-spacing: -0.03em;
       line-height: 1.15;
       color: #ffffff;
       text-align: center;
@@ -549,8 +518,8 @@
       justify-content: center;
       padding: 0.65rem 1.6rem;
       font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: -0.01em;
+      font-weight: 500;
+      letter-spacing: -0.03em;
       color: #ffffff;
       text-decoration: none;
       border-radius: 9999px;
@@ -562,8 +531,7 @@
         color 0.25s ease,
         background 0.25s ease,
         border-color 0.25s ease,
-        transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
-        box-shadow 0.25s ease;
+        transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .btn:hover,
@@ -572,7 +540,7 @@
       background: #ffffff;
       border-color: #ffffff;
       transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba(255, 255, 255, 0.25);
+      box-shadow: none;
     }
 
     /* Projects Section */
@@ -612,12 +580,12 @@
       justify-content: center;
       font-size: clamp(1.3rem, 4.1vw, 1.75rem);
       font-weight: 700;
-      letter-spacing: -0.025em;
+      letter-spacing: -0.03em;
       line-height: 1.2;
       padding: 0.46rem 1.4rem;
       border-radius: 9999px;
       color: var(--badge-text);
-      background: var(--glass-sheen), var(--glass-pill-bg);
+      background: var(--glass-pill-bg);
       border: 0.5px solid var(--badge-border);
       text-transform: lowercase;
       margin-bottom: 0;
@@ -625,9 +593,7 @@
       text-align: center;
       transform: perspective(650px) rotateX(calc(var(--rx) * 0.6)) rotateY(calc(var(--ry) * 0.6));
       text-shadow: none;
-      box-shadow:
-        0 8px 20px rgba(0, 0, 0, 0.46),
-        inset 0 0.5px 0 rgba(255, 255, 255, 0.14);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.46);
       transition:
         color 0.3s ease,
         background 0.3s ease,
@@ -640,7 +606,7 @@
       margin-bottom: 0;
     }
 
-    /* Understated plain gray heading for "комната ожидания" (no border, no pill, no outer frame) */
+    /* Understated plain gray Light heading for "комната ожидания" (no border, no pill, no outer frame) */
     .projects-heading.waiting-heading {
       display: block;
       padding: 0;
@@ -651,8 +617,8 @@
       text-shadow: none;
       transform: none;
       font-size: clamp(1.15rem, 3.5vw, 1.42rem);
-      font-weight: 600;
-      letter-spacing: -0.02em;
+      font-weight: 300;
+      letter-spacing: -0.03em;
       color: rgba(255, 255, 255, 0.46);
       margin-top: 0;
       margin-bottom: -1.4rem;
@@ -690,7 +656,7 @@
     .tablet-active-canvas {
       z-index: 2;
       opacity: 0.46;
-      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ctext x='10' y='15' text-anchor='middle' font-family='Inter,-apple-system,sans-serif' font-weight='800' font-size='14' fill='%23ffffff'%3EJ%3C/text%3E%3C/svg%3E") 10 10, crosshair;
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ctext x='10' y='15' text-anchor='middle' font-family='Helvetica Neue,Helvetica,Arial,sans-serif' font-weight='700' font-size='14' fill='%23ffffff'%3EJ%3C/text%3E%3C/svg%3E") 10 10, crosshair;
       touch-action: none;
     }
 
@@ -755,13 +721,13 @@
       transform: scale(1.06);
     }
 
-    /* Delicate solid edge-to-edge section dividers (~5% thicker than 0.5px -> 0.58px) */
+    /* Delicate solid edge-to-edge section dividers (+15% thicker: 0.58 -> 0.67) */
     .section-divider {
       width: 100vw;
       max-width: none;
       height: 1px;
       background: var(--badge-border);
-      transform: scaleY(0.58);
+      transform: scaleY(0.67);
       transition: background 0.35s ease;
       flex-shrink: 0;
     }
@@ -839,9 +805,9 @@
     :root[data-theme="bw"] .face-intro-img,
     :root[data-theme="bw"] .bottom-face-img,
     :root[data-theme="bw"] .project-image,
-    :root[data-theme="bw"] .smm-preview-strip,
+    :root[data-theme="bw"] .cover-slide,
+    :root[data-theme="bw"] .modal-slide,
     :root[data-theme="bw"] .motion-preview-video,
-    :root[data-theme="bw"] .modal-preview-strip,
     :root[data-theme="bw"] .modal-preview-video {
       filter: grayscale(100%);
       -webkit-filter: grayscale(100%);
@@ -905,23 +871,224 @@
       );
     }
 
-    .smm-preview-strip {
-      display: block;
-      height: 100%;
-      width: auto;
-      max-width: none;
-      will-change: transform;
-      transition: filter 0.35s ease;
-      animation: smmPanSlow 24s ease-in-out infinite alternate;
+    /* One-time downward scroll magazine-cover stack runway (for alova, хкбад, and smm) */
+    .deck-runway {
+      position: relative;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      scroll-margin-top: 0;
     }
 
-    @keyframes smmPanSlow {
-      0% {
-        transform: translate3d(0%, 0, 0);
-      }
-      100% {
-        transform: translate3d(-51.25%, 0, 0);
-      }
+    .deck-runway[data-deck="alova"],
+    .deck-runway[data-deck="hkbad"] {
+      height: calc(100dvh + 1250px);
+    }
+
+    .deck-runway[data-deck="smm"] {
+      width: 100vw;
+      height: calc(100dvh + 2200px);
+    }
+
+    .deck-sticky-stage {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 4.4rem 0 1.4rem;
+    }
+
+    .deck-runway[data-deck="smm"] .deck-sticky-stage {
+      width: 100vw;
+      gap: clamp(1rem, 2.4vh, 1.55rem);
+      padding: 4.4rem 1.5rem 1.4rem;
+    }
+
+    /* Stage 1 collapse: remove extra runway scroll height immediately after last slide so scrolling UP is never forced */
+    .deck-runway.is-unpinned {
+      height: auto !important;
+    }
+
+    .deck-runway.is-unpinned .deck-sticky-stage {
+      position: relative;
+      top: auto;
+    }
+
+    /* Stage 2 collapse (once off-screen): compact normal spacing so scrolling back up feels completely natural */
+    .deck-runway.is-compact .deck-sticky-stage {
+      height: auto;
+      padding: 0;
+    }
+
+    .deck-runway.is-compact[data-deck="smm"] .deck-sticky-stage {
+      padding: 0 1.5rem;
+      gap: 1.55rem;
+    }
+
+    .deck-runway.is-compact .deck-counter {
+      display: none;
+    }
+
+    .deck-runway.is-compact[data-deck="smm"] .deck-counter {
+      display: inline;
+    }
+
+    .deck-card-inner {
+      width: 100%;
+      max-width: 520px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+      gap: 0.98rem;
+    }
+
+    .smm-sticky-header {
+      width: 100%;
+      max-width: 520px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(0.9rem, 2.2vh, 1.45rem);
+    }
+
+    .smm-sticky-desc {
+      width: 100%;
+      text-align: left;
+      margin: 0;
+    }
+
+    /* SMM stage row with left & right side arrows + sharp square image box */
+    .smm-stage-row {
+      width: 100%;
+      max-width: 560px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(0.45rem, 2.2vw, 1.35rem);
+    }
+
+    .smm-nav-arrow {
+      width: 36px;
+      height: 36px;
+      flex-shrink: 0;
+      border: none;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.58);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 0;
+      transition: color 0.2s ease, transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .smm-nav-arrow svg {
+      width: 22px;
+      height: 22px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .smm-nav-arrow:hover,
+    .smm-nav-arrow:active {
+      color: #ffffff;
+    }
+
+    .smm-nav-prev:hover,
+    .smm-nav-prev:active {
+      transform: translateX(-2px);
+    }
+
+    .smm-nav-next:hover,
+    .smm-nav-next:active {
+      transform: translateX(2px);
+    }
+
+    /* SMM pure-black centered cover box without frame, border, or rounded corners */
+    .smm-cover-box {
+      position: relative;
+      flex: 0 1 auto;
+      width: min(72vw, 420px, 48dvh);
+      aspect-ratio: 1 / 1;
+      border-radius: 0;
+      overflow: hidden;
+      background: #000000;
+      border: none;
+      box-shadow: none;
+      cursor: pointer;
+    }
+
+    /* Magazine-cover left-to-right overlay stack (flat, linear, zero bounce, zero 3D simulation) */
+    .cover-stack {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000000;
+    }
+
+    .cover-slide {
+      position: absolute;
+      inset: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transform: translate3d(-100%, 0, 0);
+      will-change: transform;
+      transition: filter 0.35s ease;
+      pointer-events: none;
+    }
+
+    .cover-slide:first-child {
+      transform: translate3d(0%, 0, 0);
+    }
+
+    .cover-slide.is-sliding {
+      box-shadow: 14px 0 36px rgba(0, 0, 0, 0.58);
+    }
+
+    /* After first-scroll completion, branding cards can gently fade-crossfade when scrolling back up */
+    .deck-runway.is-idle-fade .cover-slide {
+      transform: translate3d(0%, 0, 0) !important;
+      box-shadow: none !important;
+      opacity: 0;
+      transition: opacity 0.85s ease-in-out, filter 0.35s ease;
+    }
+
+    .deck-runway.is-idle-fade .cover-slide.is-active {
+      opacity: 1;
+    }
+
+    .deck-runway.is-idle-fade.is-manual .cover-slide {
+      transition: opacity 0.24s ease-out, filter 0.35s ease;
+    }
+
+    .deck-footer-row {
+      width: 100%;
+      max-width: 520px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .deck-counter {
+      font-size: 0.82rem;
+      font-weight: 400;
+      letter-spacing: -0.03em;
+      font-variant-numeric: tabular-nums;
+      color: rgba(255, 255, 255, 0.45);
     }
 
     .smm-preview-frame.is-video-frame::before,
@@ -943,8 +1110,49 @@
     }
 
     .modal-preview-strip.hidden,
-    .modal-preview-video.hidden {
+    .modal-preview-video.hidden,
+    .modal-slideshow.hidden {
       display: none;
+    }
+
+    /* Fade-in / fade-out slideshow for fullscreen modal */
+    .modal-slideshow {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: #000000;
+    }
+
+    .modal-slide {
+      position: absolute;
+      inset: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      opacity: 0;
+      transition: opacity 0.85s ease-in-out, filter 0.35s ease;
+      pointer-events: none;
+      will-change: opacity;
+    }
+
+    .modal-slideshow.is-fast-fade .modal-slide {
+      transition: opacity 0.28s ease-in-out, filter 0.35s ease;
+    }
+
+    .modal-slide.is-active {
+      opacity: 1;
+      z-index: 1;
+    }
+
+    .modal-preview-frame.is-square-frame {
+      width: min(88vw, 560px);
+      aspect-ratio: 1 / 1;
+      max-height: 70dvh;
+      border-radius: 0;
+      border: none;
+      background: #000000;
     }
 
     /* White "смотреть" button with play icon on the left under every preview */
@@ -961,8 +1169,8 @@
       border: none;
       font-family: inherit;
       font-size: clamp(0.84rem, 2.4vw, 0.92rem);
-      font-weight: 600;
-      letter-spacing: -0.015em;
+      font-weight: 500;
+      letter-spacing: -0.03em;
       text-transform: lowercase;
       text-decoration: none;
       cursor: pointer;
@@ -976,7 +1184,7 @@
     .preview-watch-btn:hover,
     .preview-watch-btn:active {
       transform: translateY(-2px) scale(1.02);
-      box-shadow: 0 12px 28px rgba(255, 255, 255, 0.22);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.55);
     }
 
     .preview-watch-icon {
@@ -1136,6 +1344,55 @@
       }
     }
 
+    /* Compact "смотреть все видео" YouTube playlist button under Motion modal timeline */
+    .modal-yt-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.44rem;
+      margin-top: 0.1rem;
+      padding: 0.46rem 1.08rem;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.10);
+      border: 0.5px solid rgba(255, 255, 255, 0.28);
+      color: #ffffff;
+      font-family: inherit;
+      font-size: clamp(0.76rem, 2.2vw, 0.84rem);
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      text-transform: lowercase;
+      text-decoration: none;
+      cursor: pointer;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition:
+        color 0.22s ease,
+        background 0.22s ease,
+        border-color 0.22s ease,
+        transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .modal-yt-btn:hover,
+    .modal-yt-btn:active {
+      color: #000000;
+      background: #ffffff;
+      border-color: #ffffff;
+      transform: translateY(-1.5px);
+      box-shadow: none;
+    }
+
+    .modal-yt-btn.hidden {
+      display: none;
+    }
+
+    .modal-yt-icon {
+      width: 9px;
+      height: 9px;
+      fill: currentColor;
+      flex-shrink: 0;
+      transform: translateX(0.5px);
+    }
+
     .project-meta-row {
       width: 100%;
       display: flex;
@@ -1154,7 +1411,7 @@
     .project-year {
       font-size: clamp(0.92rem, 2.6vw, 1.04rem);
       font-weight: 300;
-      letter-spacing: -0.01em;
+      letter-spacing: -0.03em;
       color: rgba(255, 255, 255, 0.72);
       white-space: nowrap;
       flex-shrink: 0;
@@ -1163,14 +1420,20 @@
     .project-desc {
       font-size: clamp(0.95rem, 2.8vw, 1.08rem);
       font-weight: 400;
-      letter-spacing: -0.01em;
+      letter-spacing: -0.03em;
       color: rgba(255, 255, 255, 0.65);
       margin-top: -0.25rem;
       margin-bottom: 0.25rem;
       transition: opacity 0.2s ease;
     }
 
-    /* Scroll-triggered crisp accent underline on all numbers */
+    .project-desc.waiting-desc {
+      font-weight: 300;
+      width: 100%;
+      text-align: center;
+    }
+
+    /* Scroll-triggered crisp accent underline on all numbers (no glow) */
     .num-underline {
       position: relative;
       display: inline-block;
@@ -1186,20 +1449,19 @@
       height: 1.25px;
       border-radius: 999px;
       background: var(--dot-color);
-      box-shadow: 0 0 8px var(--accent-glow);
+      box-shadow: none;
       transform: scaleX(0);
       transform-origin: left center;
       transition:
         transform 0.68s cubic-bezier(0.22, 1, 0.36, 1) 0.1s,
-        background 0.35s ease,
-        box-shadow 0.35s ease;
+        background 0.35s ease;
     }
 
     .project-desc.in-view .num-underline::after {
       transform: scaleX(1);
     }
 
-    /* Minimalist language switcher in top-right corner (+10% thicker font weight: 350) */
+    /* Minimalist language switcher in top-right corner (Helvetica Regular, -3% tracking, no glow) */
     .lang-switcher {
       position: fixed;
       top: 1.4rem;
@@ -1219,19 +1481,19 @@
       color: rgba(255, 255, 255, 0.78);
       font-family: inherit;
       font-size: 0.88rem;
-      font-weight: 350;
-      font-variation-settings: 'wght' 350;
-      letter-spacing: 0.02em;
+      font-weight: 400;
+      letter-spacing: -0.03em;
       text-transform: lowercase;
+      text-shadow: none;
       cursor: pointer;
       padding: 0.25rem 0.4rem;
-      transition: color 0.2s ease, text-shadow 0.2s ease, transform 0.2s ease;
+      transition: color 0.2s ease, transform 0.2s ease;
     }
 
     .lang-current:hover,
     .lang-switcher.open .lang-current {
       color: #ffffff;
-      text-shadow: 0 0 12px var(--accent-glow);
+      text-shadow: none;
     }
 
     .lang-menu {
@@ -1263,19 +1525,19 @@
       color: rgba(255, 255, 255, 0.52);
       font-family: inherit;
       font-size: 0.84rem;
-      font-weight: 350;
-      font-variation-settings: 'wght' 350;
-      letter-spacing: 0.02em;
+      font-weight: 400;
+      letter-spacing: -0.03em;
       text-transform: lowercase;
+      text-shadow: none;
       cursor: pointer;
       padding: 0.18rem 0.4rem;
-      transition: color 0.18s ease, transform 0.18s ease, text-shadow 0.18s ease;
+      transition: color 0.18s ease, transform 0.18s ease;
     }
 
     .lang-option:hover {
       color: var(--badge-text);
       transform: translateX(-2px);
-      text-shadow: 0 0 10px var(--accent-glow);
+      text-shadow: none;
     }
 
     /* Minimalist accent color dot switcher in top-left corner (no glow) */
@@ -1397,22 +1659,11 @@
       justify-content: center;
       border-radius: 9999px;
       padding: 0.22rem;
-      background:
-        linear-gradient(
-          110deg,
-          rgba(255, 255, 255, 0.01) 0%,
-          rgba(255, 255, 255, 0.04) 28%,
-          rgba(255, 255, 255, 0.008) 54%,
-          rgba(255, 255, 255, 0.025) 80%,
-          rgba(255, 255, 255, 0.008) 100%
-        ),
-        rgba(24, 24, 30, 0.08);
+      background: rgba(24, 24, 30, 0.08);
       border: 0.5px solid rgba(255, 255, 255, 0.24);
       backdrop-filter: blur(6px) saturate(130%);
       -webkit-backdrop-filter: blur(6px) saturate(130%);
-      box-shadow:
-        0 6px 18px rgba(0, 0, 0, 0.32),
-        inset 0 0.5px 0 rgba(255, 255, 255, 0.10);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.32);
       transition:
         padding 0.32s cubic-bezier(0.22, 1, 0.36, 1),
         background 0.3s ease,
@@ -1433,8 +1684,8 @@
       border: none;
       font-family: inherit;
       font-size: clamp(0.75rem, 2.2vw, 0.86rem);
-      font-weight: 600;
-      letter-spacing: -0.015em;
+      font-weight: 500;
+      letter-spacing: -0.03em;
       color: #ffffff;
       padding: 0.22rem 0.78rem;
       border-radius: 9999px;
@@ -1495,8 +1746,8 @@
       border: 0.5px solid transparent;
       font-family: inherit;
       font-size: clamp(0.74rem, 2.2vw, 0.85rem);
-      font-weight: 600;
-      letter-spacing: -0.015em;
+      font-weight: 500;
+      letter-spacing: -0.03em;
       color: rgba(255, 255, 255, 0.88);
       padding: 0.24rem 0.72rem;
       border-radius: 9999px;
@@ -1565,7 +1816,7 @@
     .bottom-vibe-note {
       font-size: clamp(0.75rem, 2.2vw, 0.86rem);
       font-weight: 300;
-      letter-spacing: 0.005em;
+      letter-spacing: -0.03em;
       color: rgba(255, 255, 255, 0.52);
       text-align: center;
       transform: translateZ(10px);
@@ -1652,6 +1903,39 @@
       .section-cards-stack {
         gap: 3.22rem;
       }
+      .deck-runway[data-deck="alova"],
+      .deck-runway[data-deck="hkbad"] {
+        height: calc(100dvh + 960px);
+      }
+      .deck-runway[data-deck="smm"] {
+        height: calc(100dvh + 1760px);
+      }
+      .deck-runway[data-deck="smm"] .deck-sticky-stage {
+        padding-left: 0.65rem;
+        padding-right: 0.65rem;
+      }
+      .deck-runway.is-compact[data-deck="smm"] .deck-sticky-stage {
+        padding: 0 0.65rem;
+      }
+      .smm-sticky-header,
+      .deck-runway[data-deck="smm"] .deck-footer-row {
+        padding-left: 0.85rem;
+        padding-right: 0.85rem;
+      }
+      .smm-stage-row {
+        gap: 0.35rem;
+      }
+      .smm-nav-arrow {
+        width: 32px;
+        height: 32px;
+      }
+      .smm-nav-arrow svg {
+        width: 20px;
+        height: 20px;
+      }
+      .smm-cover-box {
+        width: min(calc(100vw - 6.2rem), 340px, 45dvh);
+      }
     }
   </style>
 </head>
@@ -1694,7 +1978,6 @@
     </div>
   </div>
 
-  <canvas id="wormCanvas" aria-hidden="true"></canvas>
   <div class="ambient-light" id="ambient"></div>
 
   <section class="hero">
@@ -1726,53 +2009,106 @@
         <h2 class="projects-heading scroll-reveal" id="branding">branding design</h2>
 
         <div class="section-cards-stack">
-          <article class="project-card scroll-reveal">
-            <h3 class="project-title">alova</h3>
-            <div class="project-meta-row">
-              <p class="project-desc" id="i18nAlovaDesc">тату-студия в харькове</p>
-              <span class="project-year">2024</span>
+          <div class="deck-runway" data-deck="alova">
+            <div class="deck-sticky-stage">
+              <article class="deck-card-inner">
+                <h3 class="project-title">alova</h3>
+                <div class="project-meta-row">
+                  <p class="project-desc" id="i18nAlovaDesc">тату-студия в харькове</p>
+                  <span class="project-year">2024</span>
+                </div>
+                <div class="smm-preview-frame is-video-frame" data-open-modal="alova" role="button" tabindex="0" aria-label="Открыть превью alova в полный экран">
+                  <div class="cover-stack">
+                    <img class="cover-slide is-active" src="alova.png" alt="alova — обложка" decoding="async" />
+                    <img class="cover-slide" src="alova1.jpg?v=1" alt="alova — слайд 1" decoding="async" />
+                    <img class="cover-slide" src="alova2.jpg?v=1" alt="alova — слайд 2" decoding="async" />
+                    <img class="cover-slide" src="alova3.jpg?v=1" alt="alova — слайд 3" decoding="async" />
+                    <img class="cover-slide" src="alova4.jpg?v=1" alt="alova — слайд 4" decoding="async" />
+                  </div>
+                </div>
+                <div class="deck-footer-row">
+                  <button class="preview-watch-btn" type="button" data-open-modal="alova">
+                    <svg class="preview-watch-icon" viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
+                    <span class="watch-btn-label">смотреть</span>
+                  </button>
+                  <span class="deck-counter">1 / 5</span>
+                </div>
+              </article>
             </div>
-            <a class="project-image-link" href="https://www.behance.net/gallery/226526537/ALOVA-tatto-studio-2024" target="_blank" rel="noopener noreferrer">
-              <img class="project-image" src="alova.png" alt="alova — тату-студия в харькове" loading="lazy" />
-            </a>
-            <a class="preview-watch-btn" href="https://www.behance.net/gallery/226526537/ALOVA-tatto-studio-2024" target="_blank" rel="noopener noreferrer">
-              <svg class="preview-watch-icon" viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
-              <span class="watch-btn-label">смотреть</span>
-            </a>
-          </article>
+          </div>
 
-          <article class="project-card scroll-reveal">
-            <h3 class="project-title" id="i18nHkbadTitle">хкбад</h3>
-            <div class="project-meta-row">
-              <p class="project-desc" id="i18nHkbadDesc">колледж архитектуры в харькове</p>
-              <span class="project-year">2022</span>
+          <div class="deck-runway" data-deck="hkbad">
+            <div class="deck-sticky-stage">
+              <article class="deck-card-inner">
+                <h3 class="project-title" id="i18nHkbadTitle">хкбад</h3>
+                <div class="project-meta-row">
+                  <p class="project-desc" id="i18nHkbadDesc">колледж архитектуры в харькове</p>
+                  <span class="project-year">2022</span>
+                </div>
+                <div class="smm-preview-frame is-video-frame" data-open-modal="hkbad" role="button" tabindex="0" aria-label="Открыть превью хкбад в полный экран">
+                  <div class="cover-stack">
+                    <img class="cover-slide is-active" src="hkbad.jpg" alt="хкбад — обложка" decoding="async" />
+                    <img class="cover-slide" src="hkbad1.jpg?v=1" alt="хкбад — слайд 1" decoding="async" />
+                    <img class="cover-slide" src="hkbad2.jpg?v=1" alt="хкбад — слайд 2" decoding="async" />
+                    <img class="cover-slide" src="hkbad3.jpg?v=1" alt="хкбад — слайд 3" decoding="async" />
+                    <img class="cover-slide" src="hkbad4.jpg?v=1" alt="хкбад — слайд 4" decoding="async" />
+                  </div>
+                </div>
+                <div class="deck-footer-row">
+                  <button class="preview-watch-btn" type="button" data-open-modal="hkbad">
+                    <svg class="preview-watch-icon" viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
+                    <span class="watch-btn-label">смотреть</span>
+                  </button>
+                  <span class="deck-counter">1 / 5</span>
+                </div>
+              </article>
             </div>
-            <a class="project-image-link" href="https://www.behance.net/gallery/144711515/HKBAD-architecture-college-2022" target="_blank" rel="noopener noreferrer">
-              <img class="project-image" src="hkbad.jpg" alt="хкбад — колледж архитектуры в харькове" loading="lazy" />
-            </a>
-            <a class="preview-watch-btn" href="https://www.behance.net/gallery/144711515/HKBAD-architecture-college-2022" target="_blank" rel="noopener noreferrer">
-              <svg class="preview-watch-icon" viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
-              <span class="watch-btn-label">смотреть</span>
-            </a>
-          </article>
+          </div>
         </div>
       </div>
 
       <div class="section-divider scroll-reveal" aria-hidden="true"></div>
 
-      <div class="section-group">
-        <h2 class="projects-heading section-subhead scroll-reveal" id="smm">smm design</h2>
-
-        <article class="project-card scroll-reveal">
-          <p class="project-desc" id="i18nSmmDesc">создал более <span class="num-underline">3000</span> креативов за 3 года для различных ниш</p>
-          <div class="smm-preview-frame" data-open-modal="smm" role="button" tabindex="0" aria-label="Открыть превью smm design в полный экран">
-            <img class="smm-preview-strip" src="smm.jpg?v=2" alt="smm design — 24 креатива" decoding="async" />
+      <!-- One-time downward scroll magazine-cover stack for SMM (pure black, no box/border) -->
+      <div class="deck-runway" data-deck="smm" id="smm">
+        <div class="deck-sticky-stage">
+          <div class="smm-sticky-header">
+            <h2 class="projects-heading section-subhead">smm design</h2>
+            <p class="project-desc smm-sticky-desc" id="i18nSmmDesc">создал более <span class="num-underline">3000</span> креативов за 3 года для различных ниш</p>
           </div>
-          <button class="preview-watch-btn" type="button" data-open-modal="smm">
-            <svg class="preview-watch-icon" viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
-            <span class="watch-btn-label">смотреть</span>
-          </button>
-        </article>
+
+          <div class="smm-stage-row">
+            <button class="smm-nav-arrow smm-nav-prev" type="button" data-smm-step="-1" aria-label="Предыдущий креатив">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 5 8 12 15 19" /></svg>
+            </button>
+
+            <div class="smm-cover-box" data-open-modal="smm" role="button" tabindex="0" aria-label="Открыть smm креативы">
+              <div class="cover-stack">
+                <img class="cover-slide is-active" src="smm1.jpg?v=1" alt="smm 1" decoding="async" />
+                <img class="cover-slide" src="smm2.jpg?v=1" alt="smm 2" decoding="async" />
+                <img class="cover-slide" src="smm3.jpg?v=1" alt="smm 3" decoding="async" />
+                <img class="cover-slide" src="smm4.jpg?v=1" alt="smm 4" decoding="async" />
+                <img class="cover-slide" src="smm5.jpg?v=1" alt="smm 5" decoding="async" />
+                <img class="cover-slide" src="smm6.jpg?v=1" alt="smm 6" decoding="async" />
+                <img class="cover-slide" src="smm7.jpg?v=1" alt="smm 7" decoding="async" />
+                <img class="cover-slide" src="smm8.jpg?v=1" alt="smm 8" decoding="async" />
+                <img class="cover-slide" src="smm9.jpg?v=1" alt="smm 9" decoding="async" />
+              </div>
+            </div>
+
+            <button class="smm-nav-arrow smm-nav-next" type="button" data-smm-step="1" aria-label="Следующий креатив">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 5 16 12 9 19" /></svg>
+            </button>
+          </div>
+
+          <div class="deck-footer-row">
+            <button class="preview-watch-btn" type="button" data-open-modal="smm">
+              <svg class="preview-watch-icon" viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
+              <span class="watch-btn-label">смотреть</span>
+            </button>
+            <span class="deck-counter">1 / 9</span>
+          </div>
+        </div>
       </div>
 
       <div class="section-divider scroll-reveal" aria-hidden="true"></div>
@@ -1797,7 +2133,7 @@
       <h2 class="projects-heading section-subhead waiting-heading scroll-reveal" id="waiting">комната ожидания</h2>
 
       <article class="project-card scroll-reveal">
-        <p class="project-desc" id="i18nWaitingDesc">пока дизайны готовятся можете здесь порисовать</p>
+        <p class="project-desc waiting-desc" id="i18nWaitingDesc">пока дизайны готовятся можете здесь порисовать</p>
         <div class="tablet-frame" id="tabletFrame">
           <canvas class="tablet-canvas" id="drawCanvas" aria-hidden="true"></canvas>
           <canvas class="tablet-active-canvas" id="drawActiveCanvas" aria-label="Детский планшет для рисования"></canvas>
@@ -1875,17 +2211,22 @@
     </div>
   </section>
 
-  <!-- Fullscreen preview modal for SMM & Motion with synced timeline progress bar -->
+  <!-- Fullscreen preview modal for Branding slideshows, SMM & Motion with synced timeline bar -->
   <div class="preview-modal" id="previewModal" aria-hidden="true" role="dialog" aria-modal="true">
     <div class="preview-modal-inner">
       <button class="preview-modal-close" id="previewModalClose" type="button" aria-label="Закрыть">&times;</button>
       <div class="modal-preview-frame" id="modalPreviewFrame">
+        <div class="modal-slideshow hidden" id="modalSlideshow"></div>
         <img class="modal-preview-strip hidden" id="modalPreviewStrip" src="" alt="" decoding="async" />
         <video class="modal-preview-video hidden" id="modalPreviewVideo" src="motion.mp4?v=1" autoplay loop muted playsinline preload="metadata"></video>
       </div>
       <div class="modal-timeline-track" aria-hidden="true">
         <div class="modal-timeline-fill" id="modalTimelineFill"></div>
       </div>
+      <a class="modal-yt-btn hidden" id="modalActionBtn" href="#" target="_blank" rel="noopener noreferrer">
+        <svg class="modal-yt-icon" viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
+        <span id="modalActionBtnLabel">смотреть все видео</span>
+      </a>
     </div>
   </div>
 
@@ -1923,7 +2264,12 @@
           const intro = document.getElementById('faceIntro');
           if (intro) intro.remove();
         }, 2650);
-        const bgAssets = ['smm.jpg?v=2'];
+        const bgAssets = [
+          'alova1.jpg?v=1', 'alova2.jpg?v=1', 'alova3.jpg?v=1', 'alova4.jpg?v=1',
+          'hkbad1.jpg?v=1', 'hkbad2.jpg?v=1', 'hkbad3.jpg?v=1', 'hkbad4.jpg?v=1',
+          'smm1.jpg?v=1', 'smm2.jpg?v=1', 'smm3.jpg?v=1', 'smm4.jpg?v=1', 'smm5.jpg?v=1',
+          'smm6.jpg?v=1', 'smm7.jpg?v=1', 'smm8.jpg?v=1', 'smm9.jpg?v=1'
+        ];
         bgAssets.forEach((href) => {
           const img = new Image();
           img.decoding = 'async';
@@ -1946,7 +2292,7 @@
         startIntro();
       }
 
-      // Release animation-fill-mode: forwards on parents once intro finishes so backdrop-filter: blur() works natively
+      // Release animation-fill-mode: forwards on parents & hero letters once intro finishes (prevents Safari lingering blur & unlocks backdrop-filter)
       ['.nav-switcher', '.apple-collage', '.projects-section', '.links', '.title-sub'].forEach((sel) => {
         const el = document.querySelector(sel);
         if (!el) return;
@@ -1959,6 +2305,20 @@
             el.style.filter = 'none';
             el.style.webkitFilter = 'none';
             el.style.animation = 'none';
+          },
+          { once: true }
+        );
+      });
+      document.querySelectorAll('.title-char').forEach((ch) => {
+        ch.addEventListener(
+          'animationend',
+          (e) => {
+            if (e.target !== ch) return;
+            ch.style.opacity = '1';
+            ch.style.transform = 'none';
+            ch.style.filter = 'none';
+            ch.style.webkitFilter = 'none';
+            ch.style.animation = 'none';
           },
           { once: true }
         );
@@ -2057,6 +2417,9 @@
           navSwitcher.classList.remove('open');
           navCurrent.setAttribute('aria-expanded', 'false');
           if (targetEl) {
+            if (window.__collapseDecksBefore) {
+              window.__collapseDecksBefore(targetEl);
+            }
             targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
         });
@@ -2068,19 +2431,258 @@
       });
     })();
 
-    // Fullscreen modal controller for SMM (panning strip) & Motion (looping MP4 synced timeline bar)
+    // One-time downward scroll magazine-cover stack controller (alova, хкбад, smm)
+    // Slides layer cleanly left-to-right on top of each other ONLY on first downward scroll;
+    // once scrolled past, extra runway collapses silently (0px jump) so scrolling back UP has ZERO forced scroll!
+    (function initOneTimeCoverDecks() {
+      const runways = Array.from(document.querySelectorAll('.deck-runway'));
+      if (!runways.length) return;
+
+      const decks = runways.map((runway) => {
+        const slides = Array.from(runway.querySelectorAll('.cover-slide'));
+        const counter = runway.querySelector('.deck-counter');
+        const arrowBtns = Array.from(runway.querySelectorAll('[data-smm-step]'));
+        slides.forEach((img, idx) => {
+          img.style.zIndex = String(idx + 1);
+        });
+        return {
+          runway,
+          slides,
+          counter,
+          arrowBtns,
+          currentIdx: 0,
+          pendingIdx: null,
+          pendingUntil: 0,
+          manualLock: false,
+          unpinned: false,
+          compacted: false,
+          idleTimer: null
+        };
+      });
+
+      function adjustScrollSilently(deltaY) {
+        if (!deltaY) return;
+        const html = document.documentElement;
+        const prevBehavior = html.style.scrollBehavior;
+        html.style.scrollBehavior = 'auto';
+        window.scrollTo(0, Math.max(0, window.scrollY - deltaY));
+        html.style.scrollBehavior = prevBehavior;
+      }
+
+      function showFadeSlide(deck, nextIdx) {
+        const count = deck.slides.length;
+        if (!count) return;
+        deck.runway.classList.add('is-idle-fade');
+        deck.currentIdx = ((nextIdx % count) + count) % count;
+        deck.slides.forEach((s, i) => s.classList.toggle('is-active', i === deck.currentIdx));
+        if (deck.counter) {
+          deck.counter.textContent = `${deck.currentIdx + 1} / ${count}`;
+        }
+      }
+
+      function startGentleIdleFade(deck) {
+        if (deck.idleTimer || deck.manualLock || deck.slides.length < 2) return;
+        showFadeSlide(deck, deck.slides.length - 1);
+        deck.idleTimer = setInterval(() => {
+          showFadeSlide(deck, deck.currentIdx + 1);
+        }, 2900);
+      }
+
+      decks.forEach((deck) => {
+        deck.arrowBtns.forEach((btn) => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const step = Number(btn.getAttribute('data-smm-step')) || 1;
+            const count = deck.slides.length;
+            if (count < 2) return;
+
+            if (deck.unpinned) {
+              if (deck.idleTimer) {
+                clearInterval(deck.idleTimer);
+                deck.idleTimer = null;
+              }
+              deck.manualLock = true;
+              deck.runway.classList.add('is-manual');
+              showFadeSlide(deck, deck.currentIdx + step);
+              return;
+            }
+
+            const now = performance.now();
+            const baseIdx = (deck.pendingIdx !== null && now < deck.pendingUntil)
+              ? deck.pendingIdx
+              : deck.currentIdx;
+            const targetIdx = ((baseIdx + step) % count + count) % count;
+            deck.pendingIdx = targetIdx;
+            deck.pendingUntil = now + 550;
+
+            const runwayTop = deck.runway.getBoundingClientRect().top + window.scrollY;
+            const scrollable = Math.max(1, deck.runway.offsetHeight - window.innerHeight);
+            const rawTarget = (targetIdx / Math.max(1, count - 1)) * scrollable;
+            const clampedOffset = targetIdx === count - 1 ? Math.max(0, scrollable - 1) : rawTarget;
+            window.scrollTo({
+              top: runwayTop + clampedOffset,
+              behavior: 'smooth'
+            });
+          });
+        });
+      });
+
+      function updateDecks() {
+        const vh = window.innerHeight;
+        for (let d = 0; d < decks.length; d++) {
+          const deck = decks[d];
+          if (deck.compacted) continue;
+
+          const rect = deck.runway.getBoundingClientRect();
+
+          // Stage 2: once completely scrolled off top of viewport, compact stage height off-screen (0px visual shift)
+          if (deck.unpinned) {
+            if (rect.bottom <= 0) {
+              const beforeH = deck.runway.offsetHeight;
+              deck.runway.classList.add('is-compact');
+              const afterH = deck.runway.offsetHeight;
+              deck.compacted = true;
+              adjustScrollSilently(beforeH - afterH);
+              startGentleIdleFade(deck);
+            }
+            continue;
+          }
+
+          const scrollable = Math.max(1, deck.runway.offsetHeight - vh);
+          const rawScrolled = -rect.top;
+          const progress = Math.min(1, Math.max(0, rawScrolled / scrollable));
+          const count = deck.slides.length;
+          const floatIdx = progress * (count - 1);
+          deck.currentIdx = Math.min(count - 1, Math.max(0, Math.round(floatIdx)));
+
+          for (let i = 1; i < count; i++) {
+            const t = Math.min(1, Math.max(0, floatIdx - (i - 1)));
+            const xPct = -100 + t * 100;
+            deck.slides[i].style.transform = `translate3d(${xPct.toFixed(2)}%, 0, 0)`;
+            deck.slides[i].classList.toggle('is-sliding', t > 0.005 && t < 0.995);
+          }
+
+          if (deck.counter) {
+            deck.counter.textContent = `${deck.currentIdx + 1} / ${count}`;
+          }
+
+          // Stage 1: the moment user finishes last slide & scrolls 4px past it, remove extra runway instantly (0px jump)
+          if (rawScrolled >= scrollable + 4) {
+            for (let i = 1; i < count; i++) {
+              deck.slides[i].style.transform = 'translate3d(0%, 0, 0)';
+              deck.slides[i].classList.remove('is-sliding');
+            }
+            deck.currentIdx = count - 1;
+            const beforeH = deck.runway.offsetHeight;
+            deck.runway.classList.add('is-unpinned');
+            const afterH = deck.runway.offsetHeight;
+            deck.unpinned = true;
+            adjustScrollSilently(beforeH - afterH);
+          }
+        }
+      }
+
+      // If user clicks a top-nav link to jump past earlier decks, collapse skipped decks above target
+      window.__collapseDecksBefore = (targetEl) => {
+        if (!targetEl) return;
+        const targetTop = targetEl.getBoundingClientRect().top + window.scrollY;
+        let removedAbove = 0;
+        decks.forEach((deck) => {
+          if (deck.compacted || deck.runway === targetEl) return;
+          const deckTop = deck.runway.getBoundingClientRect().top + window.scrollY;
+          if (deckTop < targetTop - 10) {
+            const beforeH = deck.runway.offsetHeight;
+            deck.runway.classList.add('is-unpinned', 'is-compact');
+            deck.unpinned = true;
+            deck.compacted = true;
+            const afterH = deck.runway.offsetHeight;
+            if (deck.runway.getBoundingClientRect().bottom <= window.innerHeight) {
+              removedAbove += (beforeH - afterH);
+            }
+            startGentleIdleFade(deck);
+          }
+        });
+        if (removedAbove > 0) {
+          adjustScrollSilently(removedAbove);
+        }
+      };
+
+      let ticking = false;
+      const onScroll = () => {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            updateDecks();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      };
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', updateDecks, { passive: true });
+      updateDecks();
+    })();
+
+    // Shared modal action labels (updated by language switcher)
+    const modalActionLabels = {
+      project: 'смотреть весь проект',
+      videos: 'смотреть все видео'
+    };
+
+    // Fullscreen modal controller for Branding slideshows, SMM (1s auto-slideshow) & Motion (looping MP4)
     (function initPreviewModal() {
       const modal = document.getElementById('previewModal');
       const closeBtn = document.getElementById('previewModalClose');
       const modalFrame = document.getElementById('modalPreviewFrame');
+      const slideshowEl = document.getElementById('modalSlideshow');
       const stripEl = document.getElementById('modalPreviewStrip');
       const videoEl = document.getElementById('modalPreviewVideo');
       const pageMotionVid = document.getElementById('motionPreviewVideo');
       const fillEl = document.getElementById('modalTimelineFill');
+      const actionBtn = document.getElementById('modalActionBtn');
+      const actionBtnLabel = document.getElementById('modalActionBtnLabel');
       const triggers = document.querySelectorAll('[data-open-modal]');
-      if (!modal || !stripEl || !videoEl || !fillEl) return;
+      if (!modal || !stripEl || !videoEl || !fillEl || !slideshowEl) return;
 
+      const slideshowDecks = {
+        alova: {
+          slides: ['alova.png', 'alova1.jpg?v=1', 'alova2.jpg?v=1', 'alova3.jpg?v=1', 'alova4.jpg?v=1'],
+          href: 'https://www.behance.net/gallery/226526537/ALOVA-tatto-studio-2024',
+          alt: 'alova',
+          duration: 2600,
+          square: false,
+          fastFade: false
+        },
+        hkbad: {
+          slides: ['hkbad.jpg', 'hkbad1.jpg?v=1', 'hkbad2.jpg?v=1', 'hkbad3.jpg?v=1', 'hkbad4.jpg?v=1'],
+          href: 'https://www.behance.net/gallery/144711515/HKBAD-architecture-college-2022',
+          alt: 'хкбад',
+          duration: 2600,
+          square: false,
+          fastFade: false
+        },
+        smm: {
+          slides: [
+            'smm1.jpg?v=1', 'smm2.jpg?v=1', 'smm3.jpg?v=1',
+            'smm4.jpg?v=1', 'smm5.jpg?v=1', 'smm6.jpg?v=1',
+            'smm7.jpg?v=1', 'smm8.jpg?v=1', 'smm9.jpg?v=1'
+          ],
+          href: null,
+          alt: 'smm design',
+          duration: 1000,
+          square: true,
+          fastFade: true
+        }
+      };
+
+      let activeModalType = null;
+      let activeSlideDuration = 2600;
       let videoRafId = null;
+      let slideRafId = null;
+      let slideStartTime = 0;
+      let currentSlideIdx = 0;
+      let modalSlideImgs = [];
+      let totalCycleMs = 0;
 
       // Ensure inline motion video keeps playing on mobile Safari after first gesture
       const ensureInlinePlay = () => {
@@ -2092,10 +2694,14 @@
       window.addEventListener('pointerdown', ensureInlinePlay, { passive: true, once: true });
       window.addEventListener('touchstart', ensureInlinePlay, { passive: true, once: true });
 
-      function stopVideoProgress() {
+      function stopTimers() {
         if (videoRafId !== null) {
           cancelAnimationFrame(videoRafId);
           videoRafId = null;
+        }
+        if (slideRafId !== null) {
+          cancelAnimationFrame(slideRafId);
+          slideRafId = null;
         }
       }
 
@@ -2112,23 +2718,84 @@
         videoRafId = requestAnimationFrame(tickVideoProgress);
       }
 
+      function tickSlideshowProgress(now) {
+        if (!modal.classList.contains('open') || !modalSlideImgs.length || !totalCycleMs) {
+          slideRafId = null;
+          return;
+        }
+        const elapsed = (now - slideStartTime) % totalCycleMs;
+        const ratio = elapsed / totalCycleMs;
+        fillEl.style.transform = `scaleX(${ratio.toFixed(4)})`;
+
+        const targetIdx = Math.floor(elapsed / activeSlideDuration) % modalSlideImgs.length;
+        if (targetIdx !== currentSlideIdx) {
+          modalSlideImgs[currentSlideIdx].classList.remove('is-active');
+          currentSlideIdx = targetIdx;
+          modalSlideImgs[currentSlideIdx].classList.add('is-active');
+        }
+        slideRafId = requestAnimationFrame(tickSlideshowProgress);
+      }
+
+      window.__syncModalActionLabel = () => {
+        if (!actionBtnLabel) return;
+        if (activeModalType === 'alova' || activeModalType === 'hkbad') {
+          actionBtnLabel.textContent = modalActionLabels.project;
+        } else if (activeModalType === 'motion') {
+          actionBtnLabel.textContent = modalActionLabels.videos;
+        }
+      };
+
       function openModal(type) {
-        stopVideoProgress();
+        stopTimers();
+        activeModalType = type;
+        slideshowEl.className = 'modal-slideshow hidden';
+        slideshowEl.innerHTML = '';
+        modalSlideImgs = [];
         stripEl.className = 'modal-preview-strip hidden';
         videoEl.className = 'modal-preview-video hidden';
+        videoEl.pause();
         fillEl.className = 'modal-timeline-fill';
         fillEl.style.transform = '';
-        if (modalFrame) modalFrame.classList.remove('is-video-frame');
+        if (modalFrame) {
+          modalFrame.classList.remove('is-video-frame', 'is-square-frame');
+        }
+        if (actionBtn) actionBtn.classList.add('hidden');
 
-        if (type === 'smm') {
-          stripEl.src = 'smm.jpg?v=2';
-          stripEl.alt = 'smm design — 24 креатива';
-          stripEl.classList.remove('hidden');
-          void stripEl.offsetWidth;
-          stripEl.classList.add('is-smm');
-          fillEl.classList.add('is-smm');
+        if (slideshowDecks[type]) {
+          const deck = slideshowDecks[type];
+          if (modalFrame) {
+            modalFrame.classList.add('is-video-frame');
+            if (deck.square) modalFrame.classList.add('is-square-frame');
+          }
+          if (deck.fastFade) slideshowEl.classList.add('is-fast-fade');
+          deck.slides.forEach((src, i) => {
+            const img = document.createElement('img');
+            img.className = i === 0 ? 'modal-slide is-active' : 'modal-slide';
+            img.src = src;
+            img.alt = `${deck.alt} — ${i + 1}`;
+            img.decoding = 'async';
+            slideshowEl.appendChild(img);
+            modalSlideImgs.push(img);
+          });
+          slideshowEl.classList.remove('hidden');
+          currentSlideIdx = 0;
+          activeSlideDuration = deck.duration;
+          totalCycleMs = deck.slides.length * activeSlideDuration;
+          slideStartTime = performance.now();
+          fillEl.style.transform = 'scaleX(0)';
+          if (deck.href && actionBtn && actionBtnLabel) {
+            actionBtn.href = deck.href;
+            actionBtnLabel.textContent = modalActionLabels.project;
+            actionBtn.classList.remove('hidden');
+          }
+          slideRafId = requestAnimationFrame(tickSlideshowProgress);
         } else if (type === 'motion') {
           if (modalFrame) modalFrame.classList.add('is-video-frame');
+          if (actionBtn && actionBtnLabel) {
+            actionBtn.href = 'https://youtube.com/playlist?list=PLQgLdK7en--E&si=PTNays3OSzDYAcG4';
+            actionBtnLabel.textContent = modalActionLabels.videos;
+            actionBtn.classList.remove('hidden');
+          }
           videoEl.classList.remove('hidden');
           videoEl.muted = true;
           videoEl.loop = true;
@@ -2146,8 +2813,9 @@
       }
 
       function closeModal() {
-        stopVideoProgress();
+        stopTimers();
         videoEl.pause();
+        activeModalType = null;
         modal.classList.remove('open');
         modal.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
@@ -2190,6 +2858,8 @@
           motionDesc: 'создал примерно 300 моушн видео junior & mid уровня сложности',
           vibeNote: 'портфолио в разработке и обновляется',
           watchBtn: 'смотреть',
+          modalYtBtn: 'смотреть все видео',
+          modalProjectBtn: 'смотреть весь проект',
           waitingTitle: 'комната ожидания',
           waitingDesc: 'пока дизайны готовятся можете здесь порисовать',
           tabletClear: 'очистить'
@@ -2205,6 +2875,8 @@
           motionDesc: 'створив приблизно 300 моушн відео junior & mid рівня складності',
           vibeNote: 'портфоліо у розробці та оновлюється',
           watchBtn: 'дивитись',
+          modalYtBtn: 'дивитись усі відео',
+          modalProjectBtn: 'дивитись весь проєкт',
           waitingTitle: 'кімната очікування',
           waitingDesc: 'поки дизайни готуються можете тут помалювати',
           tabletClear: 'очистити'
@@ -2220,6 +2892,8 @@
           motionDesc: 'created around 300 motion videos of junior & mid complexity',
           vibeNote: 'portfolio is in progress and being updated',
           watchBtn: 'watch',
+          modalYtBtn: 'watch all videos',
+          modalProjectBtn: 'view full project',
           waitingTitle: 'waiting room',
           waitingDesc: 'while the designs are cooking you can draw here',
           tabletClear: 'clear'
@@ -2235,6 +2909,8 @@
           motionDesc: 'vytvořil jsem přibližně 300 motion videí úrovně junior & mid',
           vibeNote: 'portfolio je ve vývoji a průběžně se aktualizuje',
           watchBtn: 'přehrát',
+          modalYtBtn: 'zobrazit všechna videa',
+          modalProjectBtn: 'zobrazit celý projekt',
           waitingTitle: 'čekárna',
           waitingDesc: 'než se designy připraví můžete si tu kreslit',
           tabletClear: 'smazat'
@@ -2250,6 +2926,8 @@
           motionDesc: 'junior & midレベルのモーション動画を約300本制作',
           vibeNote: 'ポートフォリオは制作中で随時更新しています',
           watchBtn: '見る',
+          modalYtBtn: 'すべての動画を見る',
+          modalProjectBtn: 'プロジェクト全体を見る',
           waitingTitle: '待合室',
           waitingDesc: 'デザインを準備している間ここで落書きできます',
           tabletClear: '消去'
@@ -2331,6 +3009,9 @@
           tabletClearEl.setAttribute('aria-label', t.tabletClear);
           tabletClearEl.setAttribute('title', t.tabletClear);
         }
+        modalActionLabels.videos = t.modalYtBtn;
+        modalActionLabels.project = t.modalProjectBtn;
+        if (window.__syncModalActionLabel) window.__syncModalActionLabel();
         if (vibeNoteEl) vibeNoteEl.textContent = t.vibeNote;
         document.querySelectorAll('.watch-btn-label').forEach((el) => {
           el.textContent = t.watchBtn;
@@ -2386,7 +3067,7 @@
       const MARKER_COLOR = '#a3a8b4';
       const MARKER_ALPHA = 0.46;
       const STAMP_STEP = 11;
-      const FONT_SPEC = '800 13px Inter, -apple-system, sans-serif';
+      const FONT_SPEC = '700 13px "Helvetica Neue", Helvetica, Arial, sans-serif';
       let drawing = false;
       let lastX = 0;
       let lastY = 0;
@@ -2518,29 +3199,7 @@
       sizeTabletCanvas();
     })();
 
-    // Accent color theme switcher (pink / blue / green)
-    const wormPalettes = {
-      pink: {
-        shadow: 'rgba(255, 179, 217, 0.55)',
-        even: 'rgba(255, 195, 226, 0.72)',
-        odd: 'rgba(255, 170, 213, 0.62)',
-        letter: 'rgba(32, 12, 22, 0.92)'
-      },
-      blue: {
-        shadow: 'rgba(166, 212, 255, 0.55)',
-        even: 'rgba(190, 224, 255, 0.72)',
-        odd: 'rgba(150, 205, 255, 0.62)',
-        letter: 'rgba(10, 20, 34, 0.92)'
-      },
-      green: {
-        shadow: 'rgba(166, 240, 198, 0.55)',
-        even: 'rgba(190, 248, 214, 0.72)',
-        odd: 'rgba(150, 238, 190, 0.62)',
-        letter: 'rgba(10, 28, 18, 0.92)'
-      }
-    };
-    let activeWormPalette = wormPalettes.pink;
-
+    // Accent color theme switcher (pink / blue / green / bw)
     (function initThemeSwitcher() {
       const themes = ['pink', 'blue', 'green', 'bw'];
       let currentTheme = 'pink';
@@ -2600,7 +3259,6 @@
         } else {
           document.documentElement.setAttribute('data-theme', theme);
         }
-        activeWormPalette = wormPalettes[theme] || wormPalettes.pink;
         updateFaviconColor(theme);
         renderThemeMenu();
       }
@@ -2621,109 +3279,6 @@
     const root = document.documentElement;
     const title = document.getElementById('title');
     const ambient = document.getElementById('ambient');
-    const wormCanvas = document.getElementById('wormCanvas');
-    const ctx = wormCanvas.getContext('2d');
-
-    let dpr = Math.min(window.devicePixelRatio || 1, 2);
-    function resizeCanvas() {
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
-      wormCanvas.width = window.innerWidth * dpr;
-      wormCanvas.height = window.innerHeight * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    // Tiny pink worm state (crawls under UI with "j" on its back)
-    const numSegments = 12;
-    const baseSegDist = 2.8;
-    const segments = [];
-    const startWormX = window.innerWidth * 0.28;
-    const startWormY = window.innerHeight * 0.42;
-    for (let i = 0; i < numSegments; i++) {
-      segments.push({ x: startWormX - i * baseSegDist, y: startWormY, angle: 0 });
-    }
-
-    let wormAngle = -0.35;
-    let wormTargetAngle = wormAngle;
-    let wormPhase = 0;
-
-    function updateAndDrawWorm(now) {
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
-
-      ctx.clearRect(0, 0, vw, vh);
-
-      wormPhase += 0.075;
-      const inchSpeed = 0.55 + 0.38 * Math.sin(wormPhase);
-
-      wormTargetAngle += (Math.sin(now * 0.0007) * 0.018) + (Math.cos(now * 0.0019) * 0.015);
-
-      const head = segments[0];
-      const margin = 45;
-      if (head.x < margin || head.x > vw - margin || head.y < margin || head.y > vh - margin) {
-        const angleToCenter = Math.atan2(vh * 0.5 - head.y, vw * 0.5 - head.x);
-        const diff = Math.atan2(Math.sin(angleToCenter - wormAngle), Math.cos(angleToCenter - wormAngle));
-        wormTargetAngle = wormAngle + diff * 0.08;
-      }
-
-      wormAngle += Math.atan2(Math.sin(wormTargetAngle - wormAngle), Math.cos(wormTargetAngle - wormAngle)) * 0.08;
-
-      const wiggle = Math.sin(wormPhase * 1.4) * 0.22;
-      const moveAngle = wormAngle + wiggle;
-
-      head.x += Math.cos(moveAngle) * inchSpeed;
-      head.y += Math.sin(moveAngle) * inchSpeed;
-      head.angle = moveAngle;
-
-      const segSpacing = baseSegDist * (0.86 + 0.16 * Math.cos(wormPhase));
-
-      for (let i = 1; i < numSegments; i++) {
-        const prev = segments[i - 1];
-        const curr = segments[i];
-        const dx = prev.x - curr.x;
-        const dy = prev.y - curr.y;
-        const ang = Math.atan2(dy, dx);
-        curr.x = prev.x - Math.cos(ang) * segSpacing;
-        curr.y = prev.y - Math.sin(ang) * segSpacing;
-        curr.angle = ang;
-      }
-
-      ctx.save();
-      ctx.shadowColor = activeWormPalette.shadow;
-      ctx.shadowBlur = 8;
-
-      for (let i = numSegments - 1; i >= 0; i--) {
-        const s = segments[i];
-        let r = 3.2;
-        if (i === 0) r = 3.3;
-        else if (i > numSegments - 4) r = 3.2 * ((numSegments - i) / 4 + 0.25);
-        else if (i >= 3 && i <= 6) r = 3.6;
-
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, r, 0, Math.PI * 2);
-        ctx.fillStyle = i % 2 === 0 ? activeWormPalette.even : activeWormPalette.odd;
-        ctx.fill();
-      }
-
-      const backSeg = segments[4];
-      ctx.save();
-      ctx.translate(backSeg.x, backSeg.y);
-      let textAngle = backSeg.angle;
-      if (textAngle > Math.PI / 2 || textAngle < -Math.PI / 2) {
-        textAngle += Math.PI;
-      }
-      ctx.rotate(textAngle);
-      ctx.shadowBlur = 0;
-      ctx.font = '800 5.5px Inter, -apple-system, sans-serif';
-      ctx.fillStyle = activeWormPalette.letter;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText('j', 0, 0.3);
-      ctx.restore();
-
-      ctx.restore();
-    }
 
     let targetX = window.innerWidth / 2;
     let targetY = window.innerHeight / 3;
@@ -2812,8 +3367,6 @@
     }
 
     function animate(now) {
-      updateAndDrawWorm(now);
-
       const vw = window.innerWidth;
       const vh = window.innerHeight;
 
