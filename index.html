@@ -955,60 +955,18 @@
       );
     }
 
-    /* SMM stage row with left & right side arrows + sharp square image box (no frame, no border, no scroll lock) */
+    /* SMM centered square stage row (sharp corners, same 1.15px border as branding banners) */
     .smm-stage-row {
       width: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: clamp(0.45rem, 2.2vw, 1.25rem);
     }
 
-    .smm-nav-arrow {
-      width: 36px;
-      height: 36px;
-      flex-shrink: 0;
-      border: none;
-      background: transparent;
-      color: rgba(255, 255, 255, 0.58);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      padding: 0;
-      transition: color 0.2s ease, transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-
-    .smm-nav-arrow svg {
-      width: 22px;
-      height: 22px;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 1.6;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .smm-nav-arrow:hover,
-    .smm-nav-arrow:active {
-      color: #ffffff;
-    }
-
-    .smm-nav-prev:hover,
-    .smm-nav-prev:active {
-      transform: translateX(-2px);
-    }
-
-    .smm-nav-next:hover,
-    .smm-nav-next:active {
-      transform: translateX(2px);
-    }
-
-    /* SMM pure-black centered square box (sharp corners, same 1.15px border as branding banners) */
     .smm-cover-box {
       position: relative;
-      flex: 1 1 auto;
-      max-width: 410px;
+      width: 100%;
+      max-width: 440px;
       aspect-ratio: 1 / 1;
       border-radius: 0;
       overflow: hidden;
@@ -1088,7 +1046,12 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
+      outline: none;
       transition: color 0.18s ease, transform 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .slide-pager-arrow:focus:not(:focus-visible) {
+      outline: none;
     }
 
     .slide-pager-arrow svg {
@@ -1968,19 +1931,8 @@
       .section-cards-stack {
         gap: 3.22rem;
       }
-      .smm-stage-row {
-        gap: 0.45rem;
-      }
-      .smm-nav-arrow {
-        width: 32px;
-        height: 32px;
-      }
-      .smm-nav-arrow svg {
-        width: 20px;
-        height: 20px;
-      }
       .smm-cover-box {
-        max-width: 320px;
+        max-width: 380px;
       }
       .slide-pager {
         gap: 0.2rem;
@@ -2149,10 +2101,6 @@
           <p class="project-desc" id="i18nSmmDesc">создал более <span class="num-underline">3000</span> креативов за 3 года для различных ниш</p>
 
           <div class="smm-stage-row">
-            <button class="smm-nav-arrow smm-nav-prev" type="button" data-slide-step="-1" aria-label="Предыдущий креатив">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 5 8 12 15 19" /></svg>
-            </button>
-
             <div class="smm-cover-box" data-open-modal="smm" role="button" tabindex="0" aria-label="Открыть smm креативы">
               <div class="cover-stack">
                 <img class="cover-slide is-active" src="smm1.jpg?v=1" alt="smm 1" decoding="async" />
@@ -2166,10 +2114,6 @@
                 <img class="cover-slide" src="smm9.jpg?v=1" alt="smm 9" decoding="async" />
               </div>
             </div>
-
-            <button class="smm-nav-arrow smm-nav-next" type="button" data-slide-step="1" aria-label="Следующий креатив">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 5 16 12 9 19" /></svg>
-            </button>
           </div>
 
           <div class="deck-footer-row">
