@@ -788,17 +788,17 @@
       88%, 100% { opacity: 0; }
     }
 
-    /* Kids LCD drawing board — deeper dark matte surface, borderless, crisp pixel trash & JPG export icons */
+    /* Flat solid #141414 square drawing board — zero lights, shadows, or scuffs */
     .tablet-frame {
       position: relative;
       width: 100%;
       max-width: 520px;
-      aspect-ratio: 1.3 / 1;
+      aspect-ratio: 1 / 1;
       border-radius: 0;
       overflow: hidden;
-      background: radial-gradient(circle at 30% 24%, #121316 0%, #0c0d10 55%, #07080a 100%);
+      background: #141414;
       border: none;
-      box-shadow: inset 0 0 26px rgba(0, 0, 0, 0.72);
+      box-shadow: none;
     }
 
     .tablet-canvas,
@@ -819,34 +819,9 @@
 
     .tablet-active-canvas {
       z-index: 2;
-      opacity: 0.46;
+      opacity: 1;
       cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='22' viewBox='0 0 6 11' shape-rendering='crispEdges'%3E%3Cpath fill='%23ffffff' d='M3 0h2v2H3zM3 3h2v6H3zM1 9h4v1H1zM1 10h3v1H1z'/%3E%3C/svg%3E") 6 11, crosshair;
       touch-action: none;
-    }
-
-    .tablet-scratches {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 3;
-      pointer-events: none;
-      opacity: 0.65;
-    }
-
-    .tablet-flash {
-      position: absolute;
-      inset: 0;
-      z-index: 4;
-      pointer-events: none;
-      background: rgba(255, 255, 255, 0.12);
-      opacity: 0;
-      transition: opacity 0.22s ease;
-    }
-
-    .tablet-flash.active {
-      opacity: 1;
-      transition: opacity 0.05s ease;
     }
 
     .tablet-actions {
@@ -2890,54 +2865,6 @@
         <div class="tablet-frame" id="tabletFrame">
           <canvas class="tablet-canvas" id="drawCanvas" aria-hidden="true"></canvas>
           <canvas class="tablet-active-canvas" id="drawActiveCanvas" aria-label="Детский планшет для рисования"></canvas>
-          <svg class="tablet-scratches" viewBox="0 0 520 400" preserveAspectRatio="none" aria-hidden="true">
-            <g fill="none" stroke="#ffffff" stroke-linecap="round">
-              <!-- Short, subtle micro-scuffs and aged surface ticks (no heavy SVG filters for smooth 60fps mobile draw) -->
-              <path d="M44 62 l11 -3" stroke-width="0.45" stroke-opacity="0.055" />
-              <path d="M51 67 l7 -1" stroke-width="0.35" stroke-opacity="0.045" />
-              <path d="M128 38 q6 -3 13 1" stroke-width="0.4" stroke-opacity="0.05" />
-              <path d="M142 94 l8 4" stroke-width="0.35" stroke-opacity="0.04" />
-              <path d="M214 52 l9 -4" stroke-width="0.4" stroke-opacity="0.05" />
-              <path d="M222 57 l5 -2" stroke-width="0.35" stroke-opacity="0.04" />
-              <path d="M318 44 q7 3 12 0" stroke-width="0.4" stroke-opacity="0.045" />
-              <path d="M396 68 l10 -3" stroke-width="0.4" stroke-opacity="0.05" />
-              <path d="M452 54 l7 5" stroke-width="0.35" stroke-opacity="0.045" />
-              <path d="M72 138 l12 -2" stroke-width="0.4" stroke-opacity="0.05" />
-              <path d="M78 144 l6 1" stroke-width="0.35" stroke-opacity="0.04" />
-              <path d="M186 128 q5 -3 11 2" stroke-width="0.4" stroke-opacity="0.045" />
-              <path d="M262 118 l9 3" stroke-width="0.35" stroke-opacity="0.05" />
-              <path d="M268 124 l6 2" stroke-width="0.35" stroke-opacity="0.04" />
-              <path d="M348 134 l11 -4" stroke-width="0.4" stroke-opacity="0.05" />
-              <path d="M438 122 q6 2 10 -2" stroke-width="0.35" stroke-opacity="0.045" />
-              <path d="M34 218 l9 3" stroke-width="0.4" stroke-opacity="0.045" />
-              <path d="M116 202 q7 -2 13 2" stroke-width="0.45" stroke-opacity="0.055" />
-              <path d="M124 208 l7 -1" stroke-width="0.35" stroke-opacity="0.04" />
-              <path d="M218 194 l10 -3" stroke-width="0.4" stroke-opacity="0.05" />
-              <path d="M294 214 l8 4" stroke-width="0.35" stroke-opacity="0.045" />
-              <path d="M302 221 l6 2" stroke-width="0.35" stroke-opacity="0.04" />
-              <path d="M384 198 l12 -2" stroke-width="0.4" stroke-opacity="0.05" />
-              <path d="M466 212 l8 -5" stroke-width="0.4" stroke-opacity="0.045" />
-              <path d="M64 286 q6 -2 12 2" stroke-width="0.4" stroke-opacity="0.05" />
-              <path d="M158 274 l11 -4" stroke-width="0.45" stroke-opacity="0.05" />
-              <path d="M166 280 l6 -2" stroke-width="0.35" stroke-opacity="0.04" />
-              <path d="M248 266 l9 2" stroke-width="0.35" stroke-opacity="0.045" />
-              <path d="M336 284 q6 3 13 -1" stroke-width="0.4" stroke-opacity="0.05" />
-              <path d="M418 272 l10 -3" stroke-width="0.4" stroke-opacity="0.045" />
-              <path d="M96 346 l10 -2" stroke-width="0.4" stroke-opacity="0.05" />
-              <path d="M198 338 l8 3" stroke-width="0.35" stroke-opacity="0.045" />
-              <path d="M286 352 q7 -3 12 1" stroke-width="0.4" stroke-opacity="0.045" />
-              <path d="M376 342 l9 -4" stroke-width="0.4" stroke-opacity="0.05" />
-              <path d="M454 328 l7 3" stroke-width="0.35" stroke-opacity="0.04" />
-              <!-- Subtle aged smudge/wear specks -->
-              <circle cx="134" cy="154" r="0.7" fill="#ffffff" fill-opacity="0.05" stroke="none" />
-              <circle cx="282" cy="176" r="0.6" fill="#ffffff" fill-opacity="0.045" stroke="none" />
-              <circle cx="364" cy="238" r="0.8" fill="#ffffff" fill-opacity="0.04" stroke="none" />
-              <circle cx="192" cy="248" r="0.6" fill="#ffffff" fill-opacity="0.05" stroke="none" />
-              <circle cx="412" cy="148" r="0.7" fill="#ffffff" fill-opacity="0.04" stroke="none" />
-              <circle cx="88" cy="244" r="0.6" fill="#ffffff" fill-opacity="0.045" stroke="none" />
-            </g>
-          </svg>
-          <div class="tablet-flash" id="tabletFlash" aria-hidden="true"></div>
           <div class="tablet-actions">
             <button class="tablet-action-btn" id="tabletClearBtn" type="button" aria-label="Очистить планшет" title="Очистить">
               <svg viewBox="0 0 11 11" shape-rendering="crispEdges" aria-hidden="true">
@@ -4189,19 +4116,18 @@
       renderMenu();
     })();
 
-    // Interactive kids LCD drawing tablet ("комната ожидания") — zero-lag O(1) translucent pixel 'j' brush + razor-sharp Full HD JPG export
+    // Interactive flat #141414 square drawing board ("комната ожидания") — zero-lag O(1) pure white pixel 'j' brush + razor-sharp Full HD JPG export
     (function initDrawingTablet() {
       const baseCanvas = document.getElementById('drawCanvas');
       const activeCanvas = document.getElementById('drawActiveCanvas');
       const frame = document.getElementById('tabletFrame');
       const clearBtn = document.getElementById('tabletClearBtn');
       const downloadBtn = document.getElementById('tabletDownloadBtn');
-      const flashEl = document.getElementById('tabletFlash');
       if (!baseCanvas || !activeCanvas || !frame) return;
       const bctx = baseCanvas.getContext('2d', { alpha: true });
       const actx = activeCanvas.getContext('2d', { alpha: true });
-      const MARKER_COLOR = '#a3a8b4';
-      const MARKER_ALPHA = 0.46;
+      const MARKER_COLOR = '#ffffff';
+      const MARKER_ALPHA = 1;
       const STAMP_STEP = 11;
       const PIXEL_J_UNIT = 1.4;
       let drawing = false;
@@ -4362,10 +4288,6 @@
       if (clearBtn) {
         clearBtn.addEventListener('click', (e) => {
           e.stopPropagation();
-          if (flashEl) {
-            flashEl.classList.add('active');
-            setTimeout(() => flashEl.classList.remove('active'), 110);
-          }
           bakedStrokes = [];
           currentStroke = null;
           bctx.clearRect(0, 0, canvasW || baseCanvas.width, canvasH || baseCanvas.height);
@@ -4377,11 +4299,9 @@
         downloadBtn.addEventListener('click', (e) => {
           e.stopPropagation();
           sizeTabletCanvas();
-          const rect = frame.getBoundingClientRect();
-          const aspect = rect.width > 0 && rect.height > 0 ? rect.height / rect.width : 1 / 1.3;
-          // Crisp Full HD resolution preserving exact board aspect ratio (1920 x 1477)
+          // Crisp Full HD square resolution matching the 1:1 #141414 board (1920 x 1920)
           const exportW = 1920;
-          const exportH = Math.max(1, Math.round(exportW * aspect));
+          const exportH = 1920;
 
           const out = document.createElement('canvas');
           out.width = exportW;
@@ -4389,23 +4309,11 @@
           const octx = out.getContext('2d');
           octx.imageSmoothingEnabled = false;
 
-          const bgGrad = octx.createRadialGradient(
-            exportW * 0.3, exportH * 0.24, 0,
-            exportW * 0.3, exportH * 0.24, Math.max(exportW, exportH) * 0.85
-          );
-          bgGrad.addColorStop(0, '#121316');
-          bgGrad.addColorStop(0.55, '#0c0d10');
-          bgGrad.addColorStop(1, '#07080a');
-          octx.fillStyle = bgGrad;
+          octx.fillStyle = '#141414';
           octx.fillRect(0, 0, exportW, exportH);
 
-          // Re-render every pixel 'j' stroke directly at Full HD so export is razor-sharp
+          // Re-render every pure white pixel 'j' stroke directly at Full HD
           redrawBakedStrokes(octx, exportW, exportH);
-
-          if (flashEl) {
-            flashEl.classList.add('active');
-            setTimeout(() => flashEl.classList.remove('active'), 110);
-          }
 
           const triggerDownload = (href, revokeLater) => {
             const link = document.createElement('a');
@@ -4557,7 +4465,6 @@
 
     let isInteracting = false;
     let lastInteractionTime = 0;
-    let gyroEnabled = false;
 
     const maxRotateX = 14;
     const maxRotateY = 18;
@@ -4573,14 +4480,12 @@
 
     window.addEventListener('pointerdown', (e) => {
       markInteraction(e.clientX, e.clientY);
-      requestGyroPermission();
     }, { passive: true });
 
     window.addEventListener('touchstart', (e) => {
       if (e.touches && e.touches.length > 0) {
         markInteraction(e.touches[0].clientX, e.touches[0].clientY);
       }
-      requestGyroPermission();
     }, { passive: true });
 
     window.addEventListener('pointermove', (e) => {
@@ -4600,41 +4505,6 @@
     window.addEventListener('touchend', () => {
       isInteracting = false;
     });
-
-    function handleOrientation(e) {
-      if (e.gamma === null || e.beta === null) return;
-      gyroEnabled = true;
-
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
-
-      const clampedGamma = Math.max(-35, Math.min(35, e.gamma));
-      const clampedBeta = Math.max(10, Math.min(80, e.beta)) - 45;
-
-      const gx = ((clampedGamma / 35) * 0.5 + 0.5) * vw;
-      const gy = ((clampedBeta / 35) * 0.5 + 0.5) * vh;
-
-      markInteraction(gx, gy);
-    }
-
-    function requestGyroPermission() {
-      if (gyroEnabled) return;
-      if (typeof DeviceOrientationEvent !== 'undefined' &&
-          typeof DeviceOrientationEvent.requestPermission === 'function') {
-        DeviceOrientationEvent.requestPermission()
-          .then((state) => {
-            if (state === 'granted') {
-              window.addEventListener('deviceorientation', handleOrientation, true);
-            }
-          })
-          .catch(() => {});
-      }
-    }
-
-    if (typeof DeviceOrientationEvent !== 'undefined' &&
-        typeof DeviceOrientationEvent.requestPermission !== 'function') {
-      window.addEventListener('deviceorientation', handleOrientation, true);
-    }
 
     function animate(now) {
       const vw = window.innerWidth;
