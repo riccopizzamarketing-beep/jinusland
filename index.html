@@ -1202,6 +1202,14 @@
       transition: opacity 0.28s ease-in 0.12s, filter 0.35s ease;
     }
 
+    /* Instant cut switching on Branding cards (no fade-in / fade-out) */
+    .is-instant-slider .cover-slide,
+    .is-instant-slider .cover-slide.is-active,
+    .is-instant-slider.is-manual .cover-slide,
+    .is-instant-slider.is-manual .cover-slide.is-active {
+      transition: filter 0.35s ease;
+    }
+
     .deck-footer-row {
       width: 100%;
       max-width: 520px;
@@ -1211,11 +1219,11 @@
       gap: 0.75rem;
     }
 
-    /* Compact editorial counter-pager (< 1/5 >, < 1/9 >) on Branding and SMM cards (+13%) */
+    /* Compact editorial '- +' manual pager on Branding cards (no media counter) */
     .slide-pager {
       display: inline-flex;
       align-items: center;
-      gap: 0.32rem;
+      gap: 0.28rem;
       flex-shrink: 0;
     }
 
@@ -1243,24 +1251,15 @@
       height: 16px;
       fill: none;
       stroke: currentColor;
-      stroke-width: 1.85;
-      stroke-linecap: butt;
+      stroke-width: 1.9;
+      stroke-linecap: square;
       stroke-linejoin: miter;
     }
 
     .slide-pager-arrow:hover,
     .slide-pager-arrow:active {
       color: #ffffff;
-    }
-
-    .slide-pager-prev:hover,
-    .slide-pager-prev:active {
-      transform: translateX(-1.5px);
-    }
-
-    .slide-pager-next:hover,
-    .slide-pager-next:active {
-      transform: translateX(1.5px);
+      transform: scale(1.14);
     }
 
     .slide-pager-count {
@@ -1510,16 +1509,37 @@
 
     .modal-preview-frame.hidden,
     .modal-timeline-track.hidden,
-    .modal-branding-grid.hidden {
+    .modal-branding-grid.hidden,
+    .modal-branding-caption.hidden {
       display: none;
     }
 
-    /* 2x2 sharp grid overlay for Branding projects (alova, хкбад) */
+    /* Project title + description caption above seamless 2x2 Branding grid */
+    .modal-branding-caption {
+      width: 100%;
+      text-align: center;
+      font-size: clamp(0.96rem, 2.8vw, 1.12rem);
+      font-weight: 400;
+      letter-spacing: -0.03em;
+      line-height: 1.35;
+      color: rgba(255, 255, 255, 0.72);
+      margin-bottom: -0.35rem;
+    }
+
+    .modal-branding-caption-title {
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    /* Seamless 2x2 unified block for Branding projects (zero gaps, zero tile borders) */
     .modal-branding-grid {
       width: 100%;
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0.65rem;
+      gap: 0;
+      line-height: 0;
+      background: #000000;
+      border: none;
     }
 
     .modal-branding-tile {
@@ -1529,15 +1549,11 @@
       border-radius: 0;
       overflow: hidden;
       background: #080808;
-      border: 1px solid rgba(255, 255, 255, 0.14);
+      border: none;
+      margin: 0;
+      padding: 0;
       cursor: zoom-in;
-      transition:
-        border-color 0.25s ease,
-        transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-
-    .modal-branding-tile:hover {
-      border-color: var(--badge-border);
+      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .modal-branding-img {
@@ -2597,7 +2613,7 @@
         margin-bottom: -0.25rem;
       }
       .modal-branding-grid {
-        gap: 0.44rem;
+        gap: 0;
       }
     }
   </style>
@@ -2753,7 +2769,7 @@
         </div>
 
         <div class="section-cards-stack">
-          <article class="project-card scroll-reveal" data-slider="hkbad" data-auto="true" data-auto-delay="0">
+          <article class="project-card scroll-reveal is-instant-slider" data-slider="hkbad" data-auto="false">
             <h3 class="project-title" id="i18nHkbadTitle">хкбад</h3>
             <div class="project-meta-row">
               <p class="project-desc desc-slide-reveal" id="i18nHkbadDesc">колледж архитектуры в харькове</p>
@@ -2773,10 +2789,18 @@
                 <svg class="preview-watch-icon" viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
                 <span class="open-project-btn-label">открыть проект</span>
               </button>
+              <div class="slide-pager" aria-label="Перелистывание слайдов хкбад">
+                <button class="slide-pager-arrow slide-pager-prev" type="button" data-slide-step="-1" aria-label="Предыдущий слайд">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="12" x2="18" y2="12" /></svg>
+                </button>
+                <button class="slide-pager-arrow slide-pager-next" type="button" data-slide-step="1" aria-label="Следующий слайд">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="12" y1="6" x2="12" y2="18" /><line x1="6" y1="12" x2="18" y2="12" /></svg>
+                </button>
+              </div>
             </div>
           </article>
 
-          <article class="project-card scroll-reveal" data-slider="alova" data-auto="true" data-auto-delay="1300">
+          <article class="project-card scroll-reveal is-instant-slider" data-slider="alova" data-auto="false">
             <h3 class="project-title">alova</h3>
             <div class="project-meta-row">
               <p class="project-desc desc-slide-reveal" id="i18nAlovaDesc">тату-студия в харькове</p>
@@ -2796,6 +2820,14 @@
                 <svg class="preview-watch-icon" viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
                 <span class="open-project-btn-label">открыть проект</span>
               </button>
+              <div class="slide-pager" aria-label="Перелистывание слайдов alova">
+                <button class="slide-pager-arrow slide-pager-prev" type="button" data-slide-step="-1" aria-label="Предыдущий слайд">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="12" x2="18" y2="12" /></svg>
+                </button>
+                <button class="slide-pager-arrow slide-pager-next" type="button" data-slide-step="1" aria-label="Следующий слайд">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="12" y1="6" x2="12" y2="18" /><line x1="6" y1="12" x2="18" y2="12" /></svg>
+                </button>
+              </div>
             </div>
           </article>
         </div>
@@ -2926,6 +2958,7 @@
   <div class="preview-modal" id="previewModal" aria-hidden="true" role="dialog" aria-modal="true">
     <div class="preview-modal-inner" id="previewModalInner">
       <button class="preview-modal-close" id="previewModalClose" type="button" aria-label="Закрыть">&times;</button>
+      <p class="modal-branding-caption hidden" id="modalBrandingCaption"></p>
       <div class="modal-branding-grid hidden" id="modalBrandingGrid"></div>
       <div class="modal-preview-frame" id="modalPreviewFrame">
         <div class="modal-slideshow hidden" id="modalSlideshow"></div>
@@ -3388,10 +3421,14 @@
       requestAnimationFrame(tickInlineMotion);
     })();
 
-    // Shared modal action labels (updated by language switcher)
+    // Shared modal action labels & project captions (updated by language switcher)
     const modalActionLabels = {
       project: 'полный проект на биханс',
-      videos: 'смотреть все видео'
+      videos: 'смотреть все видео',
+      captions: {
+        alova: { title: 'алова', desc: 'тату-студия в харькове' },
+        hkbad: { title: 'хкбад', desc: 'колледж архитектуры в харькове' }
+      }
     };
 
     // Fullscreen modal controller for Branding 2×2 grid, SMM (1s auto-slideshow) & Motion (looping MP4)
@@ -3399,6 +3436,7 @@
       const modal = document.getElementById('previewModal');
       const modalInner = document.getElementById('previewModalInner');
       const closeBtn = document.getElementById('previewModalClose');
+      const brandingCaptionEl = document.getElementById('modalBrandingCaption');
       const brandingGridEl = document.getElementById('modalBrandingGrid');
       const modalFrame = document.getElementById('modalPreviewFrame');
       const timelineTrack = document.getElementById('modalTimelineTrack');
@@ -3525,12 +3563,29 @@
         slideRafId = requestAnimationFrame(tickSlideshowProgress);
       }
 
+      function renderBrandingCaption(type) {
+        if (!brandingCaptionEl) return;
+        const cap = modalActionLabels.captions && modalActionLabels.captions[type];
+        if (!cap) {
+          brandingCaptionEl.classList.add('hidden');
+          brandingCaptionEl.innerHTML = '';
+          return;
+        }
+        brandingCaptionEl.innerHTML = '';
+        const titleSpan = document.createElement('span');
+        titleSpan.className = 'modal-branding-caption-title';
+        titleSpan.textContent = `${cap.title}: `;
+        brandingCaptionEl.appendChild(titleSpan);
+        brandingCaptionEl.appendChild(document.createTextNode(cap.desc));
+        brandingCaptionEl.classList.remove('hidden');
+      }
+
       window.__syncModalActionLabel = () => {
-        if (!actionBtnLabel) return;
         if (brandingGrids[activeModalType]) {
-          actionBtnLabel.textContent = modalActionLabels.project;
+          if (actionBtnLabel) actionBtnLabel.textContent = modalActionLabels.project;
+          renderBrandingCaption(activeModalType);
         } else if (activeModalType === 'motion') {
-          actionBtnLabel.textContent = modalActionLabels.videos;
+          if (actionBtnLabel) actionBtnLabel.textContent = modalActionLabels.videos;
         }
       };
 
@@ -3545,6 +3600,10 @@
         videoEl.pause();
         fillEl.className = 'modal-timeline-fill';
         fillEl.style.transform = '';
+        if (brandingCaptionEl) {
+          brandingCaptionEl.classList.add('hidden');
+          brandingCaptionEl.innerHTML = '';
+        }
         if (brandingGridEl) {
           brandingGridEl.className = 'modal-branding-grid hidden';
           brandingGridEl.innerHTML = '';
@@ -3568,6 +3627,7 @@
           if (modalInner) modalInner.classList.add('is-branding-modal');
           if (modalFrame) modalFrame.classList.add('hidden');
           if (timelineTrack) timelineTrack.classList.add('hidden');
+          renderBrandingCaption(type);
 
           grid.images.forEach((src, i) => {
             const tile = document.createElement('div');
@@ -3933,6 +3993,10 @@
         }
         modalActionLabels.videos = t.modalYtBtn;
         modalActionLabels.project = t.modalProjectBtn;
+        modalActionLabels.captions = {
+          alova: { title: (lang === 'ru' || lang === 'ua') ? 'алова' : 'alova', desc: t.alovaDesc },
+          hkbad: { title: t.hkbadTitle, desc: t.hkbadDesc }
+        };
         if (window.__syncModalActionLabel) window.__syncModalActionLabel();
         if (vibeNoteEl) vibeNoteEl.textContent = t.vibeNote;
         document.querySelectorAll('.watch-btn-label').forEach((el) => {
