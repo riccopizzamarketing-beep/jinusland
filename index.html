@@ -1188,6 +1188,10 @@
       pointer-events: none;
     }
 
+    .cover-slide:not([src]) {
+      visibility: hidden;
+    }
+
     .cover-slide.is-active {
       opacity: 1;
       z-index: 1;
@@ -2716,9 +2720,9 @@
               <div class="smm-stair-top">
                 <div class="smm-stair-cover" data-open-modal="smm-1" role="button" tabindex="0" aria-label="Открыть smm креативы 1–3">
                   <div class="cover-stack">
-                    <img class="cover-slide is-active" src="smm1.jpg?v=1" alt="smm 1" decoding="async" />
-                    <img class="cover-slide" src="smm2.jpg?v=1" alt="smm 2" decoding="async" />
-                    <img class="cover-slide" src="smm3.jpg?v=1" alt="smm 3" decoding="async" />
+                    <img class="cover-slide is-active" src="smm1.jpg?v=1" data-wave="1" fetchpriority="high" alt="smm 1" decoding="async" />
+                    <img class="cover-slide" data-src="smm2.jpg?v=1" data-wave="2" alt="smm 2" decoding="async" />
+                    <img class="cover-slide" data-src="smm3.jpg?v=1" data-wave="2" alt="smm 3" decoding="async" />
                   </div>
                 </div>
                 <button class="smm-plus-btn" type="button" data-open-modal="smm-1" aria-label="Увеличить smm креативы 1–3">
@@ -2734,9 +2738,9 @@
               <div class="smm-stair-top">
                 <div class="smm-stair-cover" data-open-modal="smm-2" role="button" tabindex="0" aria-label="Открыть smm креативы 4–6">
                   <div class="cover-stack">
-                    <img class="cover-slide is-active" src="smm4.jpg?v=1" alt="smm 4" decoding="async" />
-                    <img class="cover-slide" src="smm5.jpg?v=1" alt="smm 5" decoding="async" />
-                    <img class="cover-slide" src="smm6.jpg?v=1" alt="smm 6" decoding="async" />
+                    <img class="cover-slide is-active" src="smm4.jpg?v=1" data-wave="1" fetchpriority="high" alt="smm 4" decoding="async" />
+                    <img class="cover-slide" data-src="smm5.jpg?v=1" data-wave="2" alt="smm 5" decoding="async" />
+                    <img class="cover-slide" data-src="smm6.jpg?v=1" data-wave="2" alt="smm 6" decoding="async" />
                   </div>
                 </div>
                 <button class="smm-plus-btn" type="button" data-open-modal="smm-2" aria-label="Увеличить smm креативы 4–6">
@@ -2752,9 +2756,9 @@
               <div class="smm-stair-top">
                 <div class="smm-stair-cover" data-open-modal="smm-3" role="button" tabindex="0" aria-label="Открыть smm креативы 7–9">
                   <div class="cover-stack">
-                    <img class="cover-slide is-active" src="smm7.jpg?v=1" alt="smm 7" decoding="async" />
-                    <img class="cover-slide" src="smm8.jpg?v=1" alt="smm 8" decoding="async" />
-                    <img class="cover-slide" src="smm9.jpg?v=1" alt="smm 9" decoding="async" />
+                    <img class="cover-slide is-active" src="smm7.jpg?v=1" data-wave="1" fetchpriority="high" alt="smm 7" decoding="async" />
+                    <img class="cover-slide" data-src="smm8.jpg?v=1" data-wave="2" alt="smm 8" decoding="async" />
+                    <img class="cover-slide" data-src="smm9.jpg?v=1" data-wave="2" alt="smm 9" decoding="async" />
                   </div>
                 </div>
                 <button class="smm-plus-btn" type="button" data-open-modal="smm-3" aria-label="Увеличить smm креативы 7–9">
@@ -2786,11 +2790,11 @@
             </div>
             <div class="smm-preview-frame is-video-frame branding-frame" data-open-modal="hkbad" role="button" tabindex="0" aria-label="Открыть превью проекта хкбад">
               <div class="cover-stack">
-                <img class="cover-slide is-active" src="hkbad.jpg" alt="хкбад — обложка" decoding="async" />
-                <img class="cover-slide" src="hkbad1.jpg?v=1" alt="хкбад — слайд 1" decoding="async" />
-                <img class="cover-slide" src="hkbad2.jpg?v=1" alt="хкбад — слайд 2" decoding="async" />
-                <img class="cover-slide" src="hkbad3.jpg?v=1" alt="хкбад — слайд 3" decoding="async" />
-                <img class="cover-slide" src="hkbad4.jpg?v=1" alt="хкбад — слайд 4" decoding="async" />
+                <img class="cover-slide is-active" src="hkbad.jpg" data-wave="1" fetchpriority="high" alt="хкбад — обложка" decoding="async" />
+                <img class="cover-slide" data-src="hkbad1.jpg?v=1" data-wave="3" alt="хкбад — слайд 1" decoding="async" />
+                <img class="cover-slide" data-src="hkbad2.jpg?v=1" data-wave="3" alt="хкбад — слайд 2" decoding="async" />
+                <img class="cover-slide" data-src="hkbad3.jpg?v=1" data-wave="3" alt="хкбад — слайд 3" decoding="async" />
+                <img class="cover-slide" data-src="hkbad4.jpg?v=1" data-wave="3" alt="хкбад — слайд 4" decoding="async" />
               </div>
             </div>
             <div class="deck-footer-row">
@@ -2817,11 +2821,11 @@
             </div>
             <div class="smm-preview-frame is-video-frame branding-frame" data-open-modal="alova" role="button" tabindex="0" aria-label="Открыть превью проекта alova">
               <div class="cover-stack">
-                <img class="cover-slide is-active" src="alova.png" alt="alova — обложка" decoding="async" />
-                <img class="cover-slide" src="alova1.jpg?v=1" alt="alova — слайд 1" decoding="async" />
-                <img class="cover-slide" src="alova2.jpg?v=1" alt="alova — слайд 2" decoding="async" />
-                <img class="cover-slide" src="alova3.jpg?v=1" alt="alova — слайд 3" decoding="async" />
-                <img class="cover-slide" src="alova4.jpg?v=1" alt="alova — слайд 4" decoding="async" />
+                <img class="cover-slide is-active" src="alova.png" data-wave="1" fetchpriority="high" alt="alova — обложка" decoding="async" />
+                <img class="cover-slide" data-src="alova1.jpg?v=1" data-wave="3" alt="alova — слайд 1" decoding="async" />
+                <img class="cover-slide" data-src="alova2.jpg?v=1" data-wave="3" alt="alova — слайд 2" decoding="async" />
+                <img class="cover-slide" data-src="alova3.jpg?v=1" data-wave="3" alt="alova — слайд 3" decoding="async" />
+                <img class="cover-slide" data-src="alova4.jpg?v=1" data-wave="3" alt="alova — слайд 4" decoding="async" />
               </div>
             </div>
             <div class="deck-footer-row">
@@ -2850,7 +2854,7 @@
         <article class="project-card scroll-reveal">
           <p class="project-desc section-desc desc-slide-reveal" id="i18nMotionDesc">создал примерно <span class="num-underline">300<svg class="num-pencil-line" viewBox="0 0 64 10" preserveAspectRatio="none" aria-hidden="true"><path pathLength="100" d="M1.2 7.1 C 10.5 5.0, 19.2 7.8, 30.8 5.6 C 41.5 3.8, 51.8 6.8, 62.8 4.1" /></svg></span> моушн видео junior &amp; mid уровня сложности</p>
           <div class="smm-preview-frame is-video-frame" data-open-modal="motion" role="button" tabindex="0" aria-label="Открыть превью motion videos в полный экран">
-            <video class="motion-preview-video" id="motionPreviewVideo" src="motion.mp4?v=1" autoplay loop muted playsinline preload="metadata"></video>
+            <video class="motion-preview-video" id="motionPreviewVideo" data-src="motion.mp4?v=1" loop muted playsinline preload="none"></video>
           </div>
           <div class="deck-footer-row">
             <button class="preview-watch-btn" type="button" data-open-modal="motion">
@@ -2972,7 +2976,7 @@
       <div class="modal-preview-frame" id="modalPreviewFrame">
         <div class="modal-slideshow hidden" id="modalSlideshow"></div>
         <img class="modal-preview-strip hidden" id="modalPreviewStrip" src="" alt="" decoding="async" />
-        <video class="modal-preview-video hidden" id="modalPreviewVideo" src="motion.mp4?v=1" autoplay loop muted playsinline preload="metadata"></video>
+        <video class="modal-preview-video hidden" id="modalPreviewVideo" data-src="motion.mp4?v=1" loop muted playsinline preload="none"></video>
       </div>
       <div class="modal-timeline-track" id="modalTimelineTrack" aria-hidden="true">
         <div class="modal-timeline-fill" id="modalTimelineFill"></div>
@@ -3009,10 +3013,105 @@
       });
     })();
 
-    // Start intro only once face.png is ready on mobile Safari, then preload SMM & single motion.gif in background
+    // Start intro only once face.png is ready, then load media strictly in 3 priority waves:
+    // Wave 1 (during 2.6s intro): 5 visible covers (smm1, smm4, smm7, hkbad, alova)
+    // Wave 2 (after Wave 1): 6 hidden SMM slides (smm2, 3, 5, 6, 8, 9)
+    // Wave 3 (after Wave 2 or on scroll proximity): 8 hidden Branding slides + motion.mp4
     (function initFaceLoadAndPreload() {
       const faceImg = document.getElementById('faceIntroImg');
+      const motionVid = document.getElementById('motionPreviewVideo');
       let started = false;
+      let motionHydrated = false;
+      let wave2Started = false;
+      let wave3Started = false;
+
+      function hydrateSlideImg(img, timeoutMs) {
+        if (!img) return Promise.resolve();
+        if (img.dataset && img.dataset.src && !img.getAttribute('src')) {
+          img.src = img.dataset.src;
+          img.removeAttribute('data-src');
+        }
+        if (img.complete && img.naturalWidth > 0) {
+          return typeof img.decode === 'function' ? img.decode().catch(() => {}) : Promise.resolve();
+        }
+        return new Promise((resolve) => {
+          let done = false;
+          const finish = () => {
+            if (done) return;
+            done = true;
+            if (typeof img.decode === 'function' && img.naturalWidth > 0) {
+              img.decode().catch(() => {}).finally(resolve);
+            } else {
+              resolve();
+            }
+          };
+          img.addEventListener('load', finish, { once: true });
+          img.addEventListener('error', finish, { once: true });
+          setTimeout(finish, timeoutMs || 3500);
+        });
+      }
+
+      function hydrateMotionVideo() {
+        if (motionHydrated || !motionVid) return;
+        motionHydrated = true;
+        if (motionVid.dataset && motionVid.dataset.src && !motionVid.getAttribute('src')) {
+          motionVid.src = motionVid.dataset.src;
+          motionVid.removeAttribute('data-src');
+        }
+        motionVid.preload = 'auto';
+        motionVid.muted = true;
+        motionVid.loop = true;
+        motionVid.load();
+        motionVid.play().catch(() => {
+          const retryPlay = () => { motionVid.play().catch(() => {}); };
+          window.addEventListener('touchstart', retryPlay, { passive: true, once: true });
+          window.addEventListener('pointerdown', retryPlay, { passive: true, once: true });
+        });
+      }
+
+      window.__hydrateSlideImg = hydrateSlideImg;
+      window.__hydrateMotionVideo = hydrateMotionVideo;
+
+      function runWave(waveNum, timeoutMs) {
+        const imgs = Array.from(document.querySelectorAll(`img[data-wave="${waveNum}"]`));
+        return Promise.all(imgs.map((img) => hydrateSlideImg(img, timeoutMs)));
+      }
+
+      function startWave3() {
+        if (wave3Started) return;
+        wave3Started = true;
+        runWave(3, 4500);
+        hydrateMotionVideo();
+      }
+
+      function startWave2() {
+        if (wave2Started) return;
+        wave2Started = true;
+        runWave(2, 4200).then(startWave3);
+      }
+
+      function setupScrollProximityBoost() {
+        if (!('IntersectionObserver' in window)) return;
+        const brandingEl = document.getElementById('branding');
+        const motionEl = document.getElementById('motion');
+        const boostObs = new IntersectionObserver(
+          (entries, obs) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              obs.unobserve(entry.target);
+              if (entry.target === brandingEl) {
+                runWave(3, 4500);
+              } else if (entry.target === motionEl) {
+                hydrateMotionVideo();
+              }
+            });
+          },
+          { rootMargin: '550px 0px' }
+        );
+        if (brandingEl) boostObs.observe(brandingEl);
+        if (motionEl) boostObs.observe(motionEl);
+      }
+
       function startIntro() {
         if (started) return;
         started = true;
@@ -3042,23 +3141,11 @@
           const intro = document.getElementById('faceIntro');
           if (intro) intro.remove();
         }, 2650);
-        const bgAssets = [
-          'alova1.jpg?v=1', 'alova2.jpg?v=1', 'alova3.jpg?v=1', 'alova4.jpg?v=1',
-          'hkbad1.jpg?v=1', 'hkbad2.jpg?v=1', 'hkbad3.jpg?v=1', 'hkbad4.jpg?v=1',
-          'smm1.jpg?v=1', 'smm2.jpg?v=1', 'smm3.jpg?v=1', 'smm4.jpg?v=1', 'smm5.jpg?v=1',
-          'smm6.jpg?v=1', 'smm7.jpg?v=1', 'smm8.jpg?v=1', 'smm9.jpg?v=1'
-        ];
-        bgAssets.forEach((href) => {
-          const img = new Image();
-          img.decoding = 'async';
-          img.src = href;
-        });
-        const motionVid = document.getElementById('motionPreviewVideo');
-        if (motionVid) {
-          motionVid.preload = 'auto';
-          motionVid.muted = true;
-          motionVid.play().catch(() => {});
-        }
+
+        setupScrollProximityBoost();
+
+        // Wave 1 (5 visible covers) finishes first during the intro -> then Wave 2 (SMM) -> then Wave 3 (Branding + video)
+        runWave(1, 3200).then(startWave2);
       }
       if (faceImg && faceImg.complete && faceImg.naturalWidth > 0) {
         startIntro();
@@ -3299,15 +3386,13 @@
         let autoTimer = null;
         let autoStartTimer = null;
         let manualResetTimer = null;
+        let switchToken = 0;
         const AUTO_MS = 2800;
         const autoDelay = Number(cardEl.getAttribute('data-auto-delay')) || 0;
+        const hydrate = (img) => (window.__hydrateSlideImg ? window.__hydrateSlideImg(img, 3500) : Promise.resolve());
 
-        function showSlide(nextIdx, isManual) {
-          const count = slides.length;
-          const targetIdx = ((nextIdx % count) + count) % count;
-          if (targetIdx === currentIdx && isManual) return;
+        function commitSlide(targetIdx, isManual) {
           currentIdx = targetIdx;
-
           if (isManual) {
             cardEl.classList.add('is-manual');
             if (manualResetTimer) clearTimeout(manualResetTimer);
@@ -3318,8 +3403,53 @@
 
           slides.forEach((s, i) => s.classList.toggle('is-active', i === currentIdx));
           if (countEl) {
-            countEl.textContent = `${currentIdx + 1}/${count}`;
+            countEl.textContent = `${currentIdx + 1}/${slides.length}`;
           }
+        }
+
+        function showSlide(nextIdx, isManual) {
+          const count = slides.length;
+          const targetIdx = ((nextIdx % count) + count) % count;
+          if (targetIdx === currentIdx && isManual) return;
+
+          const targetSlide = slides[targetIdx];
+          const isReady = Boolean(
+            targetSlide &&
+            targetSlide.getAttribute('src') &&
+            targetSlide.complete &&
+            targetSlide.naturalWidth > 0
+          );
+
+          if (!isManual) {
+            // Auto-slides never reveal a half-loaded frame: wait silently until fully loaded & decoded
+            if (!isReady) {
+              hydrate(targetSlide);
+              return;
+            }
+            const token = ++switchToken;
+            const decodeP = typeof targetSlide.decode === 'function' ? targetSlide.decode().catch(() => {}) : Promise.resolve();
+            decodeP.then(() => {
+              if (token !== switchToken) return;
+              commitSlide(targetIdx, false);
+            });
+            return;
+          }
+
+          // Manual arrows/swipe: pre-hydrate target + next neighbor for instant subsequent flips
+          const neighborSlide = slides[(targetIdx + 1) % count];
+          if (neighborSlide && neighborSlide.dataset && neighborSlide.dataset.src) {
+            hydrate(neighborSlide);
+          }
+          if (isReady) {
+            switchToken++;
+            commitSlide(targetIdx, true);
+            return;
+          }
+          const token = ++switchToken;
+          hydrate(targetSlide).then(() => {
+            if (token !== switchToken) return;
+            commitSlide(targetIdx, true);
+          });
         }
 
         function restartAuto(useInitialDelay) {
@@ -3520,9 +3650,9 @@
       let modalSlideImgs = [];
       let totalCycleMs = 0;
 
-      // Ensure inline motion video keeps playing on mobile Safari after first gesture
+      // Ensure inline motion video resumes on mobile Safari once its Wave 3 src is hydrated
       const ensureInlinePlay = () => {
-        if (pageMotionVid && pageMotionVid.paused) {
+        if (pageMotionVid && pageMotionVid.getAttribute('src') && pageMotionVid.paused) {
           pageMotionVid.muted = true;
           pageMotionVid.play().catch(() => {});
         }
@@ -3709,11 +3839,18 @@
           }
           slideRafId = requestAnimationFrame(tickSlideshowProgress);
         } else if (type === 'motion') {
+          if (window.__hydrateMotionVideo) window.__hydrateMotionVideo();
           if (modalFrame) modalFrame.classList.add('is-video-frame');
           if (actionBtn && actionBtnLabel) {
             actionBtn.href = 'https://drive.google.com/drive/folders/1eO46cjjzbkNBwf481S5_DCc4MGnoDgaB?usp=sharing';
             actionBtnLabel.textContent = modalActionLabels.videos;
             actionBtn.classList.remove('hidden');
+          }
+          if (videoEl.dataset && videoEl.dataset.src && !videoEl.getAttribute('src')) {
+            videoEl.src = videoEl.dataset.src;
+            videoEl.removeAttribute('data-src');
+            videoEl.preload = 'auto';
+            videoEl.load();
           }
           videoEl.classList.remove('hidden');
           videoEl.muted = true;
