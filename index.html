@@ -18,6 +18,14 @@
   <meta name="twitter:title" content="jinushi" />
   <meta name="twitter:image" content="https://riccopizzamarketing-beep.github.io/jinusland/og-preview-v2.jpg?v=3" />
   <link rel="preload" as="image" href="face.png?v=3" fetchpriority="high" />
+  <script>
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    if (window.location.hash) {
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+  </script>
   <style>
     :root {
       --rx: 0deg;
@@ -485,7 +493,7 @@
       position: relative;
       z-index: 10;
       display: flex;
-      gap: 0.72rem;
+      gap: 1.55rem;
       align-items: center;
       justify-content: center;
       flex-wrap: wrap;
@@ -516,31 +524,44 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 0.65rem 1.6rem;
-      font-size: 0.78rem;
+      padding: 0.34rem 0.25rem;
+      font-size: 0.84rem;
       font-weight: 500;
       letter-spacing: -0.03em;
       color: #ffffff;
       text-decoration: none;
-      border-radius: 9999px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.28);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      border-radius: 0;
+      background: transparent;
+      border: none;
       transition:
-        color 0.25s ease,
-        background 0.25s ease,
-        border-color 0.25s ease,
-        transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+        color 0.22s ease,
+        transform 0.24s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .btn::after {
+      content: "";
+      position: absolute;
+      left: 0.25rem;
+      right: 0.25rem;
+      bottom: 0.04rem;
+      height: 1.5px;
+      background: var(--dot-color);
+      transform: scaleX(0);
+      transform-origin: center;
+      transition:
+        transform 0.26s cubic-bezier(0.22, 1, 0.36, 1),
+        background 0.35s ease;
     }
 
     .btn:hover,
     .btn:active {
-      color: #000000;
-      background: #ffffff;
-      border-color: #ffffff;
-      transform: translateY(-2px);
-      box-shadow: none;
+      color: #ffffff;
+      transform: scale(1.06);
+    }
+
+    .btn:hover::after,
+    .btn:active::after {
+      transform: scaleX(1);
     }
 
     /* Projects Section */
@@ -606,9 +627,12 @@
       margin-bottom: 0;
     }
 
-    /* Understated plain gray Light heading for "комната ожидания" (no border, no pill, no outer frame) */
+    /* Understated plain gray Light heading for "комната ожидания" with animated pixel hourglasses on both sides */
     .projects-heading.waiting-heading {
-      display: block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.58rem;
       padding: 0;
       border-radius: 0;
       border: none;
@@ -622,6 +646,60 @@
       color: rgba(255, 255, 255, 0.46);
       margin-top: 0;
       margin-bottom: -1.4rem;
+    }
+
+    .pixel-hourglass {
+      width: 11px;
+      height: 13.5px;
+      flex-shrink: 0;
+      display: inline-block;
+      color: inherit;
+      transform-origin: center center;
+      animation: hgFlip 3.6s linear infinite;
+    }
+
+    .pixel-hourglass .hg-f1 { animation: hgF1 3.6s steps(1, end) infinite; }
+    .pixel-hourglass .hg-f2 { animation: hgF2 3.6s steps(1, end) infinite; }
+    .pixel-hourglass .hg-f3 { animation: hgF3 3.6s steps(1, end) infinite; }
+    .pixel-hourglass .hg-f4 { animation: hgF4 3.6s steps(1, end) infinite; }
+    .pixel-hourglass .hg-f5 { animation: hgF5 3.6s steps(1, end) infinite; }
+
+    @keyframes hgFlip {
+      0%, 78% {
+        transform: rotate(0deg);
+        animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1);
+      }
+      96%, 100% {
+        transform: rotate(180deg);
+      }
+    }
+
+    @keyframes hgF1 {
+      0%, 13.9% { opacity: 1; }
+      14%, 100% { opacity: 0; }
+    }
+
+    @keyframes hgF2 {
+      0%, 13.9% { opacity: 0; }
+      14%, 29.9% { opacity: 1; }
+      30%, 100% { opacity: 0; }
+    }
+
+    @keyframes hgF3 {
+      0%, 29.9% { opacity: 0; }
+      30%, 47.9% { opacity: 1; }
+      48%, 100% { opacity: 0; }
+    }
+
+    @keyframes hgF4 {
+      0%, 47.9% { opacity: 0; }
+      48%, 63.9% { opacity: 1; }
+      64%, 100% { opacity: 0; }
+    }
+
+    @keyframes hgF5 {
+      0%, 63.9% { opacity: 0; }
+      64%, 100% { opacity: 1; }
     }
 
     /* Kids LCD drawing board — 10% brighter, borderless, borderless trash icon, subtle worn scuff texture */
@@ -721,13 +799,13 @@
       transform: scale(1.06);
     }
 
-    /* Delicate solid edge-to-edge section dividers (+15% thicker: 0.58 -> 0.67) */
+    /* Delicate solid edge-to-edge section dividers (+20% thicker: 0.67 -> 0.80) */
     .section-divider {
       width: 100vw;
       max-width: none;
       height: 1px;
       background: var(--badge-border);
-      transform: scaleY(0.67);
+      transform: scaleY(0.80);
       transition: background 0.35s ease;
       flex-shrink: 0;
     }
@@ -839,6 +917,12 @@
       box-shadow: 0 22px 50px var(--accent-box-glow);
     }
 
+    /* Direct Behance link frame for branding project cards (alova, хкбад — rounded 22px corners) */
+    .smm-preview-frame.branding-frame {
+      display: block;
+      text-decoration: none;
+    }
+
     /* Very light, delicate fade gradients on left & right edges */
     .smm-preview-frame::before,
     .smm-preview-frame::after {
@@ -871,106 +955,13 @@
       );
     }
 
-    /* One-time downward scroll magazine-cover stack runway (for alova, хкбад, and smm) */
-    .deck-runway {
-      position: relative;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      scroll-margin-top: 0;
-    }
-
-    .deck-runway[data-deck="alova"],
-    .deck-runway[data-deck="hkbad"] {
-      height: calc(100dvh + 1250px);
-    }
-
-    .deck-runway[data-deck="smm"] {
-      width: 100vw;
-      height: calc(100dvh + 2200px);
-    }
-
-    .deck-sticky-stage {
-      position: sticky;
-      top: 0;
-      width: 100%;
-      height: 100dvh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 4.4rem 0 1.4rem;
-    }
-
-    .deck-runway[data-deck="smm"] .deck-sticky-stage {
-      width: 100vw;
-      gap: clamp(1rem, 2.4vh, 1.55rem);
-      padding: 4.4rem 1.5rem 1.4rem;
-    }
-
-    /* Stage 1 collapse: remove extra runway scroll height immediately after last slide so scrolling UP is never forced */
-    .deck-runway.is-unpinned {
-      height: auto !important;
-    }
-
-    .deck-runway.is-unpinned .deck-sticky-stage {
-      position: relative;
-      top: auto;
-    }
-
-    /* Stage 2 collapse (once off-screen): compact normal spacing so scrolling back up feels completely natural */
-    .deck-runway.is-compact .deck-sticky-stage {
-      height: auto;
-      padding: 0;
-    }
-
-    .deck-runway.is-compact[data-deck="smm"] .deck-sticky-stage {
-      padding: 0 1.5rem;
-      gap: 1.55rem;
-    }
-
-    .deck-runway.is-compact .deck-counter {
-      display: none;
-    }
-
-    .deck-runway.is-compact[data-deck="smm"] .deck-counter {
-      display: inline;
-    }
-
-    .deck-card-inner {
-      width: 100%;
-      max-width: 520px;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      text-align: left;
-      gap: 0.98rem;
-    }
-
-    .smm-sticky-header {
-      width: 100%;
-      max-width: 520px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: clamp(0.9rem, 2.2vh, 1.45rem);
-    }
-
-    .smm-sticky-desc {
-      width: 100%;
-      text-align: left;
-      margin: 0;
-    }
-
-    /* SMM stage row with left & right side arrows + sharp square image box */
+    /* SMM stage row with left & right side arrows + sharp square image box (no frame, no border, no scroll lock) */
     .smm-stage-row {
       width: 100%;
-      max-width: 560px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: clamp(0.45rem, 2.2vw, 1.35rem);
+      gap: clamp(0.45rem, 2.2vw, 1.25rem);
     }
 
     .smm-nav-arrow {
@@ -1013,21 +1004,26 @@
       transform: translateX(2px);
     }
 
-    /* SMM pure-black centered cover box without frame, border, or rounded corners */
+    /* SMM pure-black centered square box (sharp corners, same 1.15px border as branding banners) */
     .smm-cover-box {
       position: relative;
-      flex: 0 1 auto;
-      width: min(72vw, 420px, 48dvh);
+      flex: 1 1 auto;
+      max-width: 410px;
       aspect-ratio: 1 / 1;
       border-radius: 0;
       overflow: hidden;
       background: #000000;
-      border: none;
+      border: 1.15px solid rgba(255, 255, 255, 0.13);
       box-shadow: none;
       cursor: pointer;
+      transition: border-color 0.35s ease;
     }
 
-    /* Magazine-cover left-to-right overlay stack (flat, linear, zero bounce, zero 3D simulation) */
+    .smm-cover-box:hover {
+      border-color: var(--badge-border);
+    }
+
+    /* Soft darkening dip-to-black + fade-in / fade-out stack for SMM auto-slideshow */
     .cover-stack {
       position: relative;
       width: 100%;
@@ -1044,34 +1040,24 @@
       height: 100%;
       object-fit: cover;
       object-position: center;
-      transform: translate3d(-100%, 0, 0);
-      will-change: transform;
-      transition: filter 0.35s ease;
+      opacity: 0;
+      will-change: opacity;
+      transition: opacity 0.36s ease-out, filter 0.35s ease;
       pointer-events: none;
     }
 
-    .cover-slide:first-child {
-      transform: translate3d(0%, 0, 0);
-    }
-
-    .cover-slide.is-sliding {
-      box-shadow: 14px 0 36px rgba(0, 0, 0, 0.58);
-    }
-
-    /* After first-scroll completion, branding cards can gently fade-crossfade when scrolling back up */
-    .deck-runway.is-idle-fade .cover-slide {
-      transform: translate3d(0%, 0, 0) !important;
-      box-shadow: none !important;
-      opacity: 0;
-      transition: opacity 0.85s ease-in-out, filter 0.35s ease;
-    }
-
-    .deck-runway.is-idle-fade .cover-slide.is-active {
+    .cover-slide.is-active {
       opacity: 1;
+      z-index: 1;
+      transition: opacity 0.44s ease-in 0.18s, filter 0.35s ease;
     }
 
-    .deck-runway.is-idle-fade.is-manual .cover-slide {
-      transition: opacity 0.24s ease-out, filter 0.35s ease;
+    .project-card.is-manual .cover-slide {
+      transition: opacity 0.22s ease-out, filter 0.35s ease;
+    }
+
+    .project-card.is-manual .cover-slide.is-active {
+      transition: opacity 0.28s ease-in 0.12s, filter 0.35s ease;
     }
 
     .deck-footer-row {
@@ -1080,15 +1066,82 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 1rem;
+      gap: 0.75rem;
     }
 
-    .deck-counter {
-      font-size: 0.82rem;
+    /* Compact editorial counter-pager (< 1/5 >, < 1/9 >) on Branding and SMM cards */
+    .slide-pager {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.28rem;
+      flex-shrink: 0;
+    }
+
+    .slide-pager-arrow {
+      width: 24px;
+      height: 24px;
+      padding: 0;
+      border: none;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.72);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: color 0.18s ease, transform 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .slide-pager-arrow svg {
+      width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.85;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .slide-pager-arrow:hover,
+    .slide-pager-arrow:active {
+      color: #ffffff;
+    }
+
+    .slide-pager-prev:hover,
+    .slide-pager-prev:active {
+      transform: translateX(-1.5px);
+    }
+
+    .slide-pager-next:hover,
+    .slide-pager-next:active {
+      transform: translateX(1.5px);
+    }
+
+    .slide-pager-count {
+      font-size: 0.84rem;
       font-weight: 400;
       letter-spacing: -0.03em;
       font-variant-numeric: tabular-nums;
-      color: rgba(255, 255, 255, 0.45);
+      color: rgba(255, 255, 255, 0.56);
+      min-width: 2.1em;
+      text-align: center;
+      user-select: none;
+    }
+
+    /* Compact inline chronometer bar on Motion Videos (same muted tone & position as 1/5, 1/9) */
+    .motion-inline-track {
+      width: 68px;
+      height: 2px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.16);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .motion-inline-fill {
+      width: 0%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.56);
+      will-change: width;
     }
 
     .smm-preview-frame.is-video-frame::before,
@@ -1132,18 +1185,23 @@
       object-fit: cover;
       object-position: center;
       opacity: 0;
-      transition: opacity 0.85s ease-in-out, filter 0.35s ease;
+      transition: opacity 0.38s ease-out, filter 0.35s ease;
       pointer-events: none;
       will-change: opacity;
-    }
-
-    .modal-slideshow.is-fast-fade .modal-slide {
-      transition: opacity 0.28s ease-in-out, filter 0.35s ease;
     }
 
     .modal-slide.is-active {
       opacity: 1;
       z-index: 1;
+      transition: opacity 0.46s ease-in 0.2s, filter 0.35s ease;
+    }
+
+    .modal-slideshow.is-fast-fade .modal-slide {
+      transition: opacity 0.2s ease-out, filter 0.35s ease;
+    }
+
+    .modal-slideshow.is-fast-fade .modal-slide.is-active {
+      transition: opacity 0.26s ease-in 0.12s, filter 0.35s ease;
     }
 
     .modal-preview-frame.is-square-frame {
@@ -1151,7 +1209,7 @@
       aspect-ratio: 1 / 1;
       max-height: 70dvh;
       border-radius: 0;
-      border: none;
+      border: 1.15px solid rgba(255, 255, 255, 0.13);
       background: #000000;
     }
 
@@ -1736,7 +1794,7 @@
     }
 
     .nav-switcher.open .nav-menu {
-      max-width: 340px;
+      max-width: 420px;
       opacity: 1;
       pointer-events: auto;
     }
@@ -1839,21 +1897,21 @@
       animation-play-state: paused !important;
     }
 
-    /* First-scroll blur reveal for each block (triggers once only — more intense blur & +25% longer: 1.23s) */
+    /* First-scroll blur reveal for each block (triggers once only — stronger blur: 16px over 1.35s) */
     .scroll-reveal {
       opacity: 0;
-      filter: blur(10px);
-      -webkit-filter: blur(10px);
+      filter: blur(16px);
+      -webkit-filter: blur(16px);
       transition:
-        opacity 1.23s cubic-bezier(0.22, 1, 0.36, 1),
-        filter 1.23s cubic-bezier(0.22, 1, 0.36, 1),
-        -webkit-filter 1.23s cubic-bezier(0.22, 1, 0.36, 1),
-        transform 1.23s cubic-bezier(0.22, 1, 0.36, 1);
+        opacity 1.35s cubic-bezier(0.22, 1, 0.36, 1),
+        filter 1.35s cubic-bezier(0.22, 1, 0.36, 1),
+        -webkit-filter 1.35s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 1.35s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .project-card.scroll-reveal,
     .bottom-face-reveal.scroll-reveal {
-      transform: translateY(14px);
+      transform: translateY(20px);
     }
 
     .scroll-reveal.is-revealed {
@@ -1870,6 +1928,13 @@
     @media (max-width: 480px) {
       .nav-switcher {
         top: 0.92rem;
+      }
+      .nav-menu {
+        gap: 0.12rem;
+      }
+      .nav-option {
+        padding: 0.22rem 0.5rem;
+        font-size: 0.72rem;
       }
       .lang-switcher {
         top: 1.1rem;
@@ -1888,8 +1953,8 @@
         margin-bottom: 0.15rem;
       }
       .btn {
-        padding: 0.62rem 1.36rem;
-        font-size: 0.74rem;
+        padding: 0.3rem 0.22rem;
+        font-size: 0.8rem;
       }
       .projects-section {
         padding: 1rem 1.5rem 2.2rem;
@@ -1903,27 +1968,8 @@
       .section-cards-stack {
         gap: 3.22rem;
       }
-      .deck-runway[data-deck="alova"],
-      .deck-runway[data-deck="hkbad"] {
-        height: calc(100dvh + 960px);
-      }
-      .deck-runway[data-deck="smm"] {
-        height: calc(100dvh + 1760px);
-      }
-      .deck-runway[data-deck="smm"] .deck-sticky-stage {
-        padding-left: 0.65rem;
-        padding-right: 0.65rem;
-      }
-      .deck-runway.is-compact[data-deck="smm"] .deck-sticky-stage {
-        padding: 0 0.65rem;
-      }
-      .smm-sticky-header,
-      .deck-runway[data-deck="smm"] .deck-footer-row {
-        padding-left: 0.85rem;
-        padding-right: 0.85rem;
-      }
       .smm-stage-row {
-        gap: 0.35rem;
+        gap: 0.45rem;
       }
       .smm-nav-arrow {
         width: 32px;
@@ -1934,7 +1980,24 @@
         height: 20px;
       }
       .smm-cover-box {
-        width: min(calc(100vw - 6.2rem), 340px, 45dvh);
+        max-width: 320px;
+      }
+      .slide-pager {
+        gap: 0.2rem;
+      }
+      .slide-pager-arrow {
+        width: 22px;
+        height: 22px;
+      }
+      .slide-pager-arrow svg {
+        width: 13px;
+        height: 13px;
+      }
+      .slide-pager-count {
+        font-size: 0.8rem;
+      }
+      .motion-inline-track {
+        width: 58px;
       }
     }
   </style>
@@ -1965,6 +2028,7 @@
         <button class="nav-option" type="button" data-target="branding">branding</button>
         <button class="nav-option" type="button" data-target="smm">smm</button>
         <button class="nav-option" type="button" data-target="motion">motion</button>
+        <button class="nav-option" type="button" data-target="waiting">draw</button>
       </div>
     </div>
   </div>
@@ -2009,76 +2073,83 @@
         <h2 class="projects-heading scroll-reveal" id="branding">branding design</h2>
 
         <div class="section-cards-stack">
-          <div class="deck-runway" data-deck="alova">
-            <div class="deck-sticky-stage">
-              <article class="deck-card-inner">
-                <h3 class="project-title">alova</h3>
-                <div class="project-meta-row">
-                  <p class="project-desc" id="i18nAlovaDesc">тату-студия в харькове</p>
-                  <span class="project-year">2024</span>
-                </div>
-                <div class="smm-preview-frame is-video-frame" data-open-modal="alova" role="button" tabindex="0" aria-label="Открыть превью alova в полный экран">
-                  <div class="cover-stack">
-                    <img class="cover-slide is-active" src="alova.png" alt="alova — обложка" decoding="async" />
-                    <img class="cover-slide" src="alova1.jpg?v=1" alt="alova — слайд 1" decoding="async" />
-                    <img class="cover-slide" src="alova2.jpg?v=1" alt="alova — слайд 2" decoding="async" />
-                    <img class="cover-slide" src="alova3.jpg?v=1" alt="alova — слайд 3" decoding="async" />
-                    <img class="cover-slide" src="alova4.jpg?v=1" alt="alova — слайд 4" decoding="async" />
-                  </div>
-                </div>
-                <div class="deck-footer-row">
-                  <button class="preview-watch-btn" type="button" data-open-modal="alova">
-                    <svg class="preview-watch-icon" viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
-                    <span class="watch-btn-label">смотреть</span>
-                  </button>
-                  <span class="deck-counter">1 / 5</span>
-                </div>
-              </article>
+          <article class="project-card scroll-reveal" data-slider="alova" data-auto="false">
+            <h3 class="project-title">alova</h3>
+            <div class="project-meta-row">
+              <p class="project-desc" id="i18nAlovaDesc">тату-студия в харькове</p>
+              <span class="project-year">2024</span>
             </div>
-          </div>
+            <a class="smm-preview-frame is-video-frame branding-frame" href="https://www.behance.net/gallery/226526537/ALOVA-tatto-studio-2024" target="_blank" rel="noopener noreferrer" aria-label="Открыть проект alova на Behance">
+              <div class="cover-stack">
+                <img class="cover-slide is-active" src="alova.png" alt="alova — обложка" decoding="async" />
+                <img class="cover-slide" src="alova1.jpg?v=1" alt="alova — слайд 1" decoding="async" />
+                <img class="cover-slide" src="alova2.jpg?v=1" alt="alova — слайд 2" decoding="async" />
+                <img class="cover-slide" src="alova3.jpg?v=1" alt="alova — слайд 3" decoding="async" />
+                <img class="cover-slide" src="alova4.jpg?v=1" alt="alova — слайд 4" decoding="async" />
+              </div>
+            </a>
+            <div class="deck-footer-row">
+              <a class="preview-watch-btn" href="https://www.behance.net/gallery/226526537/ALOVA-tatto-studio-2024" target="_blank" rel="noopener noreferrer">
+                <svg class="preview-watch-icon" viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
+                <span class="watch-btn-label">смотреть</span>
+              </a>
+              <div class="slide-pager" aria-label="Перелистывание слайдов alova">
+                <button class="slide-pager-arrow slide-pager-prev" type="button" data-slide-step="-1" aria-label="Предыдущий слайд">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 5 8 12 15 19" /></svg>
+                </button>
+                <span class="slide-pager-count">1/5</span>
+                <button class="slide-pager-arrow slide-pager-next" type="button" data-slide-step="1" aria-label="Следующий слайд">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 5 16 12 9 19" /></svg>
+                </button>
+              </div>
+            </div>
+          </article>
 
-          <div class="deck-runway" data-deck="hkbad">
-            <div class="deck-sticky-stage">
-              <article class="deck-card-inner">
-                <h3 class="project-title" id="i18nHkbadTitle">хкбад</h3>
-                <div class="project-meta-row">
-                  <p class="project-desc" id="i18nHkbadDesc">колледж архитектуры в харькове</p>
-                  <span class="project-year">2022</span>
-                </div>
-                <div class="smm-preview-frame is-video-frame" data-open-modal="hkbad" role="button" tabindex="0" aria-label="Открыть превью хкбад в полный экран">
-                  <div class="cover-stack">
-                    <img class="cover-slide is-active" src="hkbad.jpg" alt="хкбад — обложка" decoding="async" />
-                    <img class="cover-slide" src="hkbad1.jpg?v=1" alt="хкбад — слайд 1" decoding="async" />
-                    <img class="cover-slide" src="hkbad2.jpg?v=1" alt="хкбад — слайд 2" decoding="async" />
-                    <img class="cover-slide" src="hkbad3.jpg?v=1" alt="хкбад — слайд 3" decoding="async" />
-                    <img class="cover-slide" src="hkbad4.jpg?v=1" alt="хкбад — слайд 4" decoding="async" />
-                  </div>
-                </div>
-                <div class="deck-footer-row">
-                  <button class="preview-watch-btn" type="button" data-open-modal="hkbad">
-                    <svg class="preview-watch-icon" viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
-                    <span class="watch-btn-label">смотреть</span>
-                  </button>
-                  <span class="deck-counter">1 / 5</span>
-                </div>
-              </article>
+          <article class="project-card scroll-reveal" data-slider="hkbad" data-auto="false">
+            <h3 class="project-title" id="i18nHkbadTitle">хкбад</h3>
+            <div class="project-meta-row">
+              <p class="project-desc" id="i18nHkbadDesc">колледж архитектуры в харькове</p>
+              <span class="project-year">2022</span>
             </div>
-          </div>
+            <a class="smm-preview-frame is-video-frame branding-frame" href="https://www.behance.net/gallery/144711515/HKBAD-architecture-college-2022" target="_blank" rel="noopener noreferrer" aria-label="Открыть проект хкбад на Behance">
+              <div class="cover-stack">
+                <img class="cover-slide is-active" src="hkbad.jpg" alt="хкбад — обложка" decoding="async" />
+                <img class="cover-slide" src="hkbad1.jpg?v=1" alt="хкбад — слайд 1" decoding="async" />
+                <img class="cover-slide" src="hkbad2.jpg?v=1" alt="хкбад — слайд 2" decoding="async" />
+                <img class="cover-slide" src="hkbad3.jpg?v=1" alt="хкбад — слайд 3" decoding="async" />
+                <img class="cover-slide" src="hkbad4.jpg?v=1" alt="хкбад — слайд 4" decoding="async" />
+              </div>
+            </a>
+            <div class="deck-footer-row">
+              <a class="preview-watch-btn" href="https://www.behance.net/gallery/144711515/HKBAD-architecture-college-2022" target="_blank" rel="noopener noreferrer">
+                <svg class="preview-watch-icon" viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
+                <span class="watch-btn-label">смотреть</span>
+              </a>
+              <div class="slide-pager" aria-label="Перелистывание слайдов хкбад">
+                <button class="slide-pager-arrow slide-pager-prev" type="button" data-slide-step="-1" aria-label="Предыдущий слайд">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 5 8 12 15 19" /></svg>
+                </button>
+                <span class="slide-pager-count">1/5</span>
+                <button class="slide-pager-arrow slide-pager-next" type="button" data-slide-step="1" aria-label="Следующий слайд">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 5 16 12 9 19" /></svg>
+                </button>
+              </div>
+            </div>
+          </article>
         </div>
       </div>
 
       <div class="section-divider scroll-reveal" aria-hidden="true"></div>
 
-      <!-- One-time downward scroll magazine-cover stack for SMM (pure black, no box/border) -->
-      <div class="deck-runway" data-deck="smm" id="smm">
-        <div class="deck-sticky-stage">
-          <div class="smm-sticky-header">
-            <h2 class="projects-heading section-subhead">smm design</h2>
-            <p class="project-desc smm-sticky-desc" id="i18nSmmDesc">создал более <span class="num-underline">3000</span> креативов за 3 года для различных ниш</p>
-          </div>
+      <!-- SMM section: normal scroll flow + gentle auto-slideshow with dip-to-dark fade and compact dot-pager -->
+      <div class="section-group">
+        <h2 class="projects-heading section-subhead scroll-reveal" id="smm">smm design</h2>
+
+        <article class="project-card smm-card scroll-reveal" id="smmAutoDeck" data-slider="smm" data-auto="true">
+          <p class="project-desc" id="i18nSmmDesc">создал более <span class="num-underline">3000</span> креативов за 3 года для различных ниш</p>
 
           <div class="smm-stage-row">
-            <button class="smm-nav-arrow smm-nav-prev" type="button" data-smm-step="-1" aria-label="Предыдущий креатив">
+            <button class="smm-nav-arrow smm-nav-prev" type="button" data-slide-step="-1" aria-label="Предыдущий креатив">
               <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 5 8 12 15 19" /></svg>
             </button>
 
@@ -2096,7 +2167,7 @@
               </div>
             </div>
 
-            <button class="smm-nav-arrow smm-nav-next" type="button" data-smm-step="1" aria-label="Следующий креатив">
+            <button class="smm-nav-arrow smm-nav-next" type="button" data-slide-step="1" aria-label="Следующий креатив">
               <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 5 16 12 9 19" /></svg>
             </button>
           </div>
@@ -2106,9 +2177,17 @@
               <svg class="preview-watch-icon" viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
               <span class="watch-btn-label">смотреть</span>
             </button>
-            <span class="deck-counter">1 / 9</span>
+            <div class="slide-pager" aria-label="Перелистывание слайдов smm">
+              <button class="slide-pager-arrow slide-pager-prev" type="button" data-slide-step="-1" aria-label="Предыдущий креатив">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 5 8 12 15 19" /></svg>
+              </button>
+              <span class="slide-pager-count">1/9</span>
+              <button class="slide-pager-arrow slide-pager-next" type="button" data-slide-step="1" aria-label="Следующий креатив">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 5 16 12 9 19" /></svg>
+              </button>
+            </div>
           </div>
-        </div>
+        </article>
       </div>
 
       <div class="section-divider scroll-reveal" aria-hidden="true"></div>
@@ -2121,16 +2200,39 @@
           <div class="smm-preview-frame is-video-frame" data-open-modal="motion" role="button" tabindex="0" aria-label="Открыть превью motion videos в полный экран">
             <video class="motion-preview-video" id="motionPreviewVideo" src="motion.mp4?v=1" autoplay loop muted playsinline preload="metadata"></video>
           </div>
-          <button class="preview-watch-btn" type="button" data-open-modal="motion">
-            <svg class="preview-watch-icon" viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
-            <span class="watch-btn-label">смотреть</span>
-          </button>
+          <div class="deck-footer-row">
+            <button class="preview-watch-btn" type="button" data-open-modal="motion">
+              <svg class="preview-watch-icon" viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
+              <span class="watch-btn-label">смотреть</span>
+            </button>
+            <div class="motion-inline-track" aria-hidden="true">
+              <div class="motion-inline-fill" id="motionInlineFill"></div>
+            </div>
+          </div>
         </article>
       </div>
 
       <div class="section-divider scroll-reveal" aria-hidden="true"></div>
 
-      <h2 class="projects-heading section-subhead waiting-heading scroll-reveal" id="waiting">комната ожидания</h2>
+      <h2 class="projects-heading section-subhead waiting-heading scroll-reveal" id="waiting">
+        <svg class="pixel-hourglass" viewBox="0 0 9 11" shape-rendering="crispEdges" fill="currentColor" aria-hidden="true">
+          <path d="M0 0h9v1H0zM1 1h1v2H1zM7 1h1v2H7zM2 3h1v1H2zM6 3h1v1H6zM3 4h1v3H3zM5 4h1v3H5zM2 7h1v1H2zM6 7h1v1H6zM1 8h1v2H1zM7 8h1v2H7zM0 10h9v1H0z" />
+          <g class="hg-f1"><rect x="2" y="1" width="5" height="1" /><rect x="3" y="2" width="3" height="1" /><rect x="4" y="3" width="1" height="1" /></g>
+          <g class="hg-f2"><rect x="2" y="2" width="5" height="1" /><rect x="3" y="3" width="3" height="1" /><rect x="4" y="4" width="1" height="2" /><rect x="4" y="9" width="1" height="1" /></g>
+          <g class="hg-f3"><rect x="3" y="3" width="3" height="1" /><rect x="4" y="4" width="1" height="1" /><rect x="4" y="6" width="1" height="1" /><rect x="4" y="8" width="1" height="1" /><rect x="3" y="9" width="3" height="1" /></g>
+          <g class="hg-f4"><rect x="4" y="4" width="1" height="2" /><rect x="4" y="7" width="1" height="1" /><rect x="3" y="8" width="3" height="1" /><rect x="2" y="9" width="5" height="1" /></g>
+          <g class="hg-f5"><rect x="4" y="7" width="1" height="1" /><rect x="3" y="8" width="3" height="1" /><rect x="2" y="9" width="5" height="1" /></g>
+        </svg>
+        <span id="i18nWaitingTitle">комната ожидания</span>
+        <svg class="pixel-hourglass" viewBox="0 0 9 11" shape-rendering="crispEdges" fill="currentColor" aria-hidden="true">
+          <path d="M0 0h9v1H0zM1 1h1v2H1zM7 1h1v2H7zM2 3h1v1H2zM6 3h1v1H6zM3 4h1v3H3zM5 4h1v3H5zM2 7h1v1H2zM6 7h1v1H6zM1 8h1v2H1zM7 8h1v2H7zM0 10h9v1H0z" />
+          <g class="hg-f1"><rect x="2" y="1" width="5" height="1" /><rect x="3" y="2" width="3" height="1" /><rect x="4" y="3" width="1" height="1" /></g>
+          <g class="hg-f2"><rect x="2" y="2" width="5" height="1" /><rect x="3" y="3" width="3" height="1" /><rect x="4" y="4" width="1" height="2" /><rect x="4" y="9" width="1" height="1" /></g>
+          <g class="hg-f3"><rect x="3" y="3" width="3" height="1" /><rect x="4" y="4" width="1" height="1" /><rect x="4" y="6" width="1" height="1" /><rect x="4" y="8" width="1" height="1" /><rect x="3" y="9" width="3" height="1" /></g>
+          <g class="hg-f4"><rect x="4" y="4" width="1" height="2" /><rect x="4" y="7" width="1" height="1" /><rect x="3" y="8" width="3" height="1" /><rect x="2" y="9" width="5" height="1" /></g>
+          <g class="hg-f5"><rect x="4" y="7" width="1" height="1" /><rect x="3" y="8" width="3" height="1" /><rect x="2" y="9" width="5" height="1" /></g>
+        </svg>
+      </h2>
 
       <article class="project-card scroll-reveal">
         <p class="project-desc waiting-desc" id="i18nWaitingDesc">пока дизайны готовятся можете здесь порисовать</p>
@@ -2231,6 +2333,30 @@
   </div>
 
   <script>
+    // Always open at the very top of the page on fresh load / reload
+    (function initCleanTopStart() {
+      let userScrolled = false;
+      function scrollTopInstant() {
+        if (userScrolled) return;
+        const html = document.documentElement;
+        const prev = html.style.scrollBehavior;
+        html.style.scrollBehavior = 'auto';
+        window.scrollTo(0, 0);
+        html.style.scrollBehavior = prev;
+      }
+      ['wheel', 'touchmove', 'keydown'].forEach((evt) => {
+        window.addEventListener(evt, () => { userScrolled = true; }, { passive: true, once: true });
+      });
+      scrollTopInstant();
+      window.addEventListener('DOMContentLoaded', scrollTopInstant);
+      window.addEventListener('pageshow', (e) => {
+        if (e.persisted) {
+          userScrolled = false;
+          scrollTopInstant();
+        }
+      });
+    })();
+
     // Start intro only once face.png is ready on mobile Safari, then preload SMM & single motion.gif in background
     (function initFaceLoadAndPreload() {
       const faceImg = document.getElementById('faceIntroImg');
@@ -2325,7 +2451,7 @@
       });
     })();
 
-    // First-scroll blur reveal for each block (runs once per block on first scroll — 1.23s)
+    // First-scroll blur reveal for each block (runs once per block on first scroll — stronger 16px blur over 1.35s)
     (function initFirstScrollBlurReveal() {
       const blocks = document.querySelectorAll('.scroll-reveal');
       if (!('IntersectionObserver' in window)) {
@@ -2341,7 +2467,7 @@
               obs.unobserve(el);
               setTimeout(() => {
                 el.classList.remove('scroll-reveal', 'is-revealed');
-              }, 1300);
+              }, 1450);
             }
           });
         },
@@ -2350,24 +2476,31 @@
       blocks.forEach((el) => revealObserver.observe(el));
     })();
 
-    // Top-center section navigation dropdown + scroll-spy logic ("projects" -> "branding", "smm", "motion")
+    // Top-center section navigation dropdown + scroll-spy logic ("projects" -> "branding", "smm", "motion", "draw")
     (function initNavSwitcher() {
       const navSwitcher = document.getElementById('navSwitcher');
       const navCurrent = document.getElementById('navCurrent');
       const navCurrentText = document.getElementById('navCurrentText');
       const navOptions = navSwitcher.querySelectorAll('.nav-option');
-      const sectionIds = ['branding', 'smm', 'motion'];
+      const sectionIds = ['branding', 'smm', 'motion', 'waiting'];
+      const sectionLabels = {
+        projects: 'projects',
+        branding: 'branding',
+        smm: 'smm',
+        motion: 'motion',
+        waiting: 'draw'
+      };
       const sectionEls = sectionIds.map((id) => document.getElementById(id));
-      let activeLabel = 'projects';
+      let activeSection = 'projects';
 
-      function setActiveLabel(label) {
-        if (label === activeLabel) return;
-        activeLabel = label;
+      function setActiveLabel(sectionId) {
+        if (sectionId === activeSection) return;
+        activeSection = sectionId;
         if (navCurrentText) {
-          navCurrentText.textContent = label;
+          navCurrentText.textContent = sectionLabels[sectionId] || sectionId;
         }
         navOptions.forEach((btn) => {
-          btn.classList.toggle('active', btn.dataset.target === label);
+          btn.classList.toggle('active', btn.dataset.target === sectionId);
         });
       }
 
@@ -2417,9 +2550,6 @@
           navSwitcher.classList.remove('open');
           navCurrent.setAttribute('aria-expanded', 'false');
           if (targetEl) {
-            if (window.__collapseDecksBefore) {
-              window.__collapseDecksBefore(targetEl);
-            }
             targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
         });
@@ -2431,196 +2561,84 @@
       });
     })();
 
-    // One-time downward scroll magazine-cover stack controller (alova, хкбад, smm)
-    // Slides layer cleanly left-to-right on top of each other ONLY on first downward scroll;
-    // once scrolled past, extra runway collapses silently (0px jump) so scrolling back UP has ZERO forced scroll!
-    (function initOneTimeCoverDecks() {
-      const runways = Array.from(document.querySelectorAll('.deck-runway'));
-      if (!runways.length) return;
+    // Card sliders with compact counter-pager (< 1/5 >, < 1/9 >) & dip-to-dark fade:
+    // Manual only on Branding (alova, хкбад); auto-slides ONLY on SMM (no scroll lock)
+    (function initCardSliders() {
+      const sliderCards = Array.from(document.querySelectorAll('[data-slider]'));
+      const modalEl = document.getElementById('previewModal');
+      if (!sliderCards.length) return;
 
-      const decks = runways.map((runway) => {
-        const slides = Array.from(runway.querySelectorAll('.cover-slide'));
-        const counter = runway.querySelector('.deck-counter');
-        const arrowBtns = Array.from(runway.querySelectorAll('[data-smm-step]'));
-        slides.forEach((img, idx) => {
-          img.style.zIndex = String(idx + 1);
-        });
-        return {
-          runway,
-          slides,
-          counter,
-          arrowBtns,
-          currentIdx: 0,
-          pendingIdx: null,
-          pendingUntil: 0,
-          manualLock: false,
-          unpinned: false,
-          compacted: false,
-          idleTimer: null
-        };
-      });
+      sliderCards.forEach((cardEl) => {
+        const slides = Array.from(cardEl.querySelectorAll('.cover-slide'));
+        const stepBtns = Array.from(cardEl.querySelectorAll('[data-slide-step]'));
+        const countEl = cardEl.querySelector('.slide-pager-count');
+        const isAuto = cardEl.getAttribute('data-auto') === 'true';
+        if (slides.length < 2) return;
 
-      function adjustScrollSilently(deltaY) {
-        if (!deltaY) return;
-        const html = document.documentElement;
-        const prevBehavior = html.style.scrollBehavior;
-        html.style.scrollBehavior = 'auto';
-        window.scrollTo(0, Math.max(0, window.scrollY - deltaY));
-        html.style.scrollBehavior = prevBehavior;
-      }
+        let currentIdx = 0;
+        let autoTimer = null;
+        let manualResetTimer = null;
+        const AUTO_MS = 2500;
 
-      function showFadeSlide(deck, nextIdx) {
-        const count = deck.slides.length;
-        if (!count) return;
-        deck.runway.classList.add('is-idle-fade');
-        deck.currentIdx = ((nextIdx % count) + count) % count;
-        deck.slides.forEach((s, i) => s.classList.toggle('is-active', i === deck.currentIdx));
-        if (deck.counter) {
-          deck.counter.textContent = `${deck.currentIdx + 1} / ${count}`;
+        function showSlide(nextIdx, isManual) {
+          const count = slides.length;
+          const targetIdx = ((nextIdx % count) + count) % count;
+          if (targetIdx === currentIdx && isManual) return;
+          currentIdx = targetIdx;
+
+          if (isManual) {
+            cardEl.classList.add('is-manual');
+            if (manualResetTimer) clearTimeout(manualResetTimer);
+            manualResetTimer = setTimeout(() => {
+              cardEl.classList.remove('is-manual');
+            }, 500);
+          }
+
+          slides.forEach((s, i) => s.classList.toggle('is-active', i === currentIdx));
+          if (countEl) {
+            countEl.textContent = `${currentIdx + 1}/${count}`;
+          }
         }
-      }
 
-      function startGentleIdleFade(deck) {
-        if (deck.idleTimer || deck.manualLock || deck.slides.length < 2) return;
-        showFadeSlide(deck, deck.slides.length - 1);
-        deck.idleTimer = setInterval(() => {
-          showFadeSlide(deck, deck.currentIdx + 1);
-        }, 2900);
-      }
+        function restartAuto() {
+          if (!isAuto) return;
+          if (autoTimer) clearInterval(autoTimer);
+          autoTimer = setInterval(() => {
+            if (modalEl && modalEl.classList.contains('open')) return;
+            showSlide(currentIdx + 1, false);
+          }, AUTO_MS);
+        }
 
-      decks.forEach((deck) => {
-        deck.arrowBtns.forEach((btn) => {
+        stepBtns.forEach((btn) => {
           btn.addEventListener('click', (e) => {
             e.stopPropagation();
-            const step = Number(btn.getAttribute('data-smm-step')) || 1;
-            const count = deck.slides.length;
-            if (count < 2) return;
-
-            if (deck.unpinned) {
-              if (deck.idleTimer) {
-                clearInterval(deck.idleTimer);
-                deck.idleTimer = null;
-              }
-              deck.manualLock = true;
-              deck.runway.classList.add('is-manual');
-              showFadeSlide(deck, deck.currentIdx + step);
-              return;
-            }
-
-            const now = performance.now();
-            const baseIdx = (deck.pendingIdx !== null && now < deck.pendingUntil)
-              ? deck.pendingIdx
-              : deck.currentIdx;
-            const targetIdx = ((baseIdx + step) % count + count) % count;
-            deck.pendingIdx = targetIdx;
-            deck.pendingUntil = now + 550;
-
-            const runwayTop = deck.runway.getBoundingClientRect().top + window.scrollY;
-            const scrollable = Math.max(1, deck.runway.offsetHeight - window.innerHeight);
-            const rawTarget = (targetIdx / Math.max(1, count - 1)) * scrollable;
-            const clampedOffset = targetIdx === count - 1 ? Math.max(0, scrollable - 1) : rawTarget;
-            window.scrollTo({
-              top: runwayTop + clampedOffset,
-              behavior: 'smooth'
-            });
+            const step = Number(btn.getAttribute('data-slide-step')) || 1;
+            showSlide(currentIdx + step, true);
+            restartAuto();
           });
         });
-      });
 
-      function updateDecks() {
-        const vh = window.innerHeight;
-        for (let d = 0; d < decks.length; d++) {
-          const deck = decks[d];
-          if (deck.compacted) continue;
-
-          const rect = deck.runway.getBoundingClientRect();
-
-          // Stage 2: once completely scrolled off top of viewport, compact stage height off-screen (0px visual shift)
-          if (deck.unpinned) {
-            if (rect.bottom <= 0) {
-              const beforeH = deck.runway.offsetHeight;
-              deck.runway.classList.add('is-compact');
-              const afterH = deck.runway.offsetHeight;
-              deck.compacted = true;
-              adjustScrollSilently(beforeH - afterH);
-              startGentleIdleFade(deck);
-            }
-            continue;
-          }
-
-          const scrollable = Math.max(1, deck.runway.offsetHeight - vh);
-          const rawScrolled = -rect.top;
-          const progress = Math.min(1, Math.max(0, rawScrolled / scrollable));
-          const count = deck.slides.length;
-          const floatIdx = progress * (count - 1);
-          deck.currentIdx = Math.min(count - 1, Math.max(0, Math.round(floatIdx)));
-
-          for (let i = 1; i < count; i++) {
-            const t = Math.min(1, Math.max(0, floatIdx - (i - 1)));
-            const xPct = -100 + t * 100;
-            deck.slides[i].style.transform = `translate3d(${xPct.toFixed(2)}%, 0, 0)`;
-            deck.slides[i].classList.toggle('is-sliding', t > 0.005 && t < 0.995);
-          }
-
-          if (deck.counter) {
-            deck.counter.textContent = `${deck.currentIdx + 1} / ${count}`;
-          }
-
-          // Stage 1: the moment user finishes last slide & scrolls 4px past it, remove extra runway instantly (0px jump)
-          if (rawScrolled >= scrollable + 4) {
-            for (let i = 1; i < count; i++) {
-              deck.slides[i].style.transform = 'translate3d(0%, 0, 0)';
-              deck.slides[i].classList.remove('is-sliding');
-            }
-            deck.currentIdx = count - 1;
-            const beforeH = deck.runway.offsetHeight;
-            deck.runway.classList.add('is-unpinned');
-            const afterH = deck.runway.offsetHeight;
-            deck.unpinned = true;
-            adjustScrollSilently(beforeH - afterH);
-          }
+        if (isAuto) {
+          restartAuto();
         }
+      });
+    })();
+
+    // Compact inline playback progress bar synchronized with looping Motion preview video
+    (function initMotionInlineProgress() {
+      const vid = document.getElementById('motionPreviewVideo');
+      const fill = document.getElementById('motionInlineFill');
+      if (!vid || !fill) return;
+
+      function tickInlineMotion() {
+        if (vid.duration && Number.isFinite(vid.duration) && vid.duration > 0) {
+          const pct = Math.min(100, Math.max(0, (vid.currentTime / vid.duration) * 100));
+          fill.style.width = `${pct.toFixed(2)}%`;
+        }
+        requestAnimationFrame(tickInlineMotion);
       }
 
-      // If user clicks a top-nav link to jump past earlier decks, collapse skipped decks above target
-      window.__collapseDecksBefore = (targetEl) => {
-        if (!targetEl) return;
-        const targetTop = targetEl.getBoundingClientRect().top + window.scrollY;
-        let removedAbove = 0;
-        decks.forEach((deck) => {
-          if (deck.compacted || deck.runway === targetEl) return;
-          const deckTop = deck.runway.getBoundingClientRect().top + window.scrollY;
-          if (deckTop < targetTop - 10) {
-            const beforeH = deck.runway.offsetHeight;
-            deck.runway.classList.add('is-unpinned', 'is-compact');
-            deck.unpinned = true;
-            deck.compacted = true;
-            const afterH = deck.runway.offsetHeight;
-            if (deck.runway.getBoundingClientRect().bottom <= window.innerHeight) {
-              removedAbove += (beforeH - afterH);
-            }
-            startGentleIdleFade(deck);
-          }
-        });
-        if (removedAbove > 0) {
-          adjustScrollSilently(removedAbove);
-        }
-      };
-
-      let ticking = false;
-      const onScroll = () => {
-        if (!ticking) {
-          requestAnimationFrame(() => {
-            updateDecks();
-            ticking = false;
-          });
-          ticking = true;
-        }
-      };
-
-      window.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('resize', updateDecks, { passive: true });
-      updateDecks();
+      requestAnimationFrame(tickInlineMotion);
     })();
 
     // Shared modal action labels (updated by language switcher)
@@ -2949,7 +2967,7 @@
       const hkbadDescEl = document.getElementById('i18nHkbadDesc');
       const smmDescEl = document.getElementById('i18nSmmDesc');
       const motionDescEl = document.getElementById('i18nMotionDesc');
-      const waitingTitleEl = document.getElementById('waiting');
+      const waitingTitleEl = document.getElementById('i18nWaitingTitle');
       const waitingDescEl = document.getElementById('i18nWaitingDesc');
       const tabletClearEl = document.getElementById('tabletClearBtn');
       const vibeNoteEl = document.getElementById('i18nVibeNote');
