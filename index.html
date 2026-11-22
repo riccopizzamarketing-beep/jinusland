@@ -56,6 +56,7 @@
       --heading-glow: rgba(255, 255, 255, 0.16);
       --title-depth-1: rgba(255, 255, 255, 0.16);
       --title-depth-2: rgba(160, 165, 175, 0.09);
+      --bar-len: 48px;
     }
 
     :root[data-theme="pink"] {
@@ -1088,6 +1089,176 @@
       border-color: var(--badge-border);
     }
 
+    /* Motion Videos CTA right below description + 3-block asymmetric 1.3:1 video staircase */
+    .motion-cta-wrap {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.14rem;
+      margin-top: -0.2rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .motion-cta-note {
+      font-size: clamp(0.72rem, 2.1vw, 0.78rem);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      color: rgba(255, 255, 255, 0.38);
+      text-transform: lowercase;
+      line-height: 1.2;
+      user-select: none;
+    }
+
+    .motion-staircase {
+      --motion-w: clamp(187px, 32.3vw, 366px);
+      row-gap: 2.1rem;
+      margin-top: 0.5rem;
+    }
+
+    .motion-stair-cover {
+      display: block;
+      width: var(--motion-w);
+      height: calc(var(--motion-w) / 1.3);
+      aspect-ratio: 1.3 / 1;
+      text-decoration: none;
+    }
+
+    .motion-staircase .smm-stair-item {
+      width: var(--motion-w);
+      opacity: 0.1;
+      transition: opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity;
+    }
+
+    .motion-staircase .smm-stair-item.is-motion-focused {
+      opacity: 1;
+    }
+
+    .motion-staircase .smm-stair-item.is-motion-focused .motion-stair-cover {
+      border-color: var(--badge-border);
+    }
+
+    /* Footer row under SMM & Motion blocks: Helvetica Regular gray caption left + uniform short progress bar right */
+    .stair-meta-row {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.65rem;
+      margin-top: 0.44rem;
+    }
+
+    .smm-staircase:not(.motion-staircase) .stair-meta-row {
+      width: var(--stair-size);
+    }
+
+    .smm-stair-1 .stair-meta-row {
+      margin-left: calc(26px + 0.48rem);
+    }
+
+    .stair-niche-caption {
+      font-family: Helvetica, 'Helvetica Neue', Arial, sans-serif;
+      font-weight: 400;
+      font-size: clamp(0.8rem, 1.3vw, 0.9rem);
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+      color: rgba(255, 255, 255, 0.5);
+      text-transform: lowercase;
+      margin: 0;
+      min-width: 0;
+      user-select: none;
+    }
+
+    /* Short uniform one-word-length progress bar on Motion videos (continuous video timing) */
+    .motion-progress-track {
+      width: var(--bar-len);
+      height: 2px;
+      border-radius: 0;
+      background: rgba(255, 255, 255, 0.16);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .motion-progress-fill {
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.62);
+      transform: scaleX(0);
+      transform-origin: left center;
+      will-change: transform;
+    }
+
+    /* Short uniform one-word-length segmented interval bar on SMM cards & SMM fullscreen modal */
+    .smm-interval-bar {
+      width: var(--bar-len);
+      height: 2px;
+      display: flex;
+      align-items: stretch;
+      gap: 3px;
+      flex-shrink: 0;
+    }
+
+    .smm-interval-seg {
+      flex: 1 1 0;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.16);
+      transition: background-color 0.2s ease;
+    }
+
+    .smm-interval-seg.is-filled {
+      background: rgba(255, 255, 255, 0.62);
+    }
+
+    /* Desktop 6-video asymmetric staircase (pairs 1–2, 3–4, 5–6) */
+    .motion-stair-1 {
+      grid-column: 1;
+      grid-row: 1;
+      justify-self: start;
+      align-self: start;
+    }
+
+    .motion-stair-2 {
+      grid-column: 2;
+      grid-row: 1;
+      justify-self: end;
+      align-self: start;
+      margin-top: clamp(2.4rem, 4.8vw, 4.4rem);
+    }
+
+    .motion-stair-3 {
+      grid-column: 1;
+      grid-row: 2;
+      justify-self: start;
+      align-self: start;
+      margin-left: clamp(0rem, 2.2vw, 2.2rem);
+    }
+
+    .motion-stair-4 {
+      grid-column: 2;
+      grid-row: 2;
+      justify-self: end;
+      align-self: start;
+      margin-top: clamp(2.4rem, 4.8vw, 4.4rem);
+      margin-right: clamp(0rem, 1.4vw, 1.4rem);
+    }
+
+    .motion-stair-5 {
+      grid-column: 1;
+      grid-row: 3;
+      justify-self: start;
+      align-self: start;
+    }
+
+    .motion-stair-6 {
+      grid-column: 2;
+      grid-row: 3;
+      justify-self: end;
+      align-self: start;
+      margin-top: clamp(2.4rem, 4.8vw, 4.4rem);
+    }
+
     /* Borderless/backgroundless white play-arrow button beside each SMM square */
     .smm-plus-btn {
       width: 26px;
@@ -1261,23 +1432,6 @@
       user-select: none;
     }
 
-    /* Compact inline chronometer bar on Motion Videos (same muted tone & position as 1/5, 1/9) */
-    .motion-inline-track {
-      width: 68px;
-      height: 2px;
-      border-radius: 0;
-      background: rgba(255, 255, 255, 0.16);
-      overflow: hidden;
-      flex-shrink: 0;
-    }
-
-    .motion-inline-fill {
-      width: 0%;
-      height: 100%;
-      background: rgba(255, 255, 255, 0.56);
-      will-change: width;
-    }
-
     .smm-preview-frame.is-video-frame::before,
     .smm-preview-frame.is-video-frame::after,
     .modal-preview-frame.is-video-frame::before,
@@ -1339,7 +1493,7 @@
     }
 
     .modal-preview-frame.is-square-frame {
-      width: min(88vw, 560px);
+      width: min(88vw, 560px, 70dvh);
       aspect-ratio: 1 / 1;
       max-height: 70dvh;
       border-radius: 0;
@@ -1605,7 +1759,7 @@
       animation: smmPanSlow 16.8s ease-in-out infinite alternate;
     }
 
-    /* Timeline progress bar under the fullscreen preview (50% shorter visually) */
+    /* Timeline progress bar under the fullscreen preview */
     .modal-timeline-track {
       width: 50%;
       max-width: 220px;
@@ -1614,6 +1768,21 @@
       background: rgba(255, 255, 255, 0.16);
       overflow: hidden;
       position: relative;
+    }
+
+    .modal-timeline-track.is-interval-modal {
+      width: min(88vw, 560px, 70dvh);
+      max-width: none;
+      height: auto;
+      background: transparent;
+      overflow: visible;
+      display: flex;
+      justify-content: flex-end;
+      margin-top: -0.55rem;
+    }
+
+    .modal-timeline-fill.hidden {
+      display: none;
     }
 
     .modal-timeline-fill {
@@ -2524,7 +2693,7 @@
         width: 100%;
         display: flex;
         flex-direction: column;
-        gap: 0.92rem;
+        gap: 1.15rem;
         margin-top: 0.35rem;
       }
       .smm-stair-1 {
@@ -2559,6 +2728,43 @@
         width: 11px;
         height: 11px;
       }
+      .motion-cta-wrap {
+        margin-top: -0.45rem;
+        margin-bottom: 0.25rem;
+      }
+      .motion-staircase {
+        --motion-w: clamp(179px, 61.2vw, 251px);
+        gap: 1.15rem;
+        margin-top: 0.25rem;
+      }
+      :root {
+        --bar-len: 42px;
+      }
+      .stair-meta-row {
+        gap: 0.5rem;
+        margin-top: 0.34rem;
+      }
+      .stair-niche-caption {
+        font-size: clamp(0.78rem, 2.7vw, 0.86rem);
+      }
+      .smm-stair-1 .stair-meta-row {
+        margin-left: 0;
+      }
+      .smm-stair-2 .stair-meta-row {
+        margin-left: calc(24px + 0.38rem);
+      }
+      .motion-stair-1,
+      .motion-stair-3,
+      .motion-stair-5 {
+        align-self: flex-start;
+        margin: 0;
+      }
+      .motion-stair-2,
+      .motion-stair-4,
+      .motion-stair-6 {
+        align-self: flex-end;
+        margin: 0;
+      }
       .desc-slide-reveal {
         transform: translate3d(-48px, 0, 0);
         filter: blur(6px);
@@ -2592,9 +2798,6 @@
       }
       .slide-pager-count {
         font-size: 0.99rem;
-      }
-      .motion-inline-track {
-        width: 62px;
       }
       .section-desc-trigger {
         margin-top: -1.3rem;
@@ -2704,6 +2907,14 @@
                   <svg viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
                 </button>
               </div>
+              <div class="stair-meta-row">
+                <p class="stair-niche-caption" data-niche="beauty">бьюти</p>
+                <div class="smm-interval-bar" aria-hidden="true">
+                  <span class="smm-interval-seg is-filled"></span>
+                  <span class="smm-interval-seg"></span>
+                  <span class="smm-interval-seg"></span>
+                </div>
+              </div>
             </div>
 
             <div class="smm-stair-item smm-stair-2" data-slider="smm-2" data-auto="true" data-auto-delay="900">
@@ -2719,6 +2930,14 @@
                   <svg viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
                 </button>
               </div>
+              <div class="stair-meta-row">
+                <p class="stair-niche-caption" data-niche="crypto">крипто-казино</p>
+                <div class="smm-interval-bar" aria-hidden="true">
+                  <span class="smm-interval-seg is-filled"></span>
+                  <span class="smm-interval-seg"></span>
+                  <span class="smm-interval-seg"></span>
+                </div>
+              </div>
             </div>
 
             <div class="smm-stair-item smm-stair-3" data-slider="smm-3" data-auto="true" data-auto-delay="1800">
@@ -2733,6 +2952,14 @@
                 <button class="smm-plus-btn" type="button" data-open-modal="smm-3" aria-label="Увеличить smm креативы 7–9">
                   <svg viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
                 </button>
+              </div>
+              <div class="stair-meta-row">
+                <p class="stair-niche-caption" data-niche="agency">маркетинговое агентство</p>
+                <div class="smm-interval-bar" aria-hidden="true">
+                  <span class="smm-interval-seg is-filled"></span>
+                  <span class="smm-interval-seg"></span>
+                  <span class="smm-interval-seg"></span>
+                </div>
               </div>
             </div>
           </div>
@@ -2817,18 +3044,88 @@
       <div class="section-group">
         <h2 class="projects-heading section-subhead scroll-reveal" id="motion">motion videos</h2>
 
-        <article class="project-card scroll-reveal">
+        <article class="project-card motion-card scroll-reveal">
           <p class="project-desc section-desc desc-slide-reveal" id="i18nMotionDesc">создал примерно <span class="num-underline">300<svg class="num-pencil-line" viewBox="0 0 64 10" preserveAspectRatio="none" aria-hidden="true"><path pathLength="100" d="M1.2 7.1 C 10.5 5.0, 19.2 7.8, 30.8 5.6 C 41.5 3.8, 51.8 6.8, 62.8 4.1" /></svg></span> моушн видео junior &amp; mid уровня сложности</p>
-          <a class="smm-preview-frame is-video-frame" href="https://drive.google.com/drive/folders/1eO46cjjzbkNBwf481S5_DCc4MGnoDgaB?usp=sharing" target="_blank" rel="noopener noreferrer" aria-label="Смотреть все видео">
-            <video class="motion-preview-video" id="motionPreviewVideo" data-src="motion.mp4?v=1" loop muted playsinline preload="none"></video>
-          </a>
-          <div class="deck-footer-row">
+
+          <div class="motion-cta-wrap">
             <a class="preview-watch-btn" href="https://drive.google.com/drive/folders/1eO46cjjzbkNBwf481S5_DCc4MGnoDgaB?usp=sharing" target="_blank" rel="noopener noreferrer">
               <svg class="preview-watch-icon" viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
-              <span class="all-videos-btn-label">смотреть все видео</span>
+              <span class="all-videos-btn-label">смотреть видео</span>
             </a>
-            <div class="motion-inline-track" aria-hidden="true">
-              <div class="motion-inline-fill" id="motionInlineFill"></div>
+            <span class="motion-cta-note">(google drive)</span>
+          </div>
+
+          <div class="smm-staircase motion-staircase">
+            <div class="smm-stair-item motion-stair-1 is-motion-focused">
+              <a class="smm-stair-cover motion-stair-cover" href="https://drive.google.com/drive/folders/1eO46cjjzbkNBwf481S5_DCc4MGnoDgaB?usp=sharing" target="_blank" rel="noopener noreferrer" aria-label="Смотреть видео — 1">
+                <video class="motion-preview-video" data-src="motion1.mp4?v=2" loop muted playsinline preload="none"></video>
+              </a>
+              <div class="stair-meta-row">
+                <p class="stair-niche-caption" data-niche="agency">маркетинговое агентство</p>
+                <div class="motion-progress-track" aria-hidden="true">
+                  <div class="motion-progress-fill"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="smm-stair-item motion-stair-2">
+              <a class="smm-stair-cover motion-stair-cover" href="https://drive.google.com/drive/folders/1eO46cjjzbkNBwf481S5_DCc4MGnoDgaB?usp=sharing" target="_blank" rel="noopener noreferrer" aria-label="Смотреть видео — 2">
+                <video class="motion-preview-video" data-src="motion2.mp4?v=2" loop muted playsinline preload="none"></video>
+              </a>
+              <div class="stair-meta-row">
+                <p class="stair-niche-caption" data-niche="crypto">крипто-казино</p>
+                <div class="motion-progress-track" aria-hidden="true">
+                  <div class="motion-progress-fill"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="smm-stair-item motion-stair-3">
+              <a class="smm-stair-cover motion-stair-cover" href="https://drive.google.com/drive/folders/1eO46cjjzbkNBwf481S5_DCc4MGnoDgaB?usp=sharing" target="_blank" rel="noopener noreferrer" aria-label="Смотреть видео — 3">
+                <video class="motion-preview-video" data-src="motion3.mp4?v=2" loop muted playsinline preload="none"></video>
+              </a>
+              <div class="stair-meta-row">
+                <p class="stair-niche-caption" data-niche="agency">маркетинговое агентство</p>
+                <div class="motion-progress-track" aria-hidden="true">
+                  <div class="motion-progress-fill"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="smm-stair-item motion-stair-4">
+              <a class="smm-stair-cover motion-stair-cover" href="https://drive.google.com/drive/folders/1eO46cjjzbkNBwf481S5_DCc4MGnoDgaB?usp=sharing" target="_blank" rel="noopener noreferrer" aria-label="Смотреть видео — 4">
+                <video class="motion-preview-video" data-src="motion7.mp4?v=2" loop muted playsinline preload="none"></video>
+              </a>
+              <div class="stair-meta-row">
+                <p class="stair-niche-caption" data-niche="agency">маркетинговое агентство</p>
+                <div class="motion-progress-track" aria-hidden="true">
+                  <div class="motion-progress-fill"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="smm-stair-item motion-stair-5">
+              <a class="smm-stair-cover motion-stair-cover" href="https://drive.google.com/drive/folders/1eO46cjjzbkNBwf481S5_DCc4MGnoDgaB?usp=sharing" target="_blank" rel="noopener noreferrer" aria-label="Смотреть видео — 5">
+                <video class="motion-preview-video" data-src="motion5.mp4?v=2" loop muted playsinline preload="none"></video>
+              </a>
+              <div class="stair-meta-row">
+                <p class="stair-niche-caption" data-niche="agency">маркетинговое агентство</p>
+                <div class="motion-progress-track" aria-hidden="true">
+                  <div class="motion-progress-fill"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="smm-stair-item motion-stair-6">
+              <a class="smm-stair-cover motion-stair-cover" href="https://drive.google.com/drive/folders/1eO46cjjzbkNBwf481S5_DCc4MGnoDgaB?usp=sharing" target="_blank" rel="noopener noreferrer" aria-label="Смотреть видео — 6">
+                <video class="motion-preview-video" data-src="motion4.mp4?v=2" loop muted playsinline preload="none"></video>
+              </a>
+              <div class="stair-meta-row">
+                <p class="stair-niche-caption" data-niche="agency">маркетинговое агентство</p>
+                <div class="motion-progress-track" aria-hidden="true">
+                  <div class="motion-progress-fill"></div>
+                </div>
+              </div>
             </div>
           </div>
         </article>
@@ -2933,10 +3230,11 @@
     // Start intro only once face.png is ready, then load media strictly in 3 priority waves:
     // Wave 1 (during 2.6s intro): 5 visible covers (smm1, smm4, smm7, hkbad, alova)
     // Wave 2 (after Wave 1): 6 hidden SMM slides (smm2, 3, 5, 6, 8, 9)
-    // Wave 3 (after Wave 2 or on scroll proximity): 8 hidden Branding slides + motion.mp4
+    // Wave 3 (after Wave 2 or on scroll proximity): 8 hidden Branding slides + motion1.mp4..motion7.mp4
     (function initFaceLoadAndPreload() {
       const faceImg = document.getElementById('faceIntroImg');
-      const motionVid = document.getElementById('motionPreviewVideo');
+      const motionVids = Array.from(document.querySelectorAll('.motion-preview-video'));
+      const supportsIO = 'IntersectionObserver' in window;
       let started = false;
       let motionHydrated = false;
       let wave2Started = false;
@@ -2968,21 +3266,51 @@
         });
       }
 
-      function hydrateMotionVideo() {
-        if (motionHydrated || !motionVid) return;
-        motionHydrated = true;
-        if (motionVid.dataset && motionVid.dataset.src && !motionVid.getAttribute('src')) {
-          motionVid.src = motionVid.dataset.src;
-          motionVid.removeAttribute('data-src');
-        }
-        motionVid.preload = 'auto';
-        motionVid.muted = true;
-        motionVid.loop = true;
-        motionVid.load();
-        motionVid.play().catch(() => {
-          const retryPlay = () => { motionVid.play().catch(() => {}); };
+      function tryPlayMotionVideo(vid) {
+        if (!vid || !vid.getAttribute('src')) return;
+        vid.muted = true;
+        vid.loop = true;
+        vid.playsInline = true;
+        vid.play().catch(() => {
+          const retryPlay = () => {
+            if (!supportsIO || vid.dataset.inView === '1') {
+              vid.play().catch(() => {});
+            }
+          };
           window.addEventListener('touchstart', retryPlay, { passive: true, once: true });
           window.addEventListener('pointerdown', retryPlay, { passive: true, once: true });
+        });
+      }
+
+      function hydrateSingleMotionVideo(vid) {
+        if (!vid || vid.dataset.hydrated === '1') return;
+        vid.dataset.hydrated = '1';
+        if (vid.dataset && vid.dataset.src && !vid.getAttribute('src')) {
+          vid.src = vid.dataset.src;
+          vid.removeAttribute('data-src');
+        }
+        vid.preload = 'auto';
+        vid.muted = true;
+        vid.loop = true;
+        vid.playsInline = true;
+        vid.addEventListener('canplay', () => {
+          if ((!supportsIO || vid.dataset.inView === '1') && vid.paused) {
+            tryPlayMotionVideo(vid);
+          }
+        }, { once: true });
+        vid.load();
+        if (!supportsIO || vid.dataset.inView === '1') {
+          tryPlayMotionVideo(vid);
+        }
+      }
+
+      function hydrateMotionVideo() {
+        if (motionHydrated || !motionVids.length) return;
+        motionHydrated = true;
+        // Hydrate first 2 immediately, then stagger 3..7 cleanly so mobile bandwidth & decoders never choke
+        motionVids.slice(0, 2).forEach(hydrateSingleMotionVideo);
+        motionVids.slice(2).forEach((vid, idx) => {
+          setTimeout(() => hydrateSingleMotionVideo(vid), (idx + 1) * 380);
         });
       }
 
@@ -3008,7 +3336,7 @@
       }
 
       function setupScrollProximityBoost() {
-        if (!('IntersectionObserver' in window)) return;
+        if (!supportsIO) return;
         const brandingEl = document.getElementById('branding');
         const motionEl = document.getElementById('motion');
         const boostObs = new IntersectionObserver(
@@ -3027,6 +3355,41 @@
         );
         if (brandingEl) boostObs.observe(brandingEl);
         if (motionEl) boostObs.observe(motionEl);
+
+        // Per-video proximity hydration (650px ahead) for fast scrolls down all 7 videos
+        const vidHydrateObs = new IntersectionObserver(
+          (entries, obs) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              obs.unobserve(entry.target);
+              hydrateSingleMotionVideo(entry.target);
+            });
+          },
+          { rootMargin: '650px 0px' }
+        );
+
+        // Per-video viewport play/pause (250px buffer) so mobile iOS decoders stay smooth across all 7 videos
+        const vidPlayObs = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              const vid = entry.target;
+              if (entry.isIntersecting) {
+                vid.dataset.inView = '1';
+                hydrateSingleMotionVideo(vid);
+                tryPlayMotionVideo(vid);
+              } else {
+                vid.dataset.inView = '0';
+                if (!vid.paused) vid.pause();
+              }
+            });
+          },
+          { rootMargin: '250px 0px' }
+        );
+
+        motionVids.forEach((vid) => {
+          vidHydrateObs.observe(vid);
+          vidPlayObs.observe(vid);
+        });
       }
 
       function startIntro() {
@@ -3040,7 +3403,7 @@
           const loadDuration = 2000;
           const loadStart = performance.now();
           function tickLoader(now) {
-            const progress = Math.min(1, (now - loadStart) / loadDuration);
+            const progress = Math.max(0, Math.min(1, (now - loadStart) / loadDuration));
             // Smooth ease-out curve for natural loading feel
             const eased = 1 - Math.pow(1 - progress, 2.2);
             const pct = Math.round(eased * 100);
@@ -3296,6 +3659,7 @@
         const slides = Array.from(cardEl.querySelectorAll('.cover-slide'));
         const stepBtns = Array.from(cardEl.querySelectorAll('[data-slide-step]'));
         const countEl = cardEl.querySelector('.slide-pager-count');
+        const intervalSegs = Array.from(cardEl.querySelectorAll('.smm-interval-seg'));
         const isAuto = cardEl.getAttribute('data-auto') === 'true';
         if (slides.length < 2) return;
 
@@ -3319,6 +3683,9 @@
           }
 
           slides.forEach((s, i) => s.classList.toggle('is-active', i === currentIdx));
+          if (intervalSegs.length) {
+            intervalSegs.forEach((seg, i) => seg.classList.toggle('is-filled', i <= currentIdx));
+          }
           if (countEl) {
             countEl.textContent = `${currentIdx + 1}/${slides.length}`;
           }
@@ -3460,16 +3827,75 @@
       });
     })();
 
-    // Compact inline playback progress bar synchronized with looping Motion preview video
+    // Sequential bidirectional scroll focus for Motion videos (dims non-focused videos & captions by 40%)
+    (function initMotionScrollFocus() {
+      const items = Array.from(document.querySelectorAll('.motion-staircase .smm-stair-item'));
+      if (!items.length) return;
+
+      let activeIdx = 0;
+      let rafPending = false;
+
+      function applyFocus(nextIdx) {
+        if (nextIdx === activeIdx && items[activeIdx].classList.contains('is-motion-focused')) return;
+        activeIdx = nextIdx;
+        items.forEach((item, idx) => {
+          item.classList.toggle('is-motion-focused', idx === activeIdx);
+        });
+      }
+
+      function updateMotionFocus() {
+        rafPending = false;
+        const count = items.length;
+        if (count === 1) {
+          applyFocus(0);
+          return;
+        }
+        const vh = window.innerHeight || document.documentElement.clientHeight || 800;
+        const focalY = vh * 0.48;
+        const firstRect = items[0].getBoundingClientRect();
+        const lastRect = items[count - 1].getBoundingClientRect();
+        const firstCy = firstRect.top + firstRect.height * 0.5;
+        const lastCy = lastRect.top + lastRect.height * 0.5;
+        const span = lastCy - firstCy;
+
+        let nextIdx = 0;
+        if (span > 1) {
+          const progress = Math.max(0, Math.min(1, (focalY - firstCy) / span));
+          nextIdx = Math.round(progress * (count - 1));
+        }
+        applyFocus(nextIdx);
+      }
+
+      function scheduleUpdate() {
+        if (rafPending) return;
+        rafPending = true;
+        requestAnimationFrame(updateMotionFocus);
+      }
+
+      window.addEventListener('scroll', scheduleUpdate, { passive: true });
+      window.addEventListener('resize', scheduleUpdate, { passive: true });
+      window.addEventListener('load', scheduleUpdate, { passive: true });
+      updateMotionFocus();
+    })();
+
+    // Short video-timing progress bars synced with each looping Motion preview video
     (function initMotionInlineProgress() {
-      const vid = document.getElementById('motionPreviewVideo');
-      const fill = document.getElementById('motionInlineFill');
-      if (!vid || !fill) return;
+      const items = Array.from(document.querySelectorAll('.motion-staircase .smm-stair-item'))
+        .map((item) => ({
+          vid: item.querySelector('.motion-preview-video'),
+          fill: item.querySelector('.motion-progress-fill')
+        }))
+        .filter((pair) => pair.vid && pair.fill);
+      if (!items.length) return;
 
       function tickInlineMotion() {
-        if (vid.duration && Number.isFinite(vid.duration) && vid.duration > 0) {
-          const pct = Math.min(100, Math.max(0, (vid.currentTime / vid.duration) * 100));
-          fill.style.width = `${pct.toFixed(2)}%`;
+        for (let i = 0; i < items.length; i++) {
+          const item = items[i];
+          const vid = item.vid;
+          if (!vid.paused && vid.duration && Number.isFinite(vid.duration) && vid.duration > 0) {
+            const ratio = Math.min(1, Math.max(0, vid.currentTime / vid.duration));
+            item.fill.style.transform = `scaleX(${ratio.toFixed(4)})`;
+          }
         }
         requestAnimationFrame(tickInlineMotion);
       }
@@ -3480,7 +3906,7 @@
     // Shared modal action labels & project captions (updated by language switcher)
     const modalActionLabels = {
       project: 'полный проект на биханс',
-      videos: 'смотреть все видео',
+      videos: 'смотреть видео',
       captions: {
         alova: { title: 'алова', desc: 'тату-студия в харькове' },
         hkbad: { title: 'хкбад', desc: 'колледж архитектуры в харькове' }
@@ -3498,7 +3924,7 @@
       const timelineTrack = document.getElementById('modalTimelineTrack');
       const slideshowEl = document.getElementById('modalSlideshow');
       const stripEl = document.getElementById('modalPreviewStrip');
-      const pageMotionVid = document.getElementById('motionPreviewVideo');
+      const pageMotionVids = Array.from(document.querySelectorAll('.motion-preview-video'));
       const fillEl = document.getElementById('modalTimelineFill');
       const actionBtn = document.getElementById('modalActionBtn');
       const actionBtnLabel = document.getElementById('modalActionBtnLabel');
@@ -3560,17 +3986,20 @@
       let activeModalType = null;
       let activeSlideDuration = 2600;
       let slideRafId = null;
-      let slideStartTime = 0;
+      let slideStartTime = null;
       let currentSlideIdx = 0;
       let modalSlideImgs = [];
+      let modalIntervalSegs = [];
       let totalCycleMs = 0;
 
-      // Ensure inline motion video resumes on mobile Safari once its Wave 3 src is hydrated
+      // Ensure visible inline motion videos resume on mobile Safari once their Wave 3 src is hydrated
       const ensureInlinePlay = () => {
-        if (pageMotionVid && pageMotionVid.getAttribute('src') && pageMotionVid.paused) {
-          pageMotionVid.muted = true;
-          pageMotionVid.play().catch(() => {});
-        }
+        pageMotionVids.forEach((v) => {
+          if (v && v.getAttribute('src') && v.paused && (!('IntersectionObserver' in window) || v.dataset.inView === '1')) {
+            v.muted = true;
+            v.play().catch(() => {});
+          }
+        });
       };
       window.addEventListener('pointerdown', ensureInlinePlay, { passive: true, once: true });
       window.addEventListener('touchstart', ensureInlinePlay, { passive: true, once: true });
@@ -3582,20 +4011,32 @@
         }
       }
 
+      function syncModalIntervalSegs(idx) {
+        if (!modalIntervalSegs.length) return;
+        for (let i = 0; i < modalIntervalSegs.length; i++) {
+          modalIntervalSegs[i].classList.toggle('is-filled', i <= idx);
+        }
+      }
+
       function tickSlideshowProgress(now) {
         if (!modal.classList.contains('open') || !modalSlideImgs.length || !totalCycleMs) {
           slideRafId = null;
           return;
         }
-        const elapsed = (now - slideStartTime) % totalCycleMs;
-        const ratio = elapsed / totalCycleMs;
-        fillEl.style.transform = `scaleX(${ratio.toFixed(4)})`;
+        if (slideStartTime === null) {
+          slideStartTime = now;
+        }
+        const rawElapsed = Math.max(0, now - slideStartTime);
+        const elapsed = rawElapsed % totalCycleMs;
 
         const targetIdx = Math.floor(elapsed / activeSlideDuration) % modalSlideImgs.length;
-        if (targetIdx !== currentSlideIdx) {
-          modalSlideImgs[currentSlideIdx].classList.remove('is-active');
+        if (targetIdx >= 0 && targetIdx < modalSlideImgs.length && targetIdx !== currentSlideIdx) {
+          if (modalSlideImgs[currentSlideIdx]) {
+            modalSlideImgs[currentSlideIdx].classList.remove('is-active');
+          }
           currentSlideIdx = targetIdx;
           modalSlideImgs[currentSlideIdx].classList.add('is-active');
+          syncModalIntervalSegs(currentSlideIdx);
         }
         slideRafId = requestAnimationFrame(tickSlideshowProgress);
       }
@@ -3630,9 +4071,15 @@
         slideshowEl.className = 'modal-slideshow hidden';
         slideshowEl.innerHTML = '';
         modalSlideImgs = [];
+        modalIntervalSegs = [];
         stripEl.className = 'modal-preview-strip hidden';
         fillEl.className = 'modal-timeline-fill';
         fillEl.style.transform = '';
+        if (timelineTrack) {
+          timelineTrack.classList.remove('is-interval-modal');
+          const oldBar = timelineTrack.querySelector('.smm-interval-bar');
+          if (oldBar) oldBar.remove();
+        }
         if (brandingCaptionEl) {
           brandingCaptionEl.classList.add('hidden');
           brandingCaptionEl.innerHTML = '';
@@ -3716,7 +4163,9 @@
             img.className = i === 0 ? 'modal-slide is-active' : 'modal-slide';
             img.src = src;
             img.alt = `${deck.alt} — ${i + 1}`;
+            img.loading = 'eager';
             img.decoding = 'async';
+            try { img.fetchPriority = 'high'; } catch (_) {}
             slideshowEl.appendChild(img);
             modalSlideImgs.push(img);
           });
@@ -3724,14 +4173,26 @@
           currentSlideIdx = 0;
           activeSlideDuration = deck.duration;
           totalCycleMs = deck.slides.length * activeSlideDuration;
-          slideStartTime = performance.now();
-          fillEl.style.transform = 'scaleX(0)';
+          slideStartTime = null;
+          fillEl.classList.add('hidden');
+          if (timelineTrack) {
+            timelineTrack.classList.add('is-interval-modal');
+            const intervalBar = document.createElement('div');
+            intervalBar.className = 'smm-interval-bar';
+            intervalBar.setAttribute('aria-hidden', 'true');
+            deck.slides.forEach((_, i) => {
+              const seg = document.createElement('span');
+              seg.className = i === 0 ? 'smm-interval-seg is-filled' : 'smm-interval-seg';
+              intervalBar.appendChild(seg);
+              modalIntervalSegs.push(seg);
+            });
+            timelineTrack.appendChild(intervalBar);
+          }
           if (deck.href && actionBtn && actionBtnLabel) {
             actionBtn.href = deck.href;
             actionBtnLabel.textContent = modalActionLabels.project;
             actionBtn.classList.remove('hidden');
           }
-          slideRafId = requestAnimationFrame(tickSlideshowProgress);
         } else {
           return;
         }
@@ -3739,6 +4200,10 @@
         modal.classList.add('open');
         modal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
+
+        if (slideshowDecks[type] && modalSlideImgs.length) {
+          slideRafId = requestAnimationFrame(tickSlideshowProgress);
+        }
       }
 
       function closeModal() {
@@ -3798,12 +4263,13 @@
           vibeNote: 'портфолио в разработке и обновляется',
           watchBtn: 'смотреть',
           openProjectBtn: 'открыть проект',
-          modalYtBtn: 'смотреть все видео',
+          modalYtBtn: 'смотреть видео',
           modalProjectBtn: 'полный проект на биханс',
           waitingTitle: 'комната ожидания',
           waitingDesc: 'пока дизайны готовятся можете здесь порисовать',
           tabletClear: 'очистить',
-          tabletDownload: 'сохранить jpg'
+          tabletDownload: 'сохранить jpg',
+          niches: { beauty: 'бьюти', crypto: 'крипто-казино', agency: 'маркетинговое агентство' }
         },
         ua: {
           badge1: 'я єгор',
@@ -3820,12 +4286,13 @@
           vibeNote: 'портфоліо у розробці та оновлюється',
           watchBtn: 'дивитись',
           openProjectBtn: 'відкрити проєкт',
-          modalYtBtn: 'дивитись усі відео',
+          modalYtBtn: 'дивитись відео',
           modalProjectBtn: 'повний проєкт на біханс',
           waitingTitle: 'кімната очікування',
           waitingDesc: 'поки дизайни готуються можете тут помалювати',
           tabletClear: 'очистити',
-          tabletDownload: 'зберегти jpg'
+          tabletDownload: 'зберегти jpg',
+          niches: { beauty: "б'юті", crypto: 'крипто-казино', agency: 'маркетингова агенція' }
         },
         eng: {
           badge1: "i'm egor",
@@ -3842,12 +4309,13 @@
           vibeNote: 'portfolio is in progress and being updated',
           watchBtn: 'watch',
           openProjectBtn: 'open project',
-          modalYtBtn: 'watch all videos',
+          modalYtBtn: 'watch videos',
           modalProjectBtn: 'full project on behance',
           waitingTitle: 'waiting room',
           waitingDesc: 'while the designs are cooking you can draw here',
           tabletClear: 'clear',
-          tabletDownload: 'save jpg'
+          tabletDownload: 'save jpg',
+          niches: { beauty: 'beauty', crypto: 'crypto casino', agency: 'marketing agency' }
         },
         cz: {
           badge1: 'jsem egor',
@@ -3864,12 +4332,13 @@
           vibeNote: 'portfolio je ve vývoji a průběžně se aktualizuje',
           watchBtn: 'přehrát',
           openProjectBtn: 'otevřít projekt',
-          modalYtBtn: 'zobrazit všechna videa',
+          modalYtBtn: 'zobrazit videa',
           modalProjectBtn: 'celý projekt na behance',
           waitingTitle: 'čekárna',
           waitingDesc: 'než se designy připraví můžete si tu kreslit',
           tabletClear: 'smazat',
-          tabletDownload: 'uložit jpg'
+          tabletDownload: 'uložit jpg',
+          niches: { beauty: 'beauty', crypto: 'krypto kasino', agency: 'marketingová agentura' }
         },
         '日本語': {
           badge1: '私はエゴルです',
@@ -3886,12 +4355,13 @@
           vibeNote: 'ポートフォリオは制作中で随時更新しています',
           watchBtn: '見る',
           openProjectBtn: 'プロジェクトを開く',
-          modalYtBtn: 'すべての動画を見る',
+          modalYtBtn: '動画を見る',
           modalProjectBtn: 'behanceで全プロジェクトを見る',
           waitingTitle: '待合室',
           waitingDesc: 'デザインを準備している間ここで落書きできます',
           tabletClear: '消去',
-          tabletDownload: 'jpgを保存'
+          tabletDownload: 'jpgを保存',
+          niches: { beauty: 'ビューティー', crypto: 'クリプトカジノ', agency: 'マーケティングエージェンシー' }
         }
       };
 
@@ -4023,6 +4493,12 @@
         document.querySelectorAll('.all-videos-btn-label').forEach((el) => {
           el.textContent = t.modalYtBtn;
         });
+        if (t.niches) {
+          document.querySelectorAll('[data-niche]').forEach((el) => {
+            const key = el.getAttribute('data-niche');
+            if (key && t.niches[key]) el.textContent = t.niches[key];
+          });
+        }
         document.querySelectorAll('.open-project-btn-label').forEach((el) => {
           el.textContent = t.openProjectBtn;
         });
