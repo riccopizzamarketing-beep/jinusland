@@ -946,6 +946,7 @@
     /* SMM & Motion preview frame (+5% thicker border) */
     .smm-preview-frame {
       position: relative;
+      display: block;
       width: 100%;
       max-width: 520px;
       aspect-ratio: 1.3 / 1;
@@ -954,6 +955,7 @@
       background: #080808;
       border: 1.15px solid rgba(255, 255, 255, 0.13);
       box-shadow: 0 18px 45px rgba(0, 0, 0, 0.7);
+      text-decoration: none;
       cursor: pointer;
       transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.35s ease, box-shadow 0.35s ease;
     }
@@ -1086,7 +1088,7 @@
       border-color: var(--badge-border);
     }
 
-    /* Borderless/backgroundless white '+' zoom button beside each SMM square */
+    /* Borderless/backgroundless white play-arrow button beside each SMM square */
     .smm-plus-btn {
       width: 26px;
       height: 26px;
@@ -1110,12 +1112,10 @@
     }
 
     .smm-plus-btn svg {
-      width: 20px;
-      height: 20px;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 2.1;
-      stroke-linecap: square;
+      width: 12px;
+      height: 12px;
+      fill: currentColor;
+      stroke: none;
     }
 
     .smm-plus-btn:hover,
@@ -2556,8 +2556,8 @@
         height: 24px;
       }
       .smm-plus-btn svg {
-        width: 19px;
-        height: 19px;
+        width: 11px;
+        height: 11px;
       }
       .desc-slide-reveal {
         transform: translate3d(-48px, 0, 0);
@@ -2701,10 +2701,7 @@
                   </div>
                 </div>
                 <button class="smm-plus-btn" type="button" data-open-modal="smm-1" aria-label="Увеличить smm креативы 1–3">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <line x1="12" y1="5" x2="12" y2="19" />
-                    <line x1="5" y1="12" x2="19" y2="12" />
-                  </svg>
+                  <svg viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
                 </button>
               </div>
             </div>
@@ -2719,10 +2716,7 @@
                   </div>
                 </div>
                 <button class="smm-plus-btn" type="button" data-open-modal="smm-2" aria-label="Увеличить smm креативы 4–6">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <line x1="12" y1="5" x2="12" y2="19" />
-                    <line x1="5" y1="12" x2="19" y2="12" />
-                  </svg>
+                  <svg viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
                 </button>
               </div>
             </div>
@@ -2737,10 +2731,7 @@
                   </div>
                 </div>
                 <button class="smm-plus-btn" type="button" data-open-modal="smm-3" aria-label="Увеличить smm креативы 7–9">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <line x1="12" y1="5" x2="12" y2="19" />
-                    <line x1="5" y1="12" x2="19" y2="12" />
-                  </svg>
+                  <svg viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
                 </button>
               </div>
             </div>
@@ -2828,14 +2819,14 @@
 
         <article class="project-card scroll-reveal">
           <p class="project-desc section-desc desc-slide-reveal" id="i18nMotionDesc">создал примерно <span class="num-underline">300<svg class="num-pencil-line" viewBox="0 0 64 10" preserveAspectRatio="none" aria-hidden="true"><path pathLength="100" d="M1.2 7.1 C 10.5 5.0, 19.2 7.8, 30.8 5.6 C 41.5 3.8, 51.8 6.8, 62.8 4.1" /></svg></span> моушн видео junior &amp; mid уровня сложности</p>
-          <div class="smm-preview-frame is-video-frame" data-open-modal="motion" role="button" tabindex="0" aria-label="Открыть превью motion videos в полный экран">
+          <a class="smm-preview-frame is-video-frame" href="https://drive.google.com/drive/folders/1eO46cjjzbkNBwf481S5_DCc4MGnoDgaB?usp=sharing" target="_blank" rel="noopener noreferrer" aria-label="Смотреть все видео">
             <video class="motion-preview-video" id="motionPreviewVideo" data-src="motion.mp4?v=1" loop muted playsinline preload="none"></video>
-          </div>
+          </a>
           <div class="deck-footer-row">
-            <button class="preview-watch-btn" type="button" data-open-modal="motion">
+            <a class="preview-watch-btn" href="https://drive.google.com/drive/folders/1eO46cjjzbkNBwf481S5_DCc4MGnoDgaB?usp=sharing" target="_blank" rel="noopener noreferrer">
               <svg class="preview-watch-icon" viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
-              <span class="watch-btn-label">смотреть</span>
-            </button>
+              <span class="all-videos-btn-label">смотреть все видео</span>
+            </a>
             <div class="motion-inline-track" aria-hidden="true">
               <div class="motion-inline-fill" id="motionInlineFill"></div>
             </div>
@@ -2894,7 +2885,7 @@
     </div>
   </section>
 
-  <!-- Fullscreen preview modal for Branding 2×2 grid, SMM & Motion with synced timeline bar -->
+  <!-- Fullscreen preview modal for Branding 2×2 grid & SMM with synced timeline bar -->
   <div class="preview-modal" id="previewModal" aria-hidden="true" role="dialog" aria-modal="true">
     <div class="preview-modal-inner" id="previewModalInner">
       <button class="preview-modal-close" id="previewModalClose" type="button" aria-label="Закрыть">&times;</button>
@@ -2903,14 +2894,13 @@
       <div class="modal-preview-frame" id="modalPreviewFrame">
         <div class="modal-slideshow hidden" id="modalSlideshow"></div>
         <img class="modal-preview-strip hidden" id="modalPreviewStrip" src="" alt="" decoding="async" />
-        <video class="modal-preview-video hidden" id="modalPreviewVideo" data-src="motion.mp4?v=1" loop muted playsinline preload="none"></video>
       </div>
       <div class="modal-timeline-track" id="modalTimelineTrack" aria-hidden="true">
         <div class="modal-timeline-fill" id="modalTimelineFill"></div>
       </div>
       <a class="modal-yt-btn hidden" id="modalActionBtn" href="#" target="_blank" rel="noopener noreferrer">
         <svg class="modal-yt-icon" viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
-        <span id="modalActionBtnLabel">смотреть все видео</span>
+        <span id="modalActionBtnLabel">полный проект на биханс</span>
       </a>
     </div>
   </div>
@@ -3497,7 +3487,7 @@
       }
     };
 
-    // Fullscreen modal controller for Branding 2×2 grid, SMM (1s auto-slideshow) & Motion (looping MP4)
+    // Fullscreen modal controller for Branding 2×2 grid & SMM (1s auto-slideshow)
     (function initPreviewModal() {
       const modal = document.getElementById('previewModal');
       const modalInner = document.getElementById('previewModalInner');
@@ -3508,13 +3498,12 @@
       const timelineTrack = document.getElementById('modalTimelineTrack');
       const slideshowEl = document.getElementById('modalSlideshow');
       const stripEl = document.getElementById('modalPreviewStrip');
-      const videoEl = document.getElementById('modalPreviewVideo');
       const pageMotionVid = document.getElementById('motionPreviewVideo');
       const fillEl = document.getElementById('modalTimelineFill');
       const actionBtn = document.getElementById('modalActionBtn');
       const actionBtnLabel = document.getElementById('modalActionBtnLabel');
       const triggers = document.querySelectorAll('[data-open-modal]');
-      if (!modal || !stripEl || !videoEl || !fillEl || !slideshowEl) return;
+      if (!modal || !stripEl || !fillEl || !slideshowEl) return;
 
       const brandingGrids = {
         alova: {
@@ -3570,7 +3559,6 @@
 
       let activeModalType = null;
       let activeSlideDuration = 2600;
-      let videoRafId = null;
       let slideRafId = null;
       let slideStartTime = 0;
       let currentSlideIdx = 0;
@@ -3588,27 +3576,10 @@
       window.addEventListener('touchstart', ensureInlinePlay, { passive: true, once: true });
 
       function stopTimers() {
-        if (videoRafId !== null) {
-          cancelAnimationFrame(videoRafId);
-          videoRafId = null;
-        }
         if (slideRafId !== null) {
           cancelAnimationFrame(slideRafId);
           slideRafId = null;
         }
-      }
-
-      function tickVideoProgress() {
-        if (!modal.classList.contains('open')) {
-          videoRafId = null;
-          return;
-        }
-        const dur = videoEl.duration;
-        if (dur && isFinite(dur) && dur > 0) {
-          const ratio = Math.min(1, Math.max(0, videoEl.currentTime / dur));
-          fillEl.style.transform = `scaleX(${ratio.toFixed(4)})`;
-        }
-        videoRafId = requestAnimationFrame(tickVideoProgress);
       }
 
       function tickSlideshowProgress(now) {
@@ -3650,8 +3621,6 @@
         if (brandingGrids[activeModalType]) {
           if (actionBtnLabel) actionBtnLabel.textContent = modalActionLabels.project;
           renderBrandingCaption(activeModalType);
-        } else if (activeModalType === 'motion') {
-          if (actionBtnLabel) actionBtnLabel.textContent = modalActionLabels.videos;
         }
       };
 
@@ -3662,8 +3631,6 @@
         slideshowEl.innerHTML = '';
         modalSlideImgs = [];
         stripEl.className = 'modal-preview-strip hidden';
-        videoEl.className = 'modal-preview-video hidden';
-        videoEl.pause();
         fillEl.className = 'modal-timeline-fill';
         fillEl.style.transform = '';
         if (brandingCaptionEl) {
@@ -3765,27 +3732,6 @@
             actionBtn.classList.remove('hidden');
           }
           slideRafId = requestAnimationFrame(tickSlideshowProgress);
-        } else if (type === 'motion') {
-          if (window.__hydrateMotionVideo) window.__hydrateMotionVideo();
-          if (modalFrame) modalFrame.classList.add('is-video-frame');
-          if (actionBtn && actionBtnLabel) {
-            actionBtn.href = 'https://drive.google.com/drive/folders/1eO46cjjzbkNBwf481S5_DCc4MGnoDgaB?usp=sharing';
-            actionBtnLabel.textContent = modalActionLabels.videos;
-            actionBtn.classList.remove('hidden');
-          }
-          if (videoEl.dataset && videoEl.dataset.src && !videoEl.getAttribute('src')) {
-            videoEl.src = videoEl.dataset.src;
-            videoEl.removeAttribute('data-src');
-            videoEl.preload = 'auto';
-            videoEl.load();
-          }
-          videoEl.classList.remove('hidden');
-          videoEl.muted = true;
-          videoEl.loop = true;
-          try { videoEl.currentTime = 0; } catch (_) {}
-          fillEl.style.transform = 'scaleX(0)';
-          videoEl.play().catch(() => {});
-          videoRafId = requestAnimationFrame(tickVideoProgress);
         } else {
           return;
         }
@@ -3797,7 +3743,6 @@
 
       function closeModal() {
         stopTimers();
-        videoEl.pause();
         activeModalType = null;
         if (brandingGridEl) {
           brandingGridEl.classList.remove('has-zoomed');
@@ -4074,6 +4019,9 @@
         if (vibeNoteEl) vibeNoteEl.textContent = t.vibeNote;
         document.querySelectorAll('.watch-btn-label').forEach((el) => {
           el.textContent = t.watchBtn;
+        });
+        document.querySelectorAll('.all-videos-btn-label').forEach((el) => {
+          el.textContent = t.modalYtBtn;
         });
         document.querySelectorAll('.open-project-btn-label').forEach((el) => {
           el.textContent = t.openProjectBtn;
