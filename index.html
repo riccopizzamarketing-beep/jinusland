@@ -2646,17 +2646,17 @@
         gap: 3.62rem;
       }
       .projects-heading {
-        font-size: clamp(1.43rem, 4.51vw, 1.92rem);
-        padding: 0.51rem 1.54rem;
+        font-size: clamp(1.79rem, 5.64vw, 2.4rem);
+        padding: 0.64rem 1.92rem;
       }
       .projects-heading.waiting-heading {
-        font-size: clamp(1.27rem, 3.85vw, 1.56rem);
-        gap: 0.48rem;
+        font-size: clamp(1.59rem, 4.81vw, 1.95rem);
+        gap: 0.56rem;
         margin-bottom: -1.93rem;
       }
       .waiting-pencil {
-        width: 22px;
-        height: 19.5px;
+        width: 27.5px;
+        height: 24.4px;
       }
       .project-card {
         gap: 1.13rem;
@@ -2715,16 +2715,27 @@
         gap: 0.38rem;
       }
       .smm-plus-btn {
-        width: 24px;
-        height: 24px;
+        width: 31px;
+        height: 31px;
       }
       .smm-plus-btn svg {
-        width: 11px;
-        height: 11px;
+        width: 14.3px;
+        height: 14.3px;
       }
       .motion-cta-wrap {
         margin-top: -0.45rem;
         margin-bottom: 0.25rem;
+      }
+      .motion-cta-wrap .preview-watch-btn {
+        font-size: clamp(1.06rem, 3vw, 1.15rem);
+        gap: 0.58rem;
+      }
+      .motion-cta-wrap .preview-watch-icon {
+        width: 13.2px;
+        height: 13.2px;
+      }
+      .motion-cta-note {
+        font-size: clamp(0.86rem, 2.52vw, 0.94rem);
       }
       .motion-staircase {
         --motion-w: clamp(188px, 64.3vw, 264px);
@@ -2739,16 +2750,16 @@
         margin-top: 0.34rem;
       }
       .stair-niche-caption {
-        font-size: clamp(0.74rem, 2.7vw, 0.86rem);
+        font-size: clamp(0.89rem, 3.24vw, 1.03rem);
       }
       .motion-staircase .stair-niche-caption {
-        font-size: clamp(0.66rem, 2.62vw, 0.83rem);
+        font-size: clamp(0.79rem, 3.14vw, 1rem);
       }
       .smm-stair-1 .stair-meta-row {
         margin-left: 0;
       }
       .smm-stair-2 .stair-meta-row {
-        margin-left: calc(24px + 0.38rem);
+        margin-left: calc(31px + 0.38rem);
       }
       .motion-stair-1,
       .motion-stair-3,
@@ -2782,16 +2793,25 @@
       .section-cards-stack > .project-card:first-child .project-meta-row .desc-slide-reveal {
         transition-delay: 0.78s;
       }
+      .deck-footer-row .preview-watch-btn {
+        font-size: clamp(0.97rem, 2.75vw, 1.06rem);
+        gap: 0.53rem;
+      }
+      .deck-footer-row .preview-watch-icon {
+        width: 12.1px;
+        height: 12.1px;
+      }
       .slide-pager {
-        gap: 0.18rem;
+        gap: 0.36rem;
       }
       .slide-pager-arrow {
-        width: 24px;
-        height: 24px;
+        width: 40px;
+        height: 40px;
       }
       .slide-pager-arrow svg {
-        width: 13.5px;
-        height: 13.5px;
+        width: 27px;
+        height: 27px;
+        stroke-width: 1.4;
       }
       .slide-pager-count {
         font-size: 0.99rem;
@@ -2953,7 +2973,7 @@
       <div class="section-group">
         <h2 class="projects-heading section-subhead scroll-reveal" id="branding">branding projects</h2>
         <div class="section-desc-trigger scroll-reveal">
-          <p class="project-desc section-desc branding-section-desc desc-slide-reveal" id="i18nBrandingDesc">создание айдентики <span class="desc-muted">[лого, характер, цвета и много другого]</span> для различных брендов с нуля</p>
+          <p class="project-desc section-desc branding-section-desc desc-slide-reveal" id="i18nBrandingDesc">создание айдентики <span class="desc-muted">[лого, характер, цвета и много другого]</span> для различных брендов</p>
         </div>
 
         <div class="section-cards-stack">
@@ -2961,7 +2981,7 @@
             <h3 class="project-title" id="i18nHkbadTitle">хкбад</h3>
             <div class="project-meta-row">
               <p class="project-desc desc-slide-reveal" id="i18nHkbadDesc">колледж архитектуры в харькове</p>
-              <span class="project-year">2022</span>
+              <span class="project-year">[2022]</span>
             </div>
             <div class="smm-preview-frame is-video-frame branding-frame" data-open-modal="hkbad" role="button" tabindex="0" aria-label="Открыть превью проекта хкбад">
               <div class="cover-stack">
@@ -2992,7 +3012,7 @@
             <h3 class="project-title">alova</h3>
             <div class="project-meta-row">
               <p class="project-desc desc-slide-reveal" id="i18nAlovaDesc">тату-студия в харькове</p>
-              <span class="project-year">2024</span>
+              <span class="project-year">[2024]</span>
             </div>
             <div class="smm-preview-frame is-video-frame branding-frame" data-open-modal="alova" role="button" tabindex="0" aria-label="Открыть превью проекта alova">
               <div class="cover-stack">
@@ -3250,9 +3270,11 @@
 
       function tryPlayMotionVideo(vid) {
         if (!vid || !vid.getAttribute('src')) return;
+        vid.defaultMuted = true;
         vid.muted = true;
         vid.loop = true;
         vid.playsInline = true;
+        vid.setAttribute('webkit-playsinline', '');
         vid.play().catch(() => {
           const retryPlay = () => {
             if (!supportsIO || vid.dataset.inView === '1') {
@@ -3272,9 +3294,11 @@
           vid.removeAttribute('data-src');
         }
         vid.preload = 'auto';
+        vid.defaultMuted = true;
         vid.muted = true;
         vid.loop = true;
         vid.playsInline = true;
+        vid.setAttribute('webkit-playsinline', '');
         vid.addEventListener('canplay', () => {
           if ((!supportsIO || vid.dataset.inView === '1') && vid.paused) {
             tryPlayMotionVideo(vid);
@@ -3630,12 +3654,14 @@
       });
     })();
 
-    // Card sliders with compact counter-pager (< 1/5 >) & dip-to-dark fade:
-    // Auto-slides with fade-in/fade-out on Branding (alova, хкбад) & SMM, plus manual arrows/swipe
+    // Card sliders: manual instant-cut arrows/swipe on Branding (alova, хкбад) & strict 1 -> 2 -> 3 sequential auto-flip on SMM
     (function initCardSliders() {
       const sliderCards = Array.from(document.querySelectorAll('[data-slider]'));
       const modalEl = document.getElementById('previewModal');
       if (!sliderCards.length) return;
+
+      const autoQueue = [];
+      let onAutoManualInteract = null;
 
       sliderCards.forEach((cardEl) => {
         const slides = Array.from(cardEl.querySelectorAll('.cover-slide'));
@@ -3645,12 +3671,8 @@
         if (slides.length < 2) return;
 
         let currentIdx = 0;
-        let autoTimer = null;
-        let autoStartTimer = null;
         let manualResetTimer = null;
         let switchToken = 0;
-        const AUTO_MS = 2800;
-        const autoDelay = Number(cardEl.getAttribute('data-auto-delay')) || 0;
         const hydrate = (img) => (window.__hydrateSlideImg ? window.__hydrateSlideImg(img, 3500) : Promise.resolve());
 
         function commitSlide(targetIdx, isManual) {
@@ -3672,7 +3694,7 @@
         function showSlide(nextIdx, isManual) {
           const count = slides.length;
           const targetIdx = ((nextIdx % count) + count) % count;
-          if (targetIdx === currentIdx && isManual) return;
+          if (targetIdx === currentIdx && isManual) return true;
 
           const targetSlide = slides[targetIdx];
           const isReady = Boolean(
@@ -3686,7 +3708,7 @@
             // Auto-slides never reveal a half-loaded frame: wait silently until fully loaded & decoded
             if (!isReady) {
               hydrate(targetSlide);
-              return;
+              return false;
             }
             const token = ++switchToken;
             const decodeP = typeof targetSlide.decode === 'function' ? targetSlide.decode().catch(() => {}) : Promise.resolve();
@@ -3694,7 +3716,7 @@
               if (token !== switchToken) return;
               commitSlide(targetIdx, false);
             });
-            return;
+            return true;
           }
 
           // Manual arrows/swipe: pre-hydrate target + next neighbor for instant subsequent flips
@@ -3705,36 +3727,14 @@
           if (isReady) {
             switchToken++;
             commitSlide(targetIdx, true);
-            return;
+            return true;
           }
           const token = ++switchToken;
           hydrate(targetSlide).then(() => {
             if (token !== switchToken) return;
             commitSlide(targetIdx, true);
           });
-        }
-
-        function restartAuto(useInitialDelay) {
-          if (!isAuto) return;
-          if (autoStartTimer) {
-            clearTimeout(autoStartTimer);
-            autoStartTimer = null;
-          }
-          if (autoTimer) {
-            clearInterval(autoTimer);
-            autoTimer = null;
-          }
-          const startInterval = () => {
-            autoTimer = setInterval(() => {
-              if (modalEl && modalEl.classList.contains('open')) return;
-              showSlide(currentIdx + 1, false);
-            }, AUTO_MS);
-          };
-          if (useInitialDelay && autoDelay > 0) {
-            autoStartTimer = setTimeout(startInterval, autoDelay);
-          } else {
-            startInterval();
-          }
+          return true;
         }
 
         stepBtns.forEach((btn) => {
@@ -3742,7 +3742,7 @@
             e.stopPropagation();
             const step = Number(btn.getAttribute('data-slide-step')) || 1;
             showSlide(currentIdx + step, true);
-            restartAuto(false);
+            if (isAuto && onAutoManualInteract) onAutoManualInteract(cardEl);
           });
         });
 
@@ -3784,7 +3784,7 @@
               if (Math.abs(dx) >= 26) {
                 const step = dx < 0 ? 1 : -1;
                 showSlide(currentIdx + step, true);
-                restartAuto(false);
+                if (isAuto && onAutoManualInteract) onAutoManualInteract(cardEl);
                 suppressClickUntil = performance.now() + 420;
               }
             }
@@ -3800,9 +3800,75 @@
         }
 
         if (isAuto) {
-          restartAuto(true);
+          autoQueue.push({
+            el: cardEl,
+            stepNext: () => showSlide(currentIdx + 1, false)
+          });
         }
       });
+
+      // Unified sequential scheduler: flips SMM blocks strictly one-by-one in 1 -> 2 -> 3 order
+      if (autoQueue.length) {
+        const STEP_MS = 1100;
+        let turnIdx = 0;
+        let queueTimer = null;
+        let queueStarted = false;
+
+        function scheduleNextTurn(delay) {
+          if (queueTimer) clearTimeout(queueTimer);
+          queueTimer = setTimeout(runTurn, delay);
+        }
+
+        function runTurn() {
+          queueTimer = null;
+          if (modalEl && modalEl.classList.contains('open')) {
+            scheduleNextTurn(450);
+            return;
+          }
+          const entry = autoQueue[turnIdx];
+          if (entry) {
+            const flipped = entry.stepNext();
+            if (flipped) {
+              turnIdx = (turnIdx + 1) % autoQueue.length;
+              scheduleNextTurn(STEP_MS);
+            } else {
+              scheduleNextTurn(300);
+            }
+          }
+        }
+
+        onAutoManualInteract = (cardEl) => {
+          const idx = autoQueue.findIndex((item) => item.el === cardEl);
+          if (idx !== -1) {
+            turnIdx = (idx + 1) % autoQueue.length;
+          }
+          if (queueStarted) {
+            scheduleNextTurn(STEP_MS);
+          }
+        };
+
+        function startSequentialQueue() {
+          if (queueStarted) return;
+          queueStarted = true;
+          scheduleNextTurn(950);
+        }
+
+        const smmStair = document.querySelector('.smm-staircase:not(.motion-staircase)');
+        if (smmStair && 'IntersectionObserver' in window) {
+          const startObs = new IntersectionObserver(
+            (entries, obs) => {
+              if (entries.some((e) => e.isIntersecting)) {
+                obs.disconnect();
+                startSequentialQueue();
+              }
+            },
+            { threshold: 0.08 }
+          );
+          startObs.observe(smmStair);
+        } else {
+          startSequentialQueue();
+        }
+      }
     })();
 
     // Short video-timing progress bars synced with each looping Motion preview video
@@ -3876,7 +3942,7 @@
           slides: ['smm1.jpg?v=2', 'smm2.jpg?v=2', 'smm3.jpg?v=2'],
           href: null,
           alt: 'smm design 1–3',
-          duration: 1000,
+          duration: 1180,
           square: true,
           fastFade: true
         },
@@ -3884,7 +3950,7 @@
           slides: ['smm4.jpg?v=2', 'smm5.jpg?v=2', 'smm6.jpg?v=2'],
           href: null,
           alt: 'smm design 4–6',
-          duration: 1000,
+          duration: 1180,
           square: true,
           fastFade: true
         },
@@ -3892,7 +3958,7 @@
           slides: ['smm7.jpg?v=2', 'smm8.jpg?v=2', 'smm9.jpg?v=2'],
           href: null,
           alt: 'smm design 7–9',
-          duration: 1000,
+          duration: 1180,
           square: true,
           fastFade: true
         },
@@ -3904,7 +3970,7 @@
           ],
           href: null,
           alt: 'smm design',
-          duration: 1000,
+          duration: 1180,
           square: true,
           fastFade: true
         }
@@ -3916,7 +3982,7 @@
       let slideStartTime = null;
       let currentSlideIdx = 0;
       let modalSlideImgs = [];
-      let modalIntervalSegs = [];
+      let modalSolidFill = null;
       let totalCycleMs = 0;
 
       // Ensure visible inline motion videos resume on mobile Safari once their Wave 3 src is hydrated
@@ -3938,13 +4004,6 @@
         }
       }
 
-      function syncModalIntervalSegs(idx) {
-        if (!modalIntervalSegs.length) return;
-        for (let i = 0; i < modalIntervalSegs.length; i++) {
-          modalIntervalSegs[i].classList.toggle('is-filled', i <= idx);
-        }
-      }
-
       function tickSlideshowProgress(now) {
         if (!modal.classList.contains('open') || !modalSlideImgs.length || !totalCycleMs) {
           slideRafId = null;
@@ -3955,6 +4014,10 @@
         }
         const rawElapsed = Math.max(0, now - slideStartTime);
         const elapsed = rawElapsed % totalCycleMs;
+        if (modalSolidFill) {
+          const ratio = elapsed / totalCycleMs;
+          modalSolidFill.style.transform = `scaleX(${ratio.toFixed(4)})`;
+        }
 
         const targetIdx = Math.floor(elapsed / activeSlideDuration) % modalSlideImgs.length;
         if (targetIdx >= 0 && targetIdx < modalSlideImgs.length && targetIdx !== currentSlideIdx) {
@@ -3963,7 +4026,6 @@
           }
           currentSlideIdx = targetIdx;
           modalSlideImgs[currentSlideIdx].classList.add('is-active');
-          syncModalIntervalSegs(currentSlideIdx);
         }
         slideRafId = requestAnimationFrame(tickSlideshowProgress);
       }
@@ -3998,13 +4060,13 @@
         slideshowEl.className = 'modal-slideshow hidden';
         slideshowEl.innerHTML = '';
         modalSlideImgs = [];
-        modalIntervalSegs = [];
+        modalSolidFill = null;
         stripEl.className = 'modal-preview-strip hidden';
         fillEl.className = 'modal-timeline-fill';
         fillEl.style.transform = '';
         if (timelineTrack) {
           timelineTrack.classList.remove('is-interval-modal');
-          const oldBar = timelineTrack.querySelector('.smm-interval-bar');
+          const oldBar = timelineTrack.querySelector('.motion-progress-track, .smm-interval-bar');
           if (oldBar) oldBar.remove();
         }
         if (brandingCaptionEl) {
@@ -4104,16 +4166,15 @@
           fillEl.classList.add('hidden');
           if (timelineTrack) {
             timelineTrack.classList.add('is-interval-modal');
-            const intervalBar = document.createElement('div');
-            intervalBar.className = 'smm-interval-bar';
-            intervalBar.setAttribute('aria-hidden', 'true');
-            deck.slides.forEach((_, i) => {
-              const seg = document.createElement('span');
-              seg.className = i === 0 ? 'smm-interval-seg is-filled' : 'smm-interval-seg';
-              intervalBar.appendChild(seg);
-              modalIntervalSegs.push(seg);
-            });
-            timelineTrack.appendChild(intervalBar);
+            const solidTrack = document.createElement('div');
+            solidTrack.className = 'motion-progress-track';
+            solidTrack.setAttribute('aria-hidden', 'true');
+            const solidFill = document.createElement('div');
+            solidFill.className = 'motion-progress-fill';
+            solidFill.style.transform = 'scaleX(0)';
+            solidTrack.appendChild(solidFill);
+            timelineTrack.appendChild(solidTrack);
+            modalSolidFill = solidFill;
           }
           if (deck.href && actionBtn && actionBtnLabel) {
             actionBtn.href = deck.href;
@@ -4181,7 +4242,7 @@
           titleSub: 'делаю дизайн и моушн',
           brandingDescBefore: 'создание айдентики ',
           brandingDescMuted: '[лого, характер, цвета и много другого]',
-          brandingDescAfter: ' для различных брендов с нуля',
+          brandingDescAfter: ' для различных брендов',
           alovaDesc: 'тату-студия в харькове',
           hkbadTitle: 'хкбад',
           hkbadDesc: 'колледж архитектуры в харькове',
@@ -4204,7 +4265,7 @@
           titleSub: 'роблю дизайн та моушн',
           brandingDescBefore: 'створення айдентики ',
           brandingDescMuted: '[лого, характер, кольори та багато іншого]',
-          brandingDescAfter: ' для різних брендів з нуля',
+          brandingDescAfter: ' для різних брендів',
           alovaDesc: 'тату-студія в харкові',
           hkbadTitle: 'хкбад',
           hkbadDesc: 'коледж архітектури в харкові',
@@ -4227,7 +4288,7 @@
           titleSub: 'i do design & motion',
           brandingDescBefore: 'brand identity design ',
           brandingDescMuted: '[logo, character, colors & much more]',
-          brandingDescAfter: ' for various brands from scratch',
+          brandingDescAfter: ' for various brands',
           alovaDesc: 'tattoo studio in kharkiv',
           hkbadTitle: 'hkbad',
           hkbadDesc: 'college of architecture in kharkiv',
@@ -4250,7 +4311,7 @@
           titleSub: 'dělám design a motion',
           brandingDescBefore: 'tvorba identity ',
           brandingDescMuted: '[logo, charakter, barvy a mnohem víc]',
-          brandingDescAfter: ' pro různé značky od nuly',
+          brandingDescAfter: ' pro různé značky',
           alovaDesc: 'tetovací studio v charkově',
           hkbadTitle: 'hkbad',
           hkbadDesc: 'střední škola architektury v charkově',
@@ -4273,7 +4334,7 @@
           titleSub: 'デザインとモーションを制作しています',
           brandingDescBefore: 'アイデンティティ制作 ',
           brandingDescMuted: '[ロゴ、世界観、カラーなど]',
-          brandingDescAfter: ' ゼロから多様なブランドへ',
+          brandingDescAfter: ' 多様なブランドへ',
           alovaDesc: 'ハルキウのタトゥースタジオ',
           hkbadTitle: 'hkbad',
           hkbadDesc: 'ハルキウの建築カレッジ',
