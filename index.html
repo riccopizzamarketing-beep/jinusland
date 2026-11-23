@@ -1594,8 +1594,8 @@
     }
 
     .preview-modal-inner.is-branding-modal {
-      width: min(92vw, 760px);
-      gap: 1.25rem;
+      width: min(92vw, 820px, calc(74dvh * 1.3));
+      gap: 1.15rem;
     }
 
     .preview-modal.open .preview-modal-inner {
@@ -1667,29 +1667,50 @@
       color: #ffffff;
     }
 
-    /* Seamless 2x2 unified block for Branding projects (zero gaps, zero tile borders) */
+    /* Single-image scrollable gallery for Branding projects (finger swipe + mouse wheel/drag, zero arrows) */
     .modal-branding-grid {
       width: 100%;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0;
-      line-height: 0;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
       background: #000000;
-      border: none;
+      border: 1.15px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.85);
+      cursor: grab;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: pan-x;
+    }
+
+    .modal-branding-grid::-webkit-scrollbar {
+      display: none;
+    }
+
+    .modal-branding-grid.is-dragging {
+      cursor: grabbing;
+      scroll-snap-type: none;
     }
 
     .modal-branding-tile {
-      position: relative;
+      flex: 0 0 100%;
       width: 100%;
       aspect-ratio: 1.3 / 1;
+      max-height: 74dvh;
+      scroll-snap-align: center;
+      scroll-snap-stop: always;
+      position: relative;
       border-radius: 0;
       overflow: hidden;
-      background: #080808;
+      background: #000000;
       border: none;
       margin: 0;
       padding: 0;
-      cursor: zoom-in;
-      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .modal-branding-img {
@@ -1698,25 +1719,9 @@
       height: 100%;
       object-fit: cover;
       object-position: center;
-      transition: filter 0.35s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-
-    .modal-branding-tile:hover .modal-branding-img {
-      transform: scale(1.02);
-    }
-
-    .modal-branding-grid.has-zoomed .modal-branding-tile:not(.is-zoomed) {
-      display: none;
-    }
-
-    .modal-branding-grid.has-zoomed .modal-branding-tile.is-zoomed {
-      grid-column: 1 / -1;
-      max-height: 70dvh;
-      cursor: zoom-out;
-    }
-
-    .modal-branding-grid.has-zoomed .modal-branding-tile.is-zoomed:hover .modal-branding-img {
-      transform: none;
+      pointer-events: none;
+      -webkit-user-drag: none;
+      user-drag: none;
     }
 
     .modal-preview-frame::before,
@@ -2993,10 +2998,10 @@
               </div>
             </div>
             <div class="deck-footer-row">
-              <button class="preview-watch-btn" type="button" data-open-modal="hkbad">
+              <a class="preview-watch-btn" href="https://www.behance.net/gallery/144711515/HKBAD-architecture-college-2022" target="_blank" rel="noopener noreferrer">
                 <svg class="preview-watch-icon" viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
                 <span class="open-project-btn-label">открыть проект</span>
-              </button>
+              </a>
               <div class="slide-pager" aria-label="Перелистывание слайдов хкбад">
                 <button class="slide-pager-arrow slide-pager-prev" type="button" data-slide-step="-1" aria-label="Предыдущий слайд">
                   <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12" /><polyline points="11 6 5 12 11 18" /></svg>
@@ -3024,10 +3029,10 @@
               </div>
             </div>
             <div class="deck-footer-row">
-              <button class="preview-watch-btn" type="button" data-open-modal="alova">
+              <a class="preview-watch-btn" href="https://www.behance.net/gallery/226526537/ALOVA-tatto-studio-2024" target="_blank" rel="noopener noreferrer">
                 <svg class="preview-watch-icon" viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
                 <span class="open-project-btn-label">открыть проект</span>
-              </button>
+              </a>
               <div class="slide-pager" aria-label="Перелистывание слайдов alova">
                 <button class="slide-pager-arrow slide-pager-prev" type="button" data-slide-step="-1" aria-label="Предыдущий слайд">
                   <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12" /><polyline points="11 6 5 12 11 18" /></svg>
@@ -3055,10 +3060,10 @@
               </div>
             </div>
             <div class="deck-footer-row">
-              <button class="preview-watch-btn" type="button" data-open-modal="atv2">
+              <a class="preview-watch-btn" href="https://www.behance.net/gallery/143627381/ATV2-music-album-2022" target="_blank" rel="noopener noreferrer">
                 <svg class="preview-watch-icon" viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" /></svg>
                 <span class="open-project-btn-label">открыть проект</span>
-              </button>
+              </a>
               <div class="slide-pager" aria-label="Перелистывание слайдов atv2">
                 <button class="slide-pager-arrow slide-pager-prev" type="button" data-slide-step="-1" aria-label="Предыдущий слайд">
                   <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12" /><polyline points="11 6 5 12 11 18" /></svg>
@@ -3708,6 +3713,7 @@
 
         function commitSlide(targetIdx, isManual) {
           currentIdx = targetIdx;
+          cardEl.dataset.currentSlide = String(currentIdx);
           if (isManual) {
             cardEl.classList.add('is-manual');
             if (manualResetTimer) clearTimeout(manualResetTimer);
@@ -3958,17 +3964,17 @@
 
       const brandingGrids = {
         alova: {
-          images: ['alova1.jpg?v=2', 'alova2.jpg?v=2', 'alova3.jpg?v=2', 'alova4.jpg?v=2'],
+          images: ['alova.jpg?v=2', 'alova1.jpg?v=2', 'alova2.jpg?v=2', 'alova3.jpg?v=2', 'alova4.jpg?v=2'],
           href: 'https://www.behance.net/gallery/226526537/ALOVA-tatto-studio-2024',
           alt: 'alova'
         },
         hkbad: {
-          images: ['hkbad1.jpg?v=2', 'hkbad2.jpg?v=2', 'hkbad3.png?v=2', 'hkbad4.jpg?v=2'],
+          images: ['hkbad.jpg?v=2', 'hkbad1.jpg?v=2', 'hkbad2.jpg?v=2', 'hkbad3.png?v=2', 'hkbad4.jpg?v=2'],
           href: 'https://www.behance.net/gallery/144711515/HKBAD-architecture-college-2022',
           alt: 'хкбад'
         },
         atv2: {
-          images: ['atv2.jpg?v=1', 'atv3.jpg?v=1', 'atv4.jpg?v=1', 'atv5.jpg?v=1'],
+          images: ['atv1.jpg?v=1', 'atv2.jpg?v=1', 'atv3.jpg?v=1', 'atv4.jpg?v=1', 'atv5.jpg?v=1'],
           href: 'https://www.behance.net/gallery/143627381/ATV2-music-album-2022',
           alt: 'atv2'
         }
@@ -4091,9 +4097,76 @@
         }
       };
 
-      function openModal(type) {
+      let brandingWheelLockUntil = 0;
+
+      function stepBrandingSlide(delta) {
+        if (!brandingGridEl || brandingGridEl.classList.contains('hidden')) return;
+        const pageW = brandingGridEl.clientWidth;
+        if (!pageW) return;
+        const maxIdx = Math.max(0, brandingGridEl.children.length - 1);
+        const curIdx = Math.round(brandingGridEl.scrollLeft / pageW);
+        const nextIdx = Math.max(0, Math.min(maxIdx, curIdx + delta));
+        brandingGridEl.scrollTo({ left: nextIdx * pageW, behavior: 'smooth' });
+      }
+
+      // Mouse wheel + click-and-drag scrolling on single-image Branding gallery (touch swipe is native scroll-snap)
+      if (brandingGridEl) {
+        brandingGridEl.addEventListener('wheel', (e) => {
+          if (!modal.classList.contains('open') || brandingGridEl.classList.contains('hidden')) return;
+          if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+            e.preventDefault();
+            const now = performance.now();
+            if (now < brandingWheelLockUntil || Math.abs(e.deltaY) < 4) return;
+            brandingWheelLockUntil = now + 340;
+            stepBrandingSlide(e.deltaY > 0 ? 1 : -1);
+          }
+        }, { passive: false });
+
+        let isDragging = false;
+        let dragStartX = 0;
+        let dragStartScroll = 0;
+        let dragMoved = 0;
+
+        brandingGridEl.addEventListener('mousedown', (e) => {
+          if (e.button !== 0) return;
+          isDragging = true;
+          dragStartX = e.clientX;
+          dragStartScroll = brandingGridEl.scrollLeft;
+          dragMoved = 0;
+          brandingGridEl.classList.add('is-dragging');
+        });
+
+        window.addEventListener('mousemove', (e) => {
+          if (!isDragging) return;
+          const dx = e.clientX - dragStartX;
+          dragMoved = dx;
+          brandingGridEl.scrollLeft = dragStartScroll - dx;
+        });
+
+        const endDrag = () => {
+          if (!isDragging) return;
+          isDragging = false;
+          brandingGridEl.classList.remove('is-dragging');
+          const pageW = brandingGridEl.clientWidth;
+          if (!pageW) return;
+          const maxIdx = Math.max(0, brandingGridEl.children.length - 1);
+          const startIdx = Math.round(dragStartScroll / pageW);
+          let targetIdx = Math.round(brandingGridEl.scrollLeft / pageW);
+          if (Math.abs(dragMoved) > 36 && targetIdx === startIdx) {
+            targetIdx = startIdx + (dragMoved < 0 ? 1 : -1);
+          }
+          targetIdx = Math.max(0, Math.min(maxIdx, targetIdx));
+          brandingGridEl.scrollTo({ left: targetIdx * pageW, behavior: 'smooth' });
+        };
+
+        window.addEventListener('mouseup', endDrag);
+        brandingGridEl.addEventListener('mouseleave', endDrag);
+      }
+
+      function openModal(type, startIdx) {
         stopTimers();
         activeModalType = type;
+        const initialSlideIdx = Number.isFinite(startIdx) ? startIdx : 0;
         slideshowEl.className = 'modal-slideshow hidden';
         slideshowEl.innerHTML = '';
         modalSlideImgs = [];
@@ -4113,6 +4186,7 @@
         if (brandingGridEl) {
           brandingGridEl.className = 'modal-branding-grid hidden';
           brandingGridEl.innerHTML = '';
+          brandingGridEl.scrollLeft = 0;
         }
         if (modalInner) {
           modalInner.classList.remove('is-branding-modal');
@@ -4138,35 +4212,14 @@
           grid.images.forEach((src, i) => {
             const tile = document.createElement('div');
             tile.className = 'modal-branding-tile';
-            tile.setAttribute('role', 'button');
-            tile.setAttribute('tabindex', '0');
-            tile.setAttribute('aria-label', `${grid.alt} — ${i + 1}`);
             const img = document.createElement('img');
             img.className = 'modal-branding-img';
             img.src = src;
             img.alt = `${grid.alt} — ${i + 1}`;
+            img.loading = 'eager';
             img.decoding = 'async';
+            img.draggable = false;
             tile.appendChild(img);
-            const toggleTileZoom = () => {
-              const alreadyZoomed = tile.classList.contains('is-zoomed');
-              brandingGridEl.querySelectorAll('.modal-branding-tile').forEach((t) => t.classList.remove('is-zoomed'));
-              if (alreadyZoomed) {
-                brandingGridEl.classList.remove('has-zoomed');
-              } else {
-                tile.classList.add('is-zoomed');
-                brandingGridEl.classList.add('has-zoomed');
-              }
-            };
-            tile.addEventListener('click', (e) => {
-              e.stopPropagation();
-              toggleTileZoom();
-            });
-            tile.addEventListener('keydown', (e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                toggleTileZoom();
-              }
-            });
             brandingGridEl.appendChild(tile);
           });
           brandingGridEl.classList.remove('hidden');
@@ -4226,7 +4279,17 @@
         modal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
 
-        if (slideshowDecks[type] && modalSlideImgs.length) {
+        if (brandingGrids[type] && brandingGridEl) {
+          const jumpToStart = () => {
+            const pageW = brandingGridEl.clientWidth;
+            if (!pageW) return;
+            const maxIdx = Math.max(0, brandingGridEl.children.length - 1);
+            const clamped = Math.max(0, Math.min(maxIdx, initialSlideIdx));
+            brandingGridEl.scrollLeft = clamped * pageW;
+          };
+          jumpToStart();
+          requestAnimationFrame(jumpToStart);
+        } else if (slideshowDecks[type] && modalSlideImgs.length) {
           slideRafId = requestAnimationFrame(tickSlideshowProgress);
         }
       }
@@ -4235,7 +4298,7 @@
         stopTimers();
         activeModalType = null;
         if (brandingGridEl) {
-          brandingGridEl.classList.remove('has-zoomed');
+          brandingGridEl.classList.remove('is-dragging');
         }
         modal.classList.remove('open');
         modal.setAttribute('aria-hidden', 'true');
@@ -4243,12 +4306,17 @@
       }
 
       triggers.forEach((el) => {
-        el.addEventListener('click', () => openModal(el.dataset.openModal));
+        const triggerOpen = () => {
+          const card = el.closest('[data-slider]');
+          const startIdx = card ? Number(card.dataset.currentSlide) || 0 : 0;
+          openModal(el.dataset.openModal, startIdx);
+        };
+        el.addEventListener('click', triggerOpen);
         if (el.tagName !== 'BUTTON') {
           el.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault();
-              openModal(el.dataset.openModal);
+              triggerOpen();
             }
           });
         }
@@ -4259,13 +4327,17 @@
         if (e.target === modal || e.target === modalInner) closeModal();
       });
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal.classList.contains('open')) {
-          if (brandingGridEl && brandingGridEl.classList.contains('has-zoomed')) {
-            brandingGridEl.classList.remove('has-zoomed');
-            brandingGridEl.querySelectorAll('.modal-branding-tile').forEach((t) => t.classList.remove('is-zoomed'));
-            return;
-          }
+        if (!modal.classList.contains('open')) return;
+        if (e.key === 'Escape') {
           closeModal();
+        } else if (brandingGrids[activeModalType]) {
+          if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            stepBrandingSlide(1);
+          } else if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            stepBrandingSlide(-1);
+          }
         }
       });
     })();
