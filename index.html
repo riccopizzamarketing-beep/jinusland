@@ -372,7 +372,7 @@
       cursor: pointer;
     }
 
-    /* Step 3 (4.1s -> 4.44s): Top badges clean entrance (no parent blur filter over rotated pills to prevent iOS Safari streak bug) */
+    /* Step 3 (4.1s -> 4.6s): Top badges clean entrance after jinushi */
     .apple-collage {
       position: relative;
       display: flex;
@@ -1479,11 +1479,11 @@
     }
 
     .modal-slideshow.is-fast-fade .modal-slide {
-      transition: opacity 0.2s ease-out, filter 0.35s ease;
+      transition: opacity 0.16s ease, filter 0.35s ease;
     }
 
     .modal-slideshow.is-fast-fade .modal-slide.is-active {
-      transition: opacity 0.26s ease-in 0.12s, filter 0.35s ease;
+      transition: opacity 0.16s ease, filter 0.35s ease;
     }
 
     .modal-preview-frame.is-square-frame {
@@ -1598,6 +1598,11 @@
       gap: 1.15rem;
     }
 
+    .preview-modal-inner.is-smm-modal {
+      width: min(88vw, 560px, 70dvh);
+      gap: 1rem;
+    }
+
     .preview-modal.open .preview-modal-inner {
       transform: scale(1) translateY(0);
     }
@@ -1645,9 +1650,30 @@
 
     .modal-preview-frame.hidden,
     .modal-timeline-track.hidden,
+    .modal-slide-pager.hidden,
     .modal-branding-grid.hidden,
     .modal-branding-caption.hidden {
       display: none;
+    }
+
+    /* Centered manual ← → arrows below opened SMM modal */
+    .modal-slide-pager {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.9rem;
+    }
+
+    .modal-slide-pager .slide-pager-arrow {
+      width: 34px;
+      height: 34px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .modal-slide-pager .slide-pager-arrow svg {
+      width: 20px;
+      height: 20px;
+      stroke-width: 1.5;
     }
 
     /* Project title + description caption above seamless 2x2 Branding grid */
@@ -2818,6 +2844,18 @@
         height: 27px;
         stroke-width: 1.4;
       }
+      .modal-slide-pager {
+        gap: 1.1rem;
+      }
+      .modal-slide-pager .slide-pager-arrow {
+        width: 42px;
+        height: 42px;
+      }
+      .modal-slide-pager .slide-pager-arrow svg {
+        width: 26px;
+        height: 26px;
+        stroke-width: 1.4;
+      }
       .slide-pager-count {
         font-size: 0.99rem;
       }
@@ -3229,6 +3267,14 @@
       <div class="modal-preview-frame" id="modalPreviewFrame">
         <div class="modal-slideshow hidden" id="modalSlideshow"></div>
         <img class="modal-preview-strip hidden" id="modalPreviewStrip" src="" alt="" decoding="async" />
+      </div>
+      <div class="modal-slide-pager hidden" id="modalSlidePager" aria-label="Перелистывание слайдов">
+        <button class="slide-pager-arrow slide-pager-prev" id="modalSlidePrev" type="button" aria-label="Предыдущий слайд">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12" /><polyline points="11 6 5 12 11 18" /></svg>
+        </button>
+        <button class="slide-pager-arrow slide-pager-next" id="modalSlideNext" type="button" aria-label="Следующий слайд">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12" /><polyline points="13 6 19 12 13 18" /></svg>
+        </button>
       </div>
       <div class="modal-timeline-track" id="modalTimelineTrack" aria-hidden="true">
         <div class="modal-timeline-fill" id="modalTimelineFill"></div>
@@ -3953,6 +3999,9 @@
       const brandingGridEl = document.getElementById('modalBrandingGrid');
       const modalFrame = document.getElementById('modalPreviewFrame');
       const timelineTrack = document.getElementById('modalTimelineTrack');
+      const slidePagerEl = document.getElementById('modalSlidePager');
+      const slidePrevBtn = document.getElementById('modalSlidePrev');
+      const slideNextBtn = document.getElementById('modalSlideNext');
       const slideshowEl = document.getElementById('modalSlideshow');
       const stripEl = document.getElementById('modalPreviewStrip');
       const pageMotionVids = Array.from(document.querySelectorAll('.motion-preview-video'));
@@ -4020,13 +4069,8 @@
       };
 
       let activeModalType = null;
-      let activeSlideDuration = 2600;
-      let slideRafId = null;
-      let slideStartTime = null;
       let currentSlideIdx = 0;
       let modalSlideImgs = [];
-      let modalSolidFill = null;
-      let totalCycleMs = 0;
 
       // Ensure visible inline motion videos resume on mobile Safari once their Wave 3 src is hydrated
       const ensureInlinePlay = () => {
@@ -4040,37 +4084,51 @@
       window.addEventListener('pointerdown', ensureInlinePlay, { passive: true, once: true });
       window.addEventListener('touchstart', ensureInlinePlay, { passive: true, once: true });
 
-      function stopTimers() {
-        if (slideRafId !== null) {
-          cancelAnimationFrame(slideRafId);
-          slideRafId = null;
+      function stepSmmModalSlide(delta) {
+        const count = modalSlideImgs.length;
+        if (!count || !modal.classList.contains('open')) return;
+        const nextIdx = ((currentSlideIdx + delta) % count + count) % count;
+        if (nextIdx === currentSlideIdx) return;
+        if (modalSlideImgs[currentSlideIdx]) {
+          modalSlideImgs[currentSlideIdx].classList.remove('is-active');
         }
+        currentSlideIdx = nextIdx;
+        modalSlideImgs[currentSlideIdx].classList.add('is-active');
       }
 
-      function tickSlideshowProgress(now) {
-        if (!modal.classList.contains('open') || !modalSlideImgs.length || !totalCycleMs) {
-          slideRafId = null;
-          return;
-        }
-        if (slideStartTime === null) {
-          slideStartTime = now;
-        }
-        const rawElapsed = Math.max(0, now - slideStartTime);
-        const elapsed = rawElapsed % totalCycleMs;
-        if (modalSolidFill) {
-          const ratio = elapsed / totalCycleMs;
-          modalSolidFill.style.transform = `scaleX(${ratio.toFixed(4)})`;
-        }
+      if (slidePrevBtn) {
+        slidePrevBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          stepSmmModalSlide(-1);
+        });
+      }
+      if (slideNextBtn) {
+        slideNextBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          stepSmmModalSlide(1);
+        });
+      }
 
-        const targetIdx = Math.floor(elapsed / activeSlideDuration) % modalSlideImgs.length;
-        if (targetIdx >= 0 && targetIdx < modalSlideImgs.length && targetIdx !== currentSlideIdx) {
-          if (modalSlideImgs[currentSlideIdx]) {
-            modalSlideImgs[currentSlideIdx].classList.remove('is-active');
+      // Touch swipe inside opened SMM modal in addition to ← → arrows
+      if (modalFrame) {
+        let smmTouchStartX = 0;
+        let smmTouchLastX = 0;
+        modalFrame.addEventListener('touchstart', (e) => {
+          if (!e.touches || e.touches.length !== 1) return;
+          smmTouchStartX = e.touches[0].clientX;
+          smmTouchLastX = smmTouchStartX;
+        }, { passive: true });
+        modalFrame.addEventListener('touchmove', (e) => {
+          if (!e.touches || e.touches.length !== 1) return;
+          smmTouchLastX = e.touches[0].clientX;
+        }, { passive: true });
+        modalFrame.addEventListener('touchend', () => {
+          if (!slideshowDecks[activeModalType]) return;
+          const dx = smmTouchLastX - smmTouchStartX;
+          if (Math.abs(dx) >= 34) {
+            stepSmmModalSlide(dx < 0 ? 1 : -1);
           }
-          currentSlideIdx = targetIdx;
-          modalSlideImgs[currentSlideIdx].classList.add('is-active');
-        }
-        slideRafId = requestAnimationFrame(tickSlideshowProgress);
+        }, { passive: true });
       }
 
       function renderBrandingCaption(type) {
@@ -4164,20 +4222,22 @@
       }
 
       function openModal(type, startIdx) {
-        stopTimers();
         activeModalType = type;
         const initialSlideIdx = Number.isFinite(startIdx) ? startIdx : 0;
         slideshowEl.className = 'modal-slideshow hidden';
         slideshowEl.innerHTML = '';
         modalSlideImgs = [];
-        modalSolidFill = null;
         stripEl.className = 'modal-preview-strip hidden';
         fillEl.className = 'modal-timeline-fill';
         fillEl.style.transform = '';
         if (timelineTrack) {
+          timelineTrack.classList.add('hidden');
           timelineTrack.classList.remove('is-interval-modal');
           const oldBar = timelineTrack.querySelector('.motion-progress-track, .smm-interval-bar');
           if (oldBar) oldBar.remove();
+        }
+        if (slidePagerEl) {
+          slidePagerEl.classList.add('hidden');
         }
         if (brandingCaptionEl) {
           brandingCaptionEl.classList.add('hidden');
@@ -4189,13 +4249,10 @@
           brandingGridEl.scrollLeft = 0;
         }
         if (modalInner) {
-          modalInner.classList.remove('is-branding-modal');
+          modalInner.classList.remove('is-branding-modal', 'is-smm-modal');
         }
         if (modalFrame) {
           modalFrame.classList.remove('hidden', 'is-video-frame', 'is-square-frame');
-        }
-        if (timelineTrack) {
-          timelineTrack.classList.remove('hidden');
         }
         if (actionBtn) {
           actionBtn.classList.add('hidden');
@@ -4206,7 +4263,6 @@
           const grid = brandingGrids[type];
           if (modalInner) modalInner.classList.add('is-branding-modal');
           if (modalFrame) modalFrame.classList.add('hidden');
-          if (timelineTrack) timelineTrack.classList.add('hidden');
           renderBrandingCaption(type);
 
           grid.images.forEach((src, i) => {
@@ -4232,6 +4288,8 @@
           }
         } else if (slideshowDecks[type]) {
           const deck = slideshowDecks[type];
+          const clampedStart = Math.max(0, Math.min(deck.slides.length - 1, initialSlideIdx));
+          if (modalInner) modalInner.classList.add('is-smm-modal');
           if (modalFrame) {
             modalFrame.classList.add('is-video-frame');
             if (deck.square) modalFrame.classList.add('is-square-frame');
@@ -4239,7 +4297,7 @@
           if (deck.fastFade) slideshowEl.classList.add('is-fast-fade');
           deck.slides.forEach((src, i) => {
             const img = document.createElement('img');
-            img.className = i === 0 ? 'modal-slide is-active' : 'modal-slide';
+            img.className = i === clampedStart ? 'modal-slide is-active' : 'modal-slide';
             img.src = src;
             img.alt = `${deck.alt} — ${i + 1}`;
             img.loading = 'eager';
@@ -4249,22 +4307,9 @@
             modalSlideImgs.push(img);
           });
           slideshowEl.classList.remove('hidden');
-          currentSlideIdx = 0;
-          activeSlideDuration = deck.duration;
-          totalCycleMs = deck.slides.length * activeSlideDuration;
-          slideStartTime = null;
-          fillEl.classList.add('hidden');
-          if (timelineTrack) {
-            timelineTrack.classList.add('is-interval-modal');
-            const solidTrack = document.createElement('div');
-            solidTrack.className = 'motion-progress-track';
-            solidTrack.setAttribute('aria-hidden', 'true');
-            const solidFill = document.createElement('div');
-            solidFill.className = 'motion-progress-fill';
-            solidFill.style.transform = 'scaleX(0)';
-            solidTrack.appendChild(solidFill);
-            timelineTrack.appendChild(solidTrack);
-            modalSolidFill = solidFill;
+          currentSlideIdx = clampedStart;
+          if (slidePagerEl && deck.slides.length > 1) {
+            slidePagerEl.classList.remove('hidden');
           }
           if (deck.href && actionBtn && actionBtnLabel) {
             actionBtn.href = deck.href;
@@ -4289,13 +4334,10 @@
           };
           jumpToStart();
           requestAnimationFrame(jumpToStart);
-        } else if (slideshowDecks[type] && modalSlideImgs.length) {
-          slideRafId = requestAnimationFrame(tickSlideshowProgress);
         }
       }
 
       function closeModal() {
-        stopTimers();
         activeModalType = null;
         if (brandingGridEl) {
           brandingGridEl.classList.remove('is-dragging');
@@ -4337,6 +4379,14 @@
           } else if (e.key === 'ArrowLeft') {
             e.preventDefault();
             stepBrandingSlide(-1);
+          }
+        } else if (slideshowDecks[activeModalType]) {
+          if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            stepSmmModalSlide(1);
+          } else if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            stepSmmModalSlide(-1);
           }
         }
       });
