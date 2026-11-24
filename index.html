@@ -3519,7 +3519,12 @@
         </div>
       </article>
 
-      <div class="section-divider scroll-reveal" aria-hidden="true"></div>
+      <div class="section-divider-ribbon scroll-reveal" id="reelTopRibbon" data-ribbon-text="motion+jinushi=conversion" aria-hidden="true">
+        <div class="j-ribbon-track text-ribbon-track">
+          <div class="j-ribbon-group text-ribbon-group"></div>
+          <div class="j-ribbon-group text-ribbon-group" aria-hidden="true"></div>
+        </div>
+      </div>
 
       <div class="reel-section scroll-reveal" id="reelSection">
         <div class="reel-frame" id="reelFrame">
@@ -3528,7 +3533,7 @@
       </div>
     </div>
 
-    <div class="section-divider-ribbon section-divider-bottom scroll-reveal" id="textDividerRibbon" aria-hidden="true">
+    <div class="section-divider-ribbon section-divider-bottom scroll-reveal" id="textDividerRibbon" data-ribbon-text="creo+jinushi=conversion" aria-hidden="true">
       <div class="j-ribbon-track text-ribbon-track">
         <div class="j-ribbon-group text-ribbon-group"></div>
         <div class="j-ribbon-group text-ribbon-group" aria-hidden="true"></div>
@@ -5579,7 +5584,7 @@
       }, { passive: true });
     })();
 
-    // Top & bottom divider ribbons: top scrolling black pixel 'j', bottom scrolling 'motion+design=conversion=jinushi' in Pixelify Sans
+    // Divider ribbons: top scrolling black pixel 'j', plus text ribbons above & below reel in Pixelify Sans
     (function initJDividerRibbon() {
       const topRibbon = document.getElementById('jDividerRibbon');
       if (topRibbon) {
@@ -5591,15 +5596,16 @@
         });
       }
 
-      const bottomRibbon = document.getElementById('textDividerRibbon');
-      if (bottomRibbon) {
-        const groups = bottomRibbon.querySelectorAll('.text-ribbon-group');
-        const phrase = '<span class="text-ribbon-phrase">motion+design=conversion=jinushi</span>';
-        const chunk = phrase.repeat(12);
+      document.querySelectorAll('[data-ribbon-text]').forEach((ribbon) => {
+        const text = ribbon.getAttribute('data-ribbon-text');
+        if (!text) return;
+        const groups = ribbon.querySelectorAll('.text-ribbon-group');
+        const phrase = `<span class="text-ribbon-phrase">${text}</span>`;
+        const chunk = phrase.repeat(14);
         groups.forEach((g) => {
           g.innerHTML = chunk;
         });
-      }
+      });
     })();
 
     // Accent color theme switcher (white default / pink / blue / green #717E5B / red / peach)
