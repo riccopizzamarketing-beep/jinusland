@@ -1041,12 +1041,32 @@
       gap: 1.28rem;
     }
 
+    .project-title-row {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
     .project-title {
       font-size: clamp(1.53rem, 4.52vw, 1.98rem);
       font-weight: 700;
       letter-spacing: -0.03em;
       color: #ffffff;
       text-transform: lowercase;
+    }
+
+    .project-title-gif {
+      width: clamp(1.5rem, 4vw, 1.9rem);
+      height: clamp(1.5rem, 4vw, 1.9rem);
+      object-fit: contain;
+      display: block;
+      flex-shrink: 0;
+      pointer-events: none;
+      user-select: none;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
     }
 
     .project-image-link {
@@ -2933,6 +2953,10 @@
       .project-title {
         font-size: clamp(1.67rem, 4.97vw, 2.17rem);
       }
+      .project-title-gif {
+        width: clamp(1.6rem, 4.7vw, 2.0rem);
+        height: clamp(1.6rem, 4.7vw, 2.0rem);
+      }
       .project-meta-row {
         margin-top: -0.28rem;
         margin-bottom: 0.28rem;
@@ -3290,7 +3314,10 @@
 
         <div class="section-cards-stack">
           <article class="project-card scroll-reveal is-instant-slider" data-slider="hkbad" data-auto="false">
-            <h3 class="project-title" id="i18nHkbadTitle">хкбад</h3>
+            <div class="project-title-row">
+              <h3 class="project-title" id="i18nHkbadTitle">хкбад</h3>
+              <img class="project-title-gif" src="hkbad-3d.gif?v=1" alt="" loading="lazy" decoding="async" />
+            </div>
             <div class="project-meta-row">
               <p class="project-desc desc-slide-reveal" id="i18nHkbadDesc">колледж архитектуры в харькове</p>
               <span class="project-year">[2022]</span>
@@ -3321,7 +3348,10 @@
           </article>
 
           <article class="project-card scroll-reveal is-instant-slider" data-slider="alova" data-auto="false">
-            <h3 class="project-title">alova</h3>
+            <div class="project-title-row">
+              <h3 class="project-title">alova</h3>
+              <img class="project-title-gif" src="alova-3d.gif?v=1" alt="" loading="lazy" decoding="async" />
+            </div>
             <div class="project-meta-row">
               <p class="project-desc desc-slide-reveal" id="i18nAlovaDesc">тату-студия в харькове</p>
               <span class="project-year">[2024]</span>
@@ -3352,7 +3382,10 @@
           </article>
 
           <article class="project-card scroll-reveal is-instant-slider" data-slider="atv2" data-auto="false">
-            <h3 class="project-title">atv2</h3>
+            <div class="project-title-row">
+              <h3 class="project-title">atv2</h3>
+              <img class="project-title-gif" src="atv-3d.gif?v=1" alt="" loading="lazy" decoding="async" />
+            </div>
             <div class="project-meta-row">
               <p class="project-desc desc-slide-reveal" id="i18nAtv2Desc">концептуальная айдентика для музыкального альбома в стиле трэп-металл</p>
               <span class="project-year">[2022]</span>
