@@ -1071,6 +1071,12 @@
       image-rendering: crisp-edges;
     }
 
+    [data-slider="hkbad"] .project-title-gif {
+      width: clamp(2.23rem, 5.94vw, 2.83rem);
+      height: clamp(2.23rem, 5.94vw, 2.83rem);
+      margin: -0.35rem 0;
+    }
+
     .project-image-link {
       display: block;
       width: 100%;
@@ -2797,7 +2803,7 @@
         font-size: clamp(2.968rem, 14.37vw, 10.928rem);
       }
       .hero {
-        min-height: calc(100dvh - 27.6px);
+        min-height: calc(100dvh - 30.4px);
       }
       .face-intro-img {
         width: clamp(87px, 20vw, 117px);
@@ -2828,8 +2834,32 @@
         --stair-size: clamp(244px, 36vw, 414px);
         width: min(92vw, 1084px);
       }
+      /* Motion blocks & all paired elements +10% on desktop with proportional staircase spacing */
+      .motion-cta-wrap {
+        margin-bottom: 0.55rem;
+      }
       .motion-staircase {
-        --motion-w: clamp(208px, 36vw, 408px);
+        --motion-w: clamp(229px, 39.6vw, 449px);
+        --bar-len: 56px;
+        width: min(94vw, 1192px);
+        column-gap: clamp(2.2rem, 6.6vw, 6.05rem);
+        row-gap: 2.31rem;
+        margin-top: 0.72rem;
+        margin-bottom: 0.35rem;
+      }
+      .motion-stair-cover {
+        border-width: 1.26px;
+      }
+      .motion-stair-2,
+      .motion-stair-4,
+      .motion-stair-6 {
+        margin-top: clamp(2.64rem, 5.28vw, 4.84rem);
+      }
+      .motion-stair-3 {
+        margin-left: clamp(0rem, 2.42vw, 2.42rem);
+      }
+      .motion-stair-4 {
+        margin-right: clamp(0rem, 1.54vw, 1.54rem);
       }
       .smm-plus-btn {
         width: 34.5px;
@@ -2846,21 +2876,53 @@
       .stair-year {
         font-size: clamp(0.76rem, 1.44vw, 0.92rem);
       }
+      .motion-staircase .stair-year-row {
+        margin-bottom: 0.4rem;
+      }
+      .motion-staircase .stair-year {
+        font-size: clamp(0.84rem, 1.58vw, 1.01rem);
+      }
       .stair-niche-caption {
         font-size: clamp(0.78rem, 1.45vw, 1.04rem);
       }
-      .motion-staircase .stair-niche-caption {
-        font-size: clamp(0.74rem, 1.37vw, 1rem);
+      .motion-staircase .stair-meta-row {
+        gap: 0.55rem;
+        margin-top: 0.48rem;
       }
+      .motion-staircase .stair-niche-caption {
+        font-size: clamp(0.81rem, 1.51vw, 1.1rem);
+      }
+      .motion-staircase .motion-progress-track {
+        height: 2.2px;
+      }
+      /* Animated ribbons +10% overall scale on desktop with balanced element spacing */
       .section-divider-ribbon {
-        height: 27.6px;
+        height: 30.4px;
+      }
+      .section-divider-top {
+        margin-bottom: 4.65rem;
+      }
+      #reelTopRibbon {
+        margin: 0.2rem 0;
+      }
+      .section-divider-bottom {
+        margin-top: 4.15rem;
+        margin-bottom: 0.25rem;
+      }
+      .j-ribbon-group {
+        gap: 3.74rem;
+        padding-right: 3.74rem;
       }
       .j-ribbon-glyph {
-        width: 9.6px;
-        height: 17.5px;
+        width: 10.6px;
+        height: 19.25px;
+      }
+      .text-ribbon-group {
+        gap: 3.52rem;
+        padding-right: 3.52rem;
       }
       .text-ribbon-phrase {
-        font-size: 15.4px;
+        font-size: 16.95px;
       }
       .slide-pager-arrow {
         width: 31.9px;
@@ -3026,7 +3088,7 @@
       }
       /* Entire first hero block +30% on phone with exact proportional rhythm */
       .hero {
-        min-height: calc(100dvh - 22px);
+        min-height: calc(100dvh - 23.1px);
         gap: 2.77rem;
         padding: 4.8rem 1.5rem 2.75rem;
       }
@@ -3067,34 +3129,38 @@
         padding: 0 1.95rem 2.5rem;
       }
       .section-divider-top {
-        margin-bottom: 4.4rem;
+        margin-bottom: 4.55rem;
       }
       .section-divider-ribbon {
-        height: 22px;
+        height: 23.1px;
       }
       .j-ribbon-track {
         animation-duration: 34s;
       }
       .j-ribbon-group {
-        gap: 2.4rem;
-        padding-right: 2.4rem;
+        gap: 2.52rem;
+        padding-right: 2.52rem;
       }
       .j-ribbon-glyph {
-        width: 8px;
-        height: 14.7px;
+        width: 8.4px;
+        height: 15.44px;
       }
       .text-ribbon-track {
         animation-duration: 42s;
       }
       .text-ribbon-group {
-        gap: 2.3rem;
-        padding-right: 2.3rem;
+        gap: 2.42rem;
+        padding-right: 2.42rem;
       }
       .text-ribbon-phrase {
-        font-size: 13px;
+        font-size: 13.65px;
+      }
+      #reelTopRibbon {
+        margin: 0.12rem 0;
       }
       .section-divider-bottom {
-        margin-top: 3.82rem;
+        margin-top: 3.96rem;
+        margin-bottom: 0.14rem;
       }
       .projects-list {
         gap: 3.82rem;
@@ -3140,6 +3206,11 @@
         width: clamp(2.16rem, 6.35vw, 2.7rem);
         height: clamp(2.16rem, 6.35vw, 2.7rem);
         margin: -0.24rem 0;
+      }
+      [data-slider="hkbad"] .project-title-gif {
+        width: clamp(2.38rem, 6.99vw, 2.97rem);
+        height: clamp(2.38rem, 6.99vw, 2.97rem);
+        margin: -0.37rem 0;
       }
       [data-slider="atv2"] .project-title-gif {
         width: clamp(1.94rem, 5.72vw, 2.43rem);
