@@ -1058,8 +1058,9 @@
     }
 
     .project-title-gif {
-      width: clamp(1.5rem, 4vw, 1.9rem);
-      height: clamp(1.5rem, 4vw, 1.9rem);
+      width: clamp(2.03rem, 5.4vw, 2.57rem);
+      height: clamp(2.03rem, 5.4vw, 2.57rem);
+      margin: -0.22rem 0;
       object-fit: contain;
       display: block;
       flex-shrink: 0;
@@ -1067,6 +1068,101 @@
       user-select: none;
       image-rendering: pixelated;
       image-rendering: crisp-edges;
+    }
+
+    /* First-scroll sequential 3D-icon loader for Branding section (~1s per project icon, 0% -> 100%) */
+    .section-cards-stack.branding-cards-pending {
+      opacity: 0;
+      filter: blur(14px);
+      -webkit-filter: blur(14px);
+      transform: translateY(18px);
+      transition:
+        opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+        filter 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+        -webkit-filter 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .section-cards-stack.branding-cards-revealed {
+      opacity: 1;
+      filter: blur(0px);
+      -webkit-filter: blur(0px);
+      transform: translateY(0);
+      transition:
+        opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+        filter 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+        -webkit-filter 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .branding-loader {
+      position: fixed;
+      inset: 0;
+      z-index: 420;
+      background: rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.95rem;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition:
+        opacity 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0.34s;
+    }
+
+    .branding-loader.is-active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .branding-loader-stage {
+      position: relative;
+      width: clamp(82px, 21vw, 112px);
+      height: clamp(82px, 21vw, 112px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .branding-loader-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      opacity: 0;
+      transform: scale(0.84);
+      filter: blur(8px);
+      -webkit-filter: blur(8px);
+      transition:
+        opacity 0.16s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+        filter 0.18s cubic-bezier(0.22, 1, 0.36, 1),
+        -webkit-filter 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .branding-loader-img.is-showing {
+      opacity: 1;
+      transform: scale(1);
+      filter: blur(0px);
+      -webkit-filter: blur(0px);
+    }
+
+    .branding-loader-pct {
+      font-size: clamp(0.76rem, 2.2vw, 0.88rem);
+      font-weight: 400;
+      letter-spacing: -0.03em;
+      font-variant-numeric: tabular-nums;
+      color: rgba(255, 255, 255, 0.72);
+      user-select: none;
     }
 
     .project-image-link {
@@ -2954,8 +3050,9 @@
         font-size: clamp(1.67rem, 4.97vw, 2.17rem);
       }
       .project-title-gif {
-        width: clamp(1.6rem, 4.7vw, 2.0rem);
-        height: clamp(1.6rem, 4.7vw, 2.0rem);
+        width: clamp(2.16rem, 6.35vw, 2.7rem);
+        height: clamp(2.16rem, 6.35vw, 2.7rem);
+        margin: -0.24rem 0;
       }
       .project-meta-row {
         margin-top: -0.28rem;
@@ -3312,7 +3409,7 @@
           <p class="project-desc section-desc branding-section-desc desc-slide-reveal" id="i18nBrandingDesc">создание айдентики <span class="desc-muted">[лого, характер, цвета и многое другое]</span> для&nbsp;различных&nbsp;брендов</p>
         </div>
 
-        <div class="section-cards-stack">
+        <div class="section-cards-stack branding-cards-pending" id="brandingCardsStack">
           <article class="project-card scroll-reveal is-instant-slider" data-slider="hkbad" data-auto="false">
             <div class="project-title-row">
               <h3 class="project-title" id="i18nHkbadTitle">хкбад</h3>
@@ -3586,6 +3683,16 @@
       <canvas class="bottom-pixel-canvas" id="bottomPixelCanvas" aria-hidden="true"></canvas>
     </div>
   </section>
+
+  <!-- Centered sequential 3D-icon loader on first scroll into Branding section -->
+  <div class="branding-loader" id="brandingLoader" aria-hidden="true">
+    <div class="branding-loader-stage">
+      <img class="branding-loader-img" data-loader-idx="0" src="hkbad-3d.gif?v=1" alt="" decoding="async" />
+      <img class="branding-loader-img" data-loader-idx="1" src="alova-3d.gif?v=1" alt="" decoding="async" />
+      <img class="branding-loader-img" data-loader-idx="2" src="atv-3d.gif?v=1" alt="" decoding="async" />
+    </div>
+    <div class="branding-loader-pct" id="brandingLoaderPct">0%</div>
+  </div>
 
   <!-- Fullscreen preview modal for Branding 2×2 grid & SMM with synced timeline bar -->
   <div class="preview-modal" id="previewModal" aria-hidden="true" role="dialog" aria-modal="true">
@@ -3955,6 +4062,133 @@
       plusBtns.forEach((btn) => plusObserver.observe(btn));
     })();
 
+    // First-scroll sequential 3D-icon loader for Branding section (~1s per icon, 0% -> 100% each)
+    (function initBrandingFirstScrollLoader() {
+      const stack = document.getElementById('brandingCardsStack');
+      const overlay = document.getElementById('brandingLoader');
+      const pctEl = document.getElementById('brandingLoaderPct');
+      if (!stack || !overlay || !pctEl) return;
+      const imgs = Array.from(overlay.querySelectorAll('.branding-loader-img'));
+      if (!imgs.length) {
+        stack.classList.remove('branding-cards-pending');
+        return;
+      }
+
+      const STEP_MS = 1000;
+      const COUNT_MS = 860;
+      const TOTAL_STEPS = imgs.length;
+      let hasPlayed = false;
+      let isRunning = false;
+      let failsafeId = null;
+
+      function blockScrollEvent(e) {
+        if (!isRunning) return;
+        e.preventDefault();
+      }
+
+      function blockScrollKeys(e) {
+        if (!isRunning) return;
+        if (['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Space', ' '].includes(e.key)) {
+          e.preventDefault();
+        }
+      }
+
+      function setScrollLocked(locked) {
+        isRunning = locked;
+        if (locked) {
+          window.addEventListener('wheel', blockScrollEvent, { passive: false });
+          window.addEventListener('touchmove', blockScrollEvent, { passive: false });
+          window.addEventListener('keydown', blockScrollKeys, { passive: false });
+        } else {
+          window.removeEventListener('wheel', blockScrollEvent, { passive: false });
+          window.removeEventListener('touchmove', blockScrollEvent, { passive: false });
+          window.removeEventListener('keydown', blockScrollKeys, { passive: false });
+        }
+      }
+
+      function revealCards() {
+        if (failsafeId) {
+          clearTimeout(failsafeId);
+          failsafeId = null;
+        }
+        setScrollLocked(false);
+        imgs.forEach((im) => im.classList.remove('is-showing'));
+        overlay.classList.remove('is-active');
+        overlay.setAttribute('aria-hidden', 'true');
+        stack.classList.remove('branding-cards-pending');
+        stack.classList.add('branding-cards-revealed');
+        setTimeout(() => {
+          stack.classList.remove('branding-cards-revealed');
+        }, 950);
+      }
+
+      function startSequence() {
+        if (hasPlayed) return;
+        hasPlayed = true;
+        setScrollLocked(true);
+        overlay.setAttribute('aria-hidden', 'false');
+        overlay.classList.add('is-active');
+        pctEl.textContent = '0%';
+
+        let activeStep = -1;
+        const startTime = performance.now();
+
+        failsafeId = setTimeout(revealCards, STEP_MS * TOTAL_STEPS + 900);
+
+        function tick(now) {
+          if (!isRunning) return;
+          const elapsed = Math.max(0, now - startTime);
+          const stepIdx = Math.floor(elapsed / STEP_MS);
+
+          if (stepIdx >= TOTAL_STEPS) {
+            pctEl.textContent = '100%';
+            setTimeout(revealCards, 120);
+            return;
+          }
+
+          if (stepIdx !== activeStep) {
+            activeStep = stepIdx;
+            imgs.forEach((im, idx) => im.classList.toggle('is-showing', idx === stepIdx));
+          }
+
+          const stepElapsed = elapsed - stepIdx * STEP_MS;
+          const t = Math.max(0, Math.min(1, stepElapsed / COUNT_MS));
+          const eased = 1 - Math.pow(1 - t, 1.9);
+          const pct = Math.min(100, Math.round(eased * 100));
+          pctEl.textContent = `${pct}%`;
+
+          // Softly fade out current icon on the last 100ms before switching to the next icon
+          if (stepIdx < TOTAL_STEPS - 1 && stepElapsed > STEP_MS - 110) {
+            imgs[stepIdx].classList.remove('is-showing');
+          }
+
+          requestAnimationFrame(tick);
+        }
+
+        requestAnimationFrame(tick);
+      }
+
+      if (!('IntersectionObserver' in window)) {
+        stack.classList.remove('branding-cards-pending');
+        return;
+      }
+
+      const brandingObs = new IntersectionObserver(
+        (entries) => {
+          if (hasPlayed) return;
+          const entry = entries[0];
+          if (!entry || !entry.isIntersecting) return;
+          if (window.__navBypassBrandingUntil && performance.now() < window.__navBypassBrandingUntil) {
+            return;
+          }
+          brandingObs.disconnect();
+          startSequence();
+        },
+        { threshold: 0.01, rootMargin: '0px 0px -16% 0px' }
+      );
+      brandingObs.observe(stack);
+    })();
+
     // Top-center section navigation dropdown + scroll-spy + scroll-direction hide/reveal with blur
     (function initNavSwitcher() {
       const navSwitcher = document.getElementById('navSwitcher');
@@ -4048,6 +4282,7 @@
           e.stopPropagation();
           const targetId = btn.dataset.target;
           const targetEl = document.getElementById(targetId);
+          window.__navBypassBrandingUntil = targetId && targetId !== 'branding' ? performance.now() + 1450 : 0;
           setActiveLabel(targetId);
           navSwitcher.classList.remove('open');
           navCurrent.setAttribute('aria-expanded', 'false');
