@@ -1064,6 +1064,7 @@
       object-fit: contain;
       display: block;
       flex-shrink: 0;
+      opacity: 0.75;
       pointer-events: none;
       user-select: none;
       image-rendering: pixelated;
@@ -2774,183 +2775,184 @@
       -webkit-filter: blur(0px);
     }
 
-    /* Desktop global +25% scale (keeping jinushi title and "я егор / и это моё портфолио" badges at exact original 1.0x size) */
+    /* Desktop global scale: rolled back -15% across entire desktop (including jinushi & top apple badges) */
     @media (min-width: 769px) {
       html {
-        font-size: 125%;
+        font-size: 106.25%;
       }
       :root {
-        --bar-len: 60px;
+        --bar-len: 51px;
       }
       .apple-collage {
         margin-bottom: 0.384rem;
       }
       .apple-badge {
-        font-size: clamp(1.392rem, 5.3vw, 1.664rem);
+        font-size: clamp(1.392rem, 4.5vw, 1.664rem);
         padding: 0.704rem 1.696rem;
       }
       .apple-badge.b-3 {
         margin-top: -0.704rem;
       }
       .title {
-        font-size: clamp(2.968rem, 16.9vw, 10.928rem);
+        font-size: clamp(2.968rem, 14.37vw, 10.928rem);
       }
       .hero {
-        min-height: calc(100dvh - 32.5px);
+        min-height: calc(100dvh - 27.6px);
       }
       .face-intro-img {
-        width: clamp(103px, 22vw, 138px);
+        width: clamp(87px, 20vw, 117px);
       }
       .projects-section {
-        max-width: 850px;
+        max-width: 722px;
       }
       .project-card,
       .project-image-link,
       .smm-preview-frame,
+      .deck-footer-row,
       .tablet-frame,
       .reel-section {
-        max-width: 650px;
+        max-width: 552px;
       }
       .project-card.smm-card,
       .project-card.motion-card {
-        max-width: 850px;
+        max-width: 722px;
       }
       .section-desc-trigger,
       .project-desc.section-desc {
-        max-width: 825px;
+        max-width: 700px;
       }
       .project-desc.waiting-desc {
-        max-width: 750px;
+        max-width: 638px;
       }
       .smm-staircase {
-        --stair-size: clamp(288px, 40vw, 488px);
-        width: min(94vw, 1275px);
+        --stair-size: clamp(244px, 36vw, 414px);
+        width: min(92vw, 1084px);
       }
       .motion-staircase {
-        --motion-w: clamp(245px, 40vw, 480px);
+        --motion-w: clamp(208px, 36vw, 408px);
       }
       .smm-plus-btn {
-        width: 40.6px;
-        height: 40.6px;
+        width: 34.5px;
+        height: 34.5px;
       }
       .smm-plus-btn svg {
-        width: 18.75px;
-        height: 18.75px;
+        width: 15.9px;
+        height: 15.9px;
       }
       .smm-stair-1 .stair-year-row,
       .smm-stair-1 .stair-meta-row {
-        margin-left: calc(40.6px + 0.48rem);
+        margin-left: calc(34.5px + 0.48rem);
       }
       .stair-year {
-        font-size: clamp(0.76rem, 1.69vw, 0.92rem);
+        font-size: clamp(0.76rem, 1.44vw, 0.92rem);
       }
       .stair-niche-caption {
-        font-size: clamp(0.78rem, 1.7vw, 1.04rem);
+        font-size: clamp(0.78rem, 1.45vw, 1.04rem);
       }
       .motion-staircase .stair-niche-caption {
-        font-size: clamp(0.74rem, 1.61vw, 1rem);
+        font-size: clamp(0.74rem, 1.37vw, 1rem);
       }
       .section-divider-ribbon {
-        height: 32.5px;
+        height: 27.6px;
       }
       .j-ribbon-glyph {
-        width: 11.25px;
-        height: 20.6px;
+        width: 9.6px;
+        height: 17.5px;
       }
       .text-ribbon-phrase {
-        font-size: 18.1px;
+        font-size: 15.4px;
       }
       .slide-pager-arrow {
-        width: 37.5px;
-        height: 37.5px;
+        width: 31.9px;
+        height: 31.9px;
       }
       .slide-pager-arrow svg {
-        width: 21.9px;
-        height: 21.9px;
+        width: 18.6px;
+        height: 18.6px;
       }
       .modal-slide-pager .slide-pager-arrow {
-        width: 53px;
-        height: 53px;
+        width: 45px;
+        height: 45px;
       }
       .modal-slide-pager .slide-pager-arrow svg {
-        width: 31.25px;
-        height: 31.25px;
+        width: 26.5px;
+        height: 26.5px;
       }
       .preview-watch-icon {
-        width: 17.2px;
-        height: 17.2px;
+        width: 14.6px;
+        height: 14.6px;
       }
       .modal-yt-icon {
-        width: 14px;
-        height: 14px;
+        width: 11.9px;
+        height: 11.9px;
       }
       .modal-yt-btn.is-behance-link .modal-yt-icon {
-        width: 16.4px;
-        height: 16.4px;
+        width: 13.9px;
+        height: 13.9px;
       }
       .preview-modal-inner.is-branding-modal {
-        width: min(92vw, 1025px, calc(74dvh * 1.3));
+        width: min(92vw, 871px, calc(74dvh * 1.3));
       }
       .preview-modal-inner.is-smm-modal {
-        width: min(88vw, 700px, 70dvh);
+        width: min(88vw, 595px, 70dvh);
       }
       .preview-modal-close {
-        width: 42.5px;
-        height: 42.5px;
+        width: 36px;
+        height: 36px;
       }
       .waiting-pencil {
-        width: 28.8px;
-        height: 25.9px;
+        width: 24.4px;
+        height: 22px;
       }
       .tablet-action-btn {
-        width: 35px;
-        height: 35px;
+        width: 29.8px;
+        height: 29.8px;
       }
       .tablet-action-btn svg {
-        width: 17.5px;
-        height: 17.5px;
+        width: 14.9px;
+        height: 14.9px;
       }
       .pixel-pencil {
-        width: 17.5px;
-        height: 17.5px;
+        width: 14.9px;
+        height: 14.9px;
       }
       .nav-current {
-        max-width: 225px;
+        max-width: 192px;
       }
       .nav-switcher.open .nav-menu {
-        max-width: 725px;
+        max-width: 616px;
       }
       .pixel-lang {
-        height: 18.75px;
+        height: 15.9px;
       }
       .lang-option .pixel-lang {
-        height: 16.9px;
+        height: 14.3px;
       }
       .theme-dot-btn {
-        width: 35px;
-        height: 35px;
+        width: 29.8px;
+        height: 29.8px;
       }
       .theme-j-glyph {
-        width: 22.5px;
-        height: 27.5px;
+        width: 19.1px;
+        height: 23.4px;
       }
       .pixel-j {
-        width: 15px;
-        height: 27.5px;
+        width: 12.8px;
+        height: 23.4px;
       }
       .theme-option .theme-j-glyph {
-        width: 20px;
-        height: 23.75px;
+        width: 17px;
+        height: 20.2px;
       }
       .theme-option .pixel-j {
-        width: 12.5px;
-        height: 23.1px;
+        width: 10.6px;
+        height: 19.7px;
       }
       .bottom-face-img {
-        width: clamp(80px, 16vw, 108px);
+        width: clamp(68px, 14.8vw, 91px);
       }
       .bottom-pixel-stage {
-        height: 115px;
+        height: 98px;
       }
     }
 
@@ -3138,6 +3140,10 @@
         width: clamp(2.16rem, 6.35vw, 2.7rem);
         height: clamp(2.16rem, 6.35vw, 2.7rem);
         margin: -0.24rem 0;
+      }
+      [data-slider="atv2"] .project-title-gif {
+        width: clamp(1.94rem, 5.72vw, 2.43rem);
+        height: clamp(1.94rem, 5.72vw, 2.43rem);
       }
       .project-meta-row {
         margin-top: -0.28rem;
@@ -5450,7 +5456,7 @@
       const bctx = bottomCanvas.getContext('2d');
       if (!bctx) return;
 
-      let CELL = window.innerWidth >= 769 ? 4 : 3;
+      let CELL = 3;
 
       function getThemePixelColor() {
         return (getComputedStyle(document.documentElement).getPropertyValue('--dot-color') || '#ffffff').trim() || '#ffffff';
@@ -5550,7 +5556,6 @@
 
       function rebuildBottom() {
         clearBottomTimers();
-        CELL = window.innerWidth >= 769 ? 4 : 3;
         const rect = bottomStage.getBoundingClientRect();
         bW = Math.max(1, Math.round(rect.width));
         bH = Math.max(1, Math.round(rect.height));
